@@ -2,11 +2,15 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen",
+    "components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts http://localhost:5050 0x009f1c624eea5ad97ea4bee805b2c46d4db96c8bee88a061a1905e67e5683cc1",
+    "format": "prettier --write 'src/**/*.ts' && eslint --fix --ext .ts src"
   },
   "dependencies": {
     "@dojoengine/core": "0.7.0-alpha.1",
@@ -25,6 +29,7 @@
     "@starknet-react/core": "^2.8.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "copy-to-clipboard": "^3.3.3",
     "lucide-react": "^0.396.0",
     "next": "14.2.4",
     "next-themes": "^0.3.0",
@@ -36,7 +41,8 @@
     "starknet": "^6.9.0",
     "starknetkit": "^1.1.9",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -44,7 +50,7 @@
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
-    "eslint": "^8",
+    "eslint": "^8.57.0",
     "eslint-config-next": "14.2.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-tailwindcss": "^3.17.4",
