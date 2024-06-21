@@ -13,7 +13,7 @@ const LandingPage = () => {
         height={1024}
       />
       <h1>
-        <Image src='/logo.png' alt='P/Dash' width={963} height={259} priority />
+      <Image src='/logo.png' alt='P/Dash' width={240} height={100} priority />
         <span className='sr-only'>P/Dash</span>
       </h1>
 
