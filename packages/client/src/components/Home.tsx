@@ -14,8 +14,8 @@ const Home = () => {
         height={1000}
       />
       <h1>
-        <Image src='/logo.png' alt='Pixel Dash' width={400} height={400} priority />
-        <span className='sr-only'>Pixel Dash</span>
+        <Image src='/logo.png' alt='P/Dash' width={240} height={100} priority />
+        <span className='sr-only'>P/Dash</span>
       </h1>
 
       <GuestButton />

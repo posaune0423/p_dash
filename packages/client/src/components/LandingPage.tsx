@@ -13,8 +13,8 @@ const LandingPage = () => {
         height={1024}
       />
       <h1>
-        <Image src='/logo.png' alt='Pixel Dash' width={963} height={259} priority />
-        <span className='sr-only'>Pixel Dash</span>
+        <Image src='/logo.png' alt='P/Dash' width={963} height={259} priority />
+        <span className='sr-only'>P/Dash</span>
       </h1>
 
       <A2HButton />

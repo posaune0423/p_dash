@@ -1,11 +1,11 @@
 import { type Viewport, type Metadata } from 'next'
 
-export const APP_NAME = 'P/ Dash'
-export const APP_DESCRIPTION = 'P/ Dash is a game that you can play with your friends'
+export const APP_NAME = 'P/Dash'
+export const APP_DESCRIPTION = 'P/Dash is a game that you can play with your friends'
 export const APP_URL = 'https://p-dash.vercel.app'
 
-export const APP_DEFAULT_TITLE = 'Pixel Dash'
-export const APP_TITLE_TEMPLATE = 'Pixel Dash | %s'
+export const APP_DEFAULT_TITLE = 'P/Dash'
+export const APP_TITLE_TEMPLATE = 'P/Dash | %s'
 
 export const metadataConfig: Metadata = {
   applicationName: APP_NAME,
