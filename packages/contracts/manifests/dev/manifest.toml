@@ -1,0 +1,72 @@
+[world]
+kind = "WorldContract"
+class_hash = "0xf6f44afb3cacbcc01a371aff62c86ca9a45feba065424c99f7cd8637514d8f"
+original_class_hash = "0xf6f44afb3cacbcc01a371aff62c86ca9a45feba065424c99f7cd8637514d8f"
+abi = "manifests/dev/abis/deployments/dojo_world_world.json"
+address = "0x9f1c624eea5ad97ea4bee805b2c46d4db96c8bee88a061a1905e67e5683cc1"
+transaction_hash = "0x3c00749e5b17137c44093b2575c18bdc5557a706edb8b2421eda04dfef4347c"
+block_number = 3
+seed = "contracts"
+name = "dojo::world::world"
+
+[world.metadata]
+profile_name = "dev"
+rpc_url = "http://localhost:5050/"
+
+[base]
+kind = "Class"
+class_hash = "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46"
+original_class_hash = "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46"
+name = "dojo::base::base"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x47cca47ed4ce5ec1abf467333d5111ab637a5561ca896d1617ffb36d7136f87"
+class_hash = "0x1a4512c0fd57ab638201ad2814f6beb6731d8b11e77723ecfc6dfdd367bc5fe"
+original_class_hash = "0x1a4512c0fd57ab638201ad2814f6beb6731d8b11e77723ecfc6dfdd367bc5fe"
+base_class_hash = "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46"
+abi = "manifests/dev/abis/deployments/contracts/contracts_systems_actions_actions.json"
+reads = []
+writes = []
+computed = []
+init_calldata = []
+name = "contracts::systems::actions::actions"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2c30024598687c5ba6a4ff240c324bdbd0d4245f1dbc696b4a01aaadd6db739"
+original_class_hash = "0x2c30024598687c5ba6a4ff240c324bdbd0d4245f1dbc696b4a01aaadd6db739"
+abi = "manifests/dev/abis/deployments/models/contracts_models_moves_moves.json"
+name = "contracts::models::moves::moves"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "remaining"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "last_direction"
+type = "Direction"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x146749a4239a67e785d91f4b68f5a0f9d591e34b9d14568035aa6463bed5281"
+original_class_hash = "0x146749a4239a67e785d91f4b68f5a0f9d591e34b9d14568035aa6463bed5281"
+abi = "manifests/dev/abis/deployments/models/contracts_models_position_position.json"
+name = "contracts::models::position::position"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "vec"
+type = "Vec2"
+key = false
