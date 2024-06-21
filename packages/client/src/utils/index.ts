@@ -16,9 +16,7 @@ export const truncateAddress = (address: string, withPrefix?: boolean) => {
 
 export const formatDate = (date: Date | string): string => {
   const dateObj = typeof date === 'string' ? new Date(date) : date
-  return `${dateObj.getFullYear()}/${(dateObj.getMonth() + 1)
-    .toString()
-    .padStart(2, '0')}/${dateObj
+  return `${dateObj.getFullYear()}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')}/${dateObj
     .getDate()
     .toString()
     .padStart(2, '0')}:${dateObj
