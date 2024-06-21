@@ -1,0 +1,24 @@
+{
+    "obstacles": [
+        { "x": 620, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 680, "y": 0, "type": "tiles", "frame": 0 },
+        { "x": 1160, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 1490, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 1540, "y": 0, "type": "tiles", "frame": 0 },
+        { "x": 1640, "y": 80, "type": "tiles", "frame": 0 },
+        { "x": 1780, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 2140, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 2280, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 2660, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 2800, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 3180, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 3320, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 3440, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 3840, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 3960, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 4360, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 4480, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 4620, "y": 0, "type": "objects", "frame": 0 },
+        { "x": 4740, "y": 0, "type": "objects", "frame": 0 }
+    ]
+}
