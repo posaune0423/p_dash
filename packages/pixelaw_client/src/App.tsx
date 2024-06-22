@@ -152,7 +152,7 @@ function App() {
     return (
         // <div className={styles.container}>
         <div className='bg-bg-primary min-h-screen flex flex-col'>
-            <MenuBar/>
+            <MenuBar pixelStore={pixelStore}/>
 
             <div className={styles.main}>
 
