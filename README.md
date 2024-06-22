@@ -7,64 +7,63 @@
 1. Check versions of Scarb and Dojo and Cairo
 
 ```zsh
-sozo --version
-sozo 0.7.0-alpha.5
-scarb: 2.6.3
+$ sozo --version                                                                               
+sozo 0.7.0-alpha.2
+scarb: 2.6.4
 cairo: 2.6.3
 sierra: 1.5.0
 
-scarb --version
-scarb 2.6.3 (e6f921dfd 2024-03-13)
+$ scarb --version       
+scarb 2.6.4 (c4c7c0bac 2024-03-19)
 cairo: 2.6.3 (https://crates.io/crates/cairo-lang-compiler/2.6.3)
 sierra: 1.5.0
 ```
 
-2. Run Katana on http://0.0.0.0:5050
+2. Run .devcontainer
+Open this project with vscode, and run [.devcontainer](https://code.visualstudio.com/docs/devcontainers/containers).
 
+3. Set up contracts.
+Please check if the container is already up.
 ```zsh
-katana --disable-fee --allowed-origins "*"
+$ cd ./packages/contracts
+$ sozo test
+$ scarb run initialize
 ```
 
-3. Apply migrations
-
+### Frontend to create a stage.
+1. Change directory:
 ```zsh
-scarb run migrate
+$ cd <path-to-packages>/pixelaw_client
 ```
 
-4. Run indexer on http://0.0.0.0:8080
-
+2. Install
 ```zsh
-torii --world 0x009f1c624eea5ad97ea4bee805b2c46d4db96c8bee88a061a1905e67e5683cc1 --allowed-origins "*"
+$ pnpm i
 ```
 
-5. Run spawn
-
+3. Run the frontend for pixelaw side.
 ```zsh
-scarb run spawn
+$ pnpm run dev --port 9000
 ```
 
-6. Run move
+4. Make a Stage (WIP)
+Screenshot comes here.
 
+5. Export a Json file (WIP)
+
+### Frotend to play a game.
+1. Install dependencies.
 ```zsh
-scarb run move
+$ pnpm i
 ```
 
-### Frontend
-
-1. Install dependencies
-
+2. Run the frontend to play.
 ```zsh
-pnpm install
-```
-
-2. Run the frontend
-
-```zsh
-pnpm run dev
+$ pnpm run dev
 ```
 
 ## Trouble Shooting
-
+- Strongly recommend to use chrome's incognito mode.
 - When I change dir name dojo-starter to contracts
   - I should've rename `dojo-starter` to `contracts` in source files
   - Then remove `contracts/manifests` and `sozo migrate plan` to re-generate them

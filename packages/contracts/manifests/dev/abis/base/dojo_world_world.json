@@ -6,19 +6,11 @@
   },
   {
     "type": "struct",
-    "name": "core::byte_array::ByteArray",
+    "name": "core::array::Span::<core::felt252>",
     "members": [
       {
-        "name": "data",
-        "type": "core::array::Array::<core::bytes_31::bytes31>"
-      },
-      {
-        "name": "pending_word",
-        "type": "core::felt252"
-      },
-      {
-        "name": "pending_word_len",
-        "type": "core::integer::u32"
+        "name": "snapshot",
+        "type": "@core::array::Array::<core::felt252>"
       }
     ]
   },
@@ -32,17 +24,7 @@
       },
       {
         "name": "metadata_uri",
-        "type": "core::byte_array::ByteArray"
-      }
-    ]
-  },
-  {
-    "type": "struct",
-    "name": "core::array::Span::<core::felt252>",
-    "members": [
-      {
-        "name": "snapshot",
-        "type": "@core::array::Array::<core::felt252>"
+        "type": "core::array::Span::<core::felt252>"
       }
     ]
   },
@@ -53,70 +35,6 @@
       {
         "name": "snapshot",
         "type": "@core::array::Array::<core::integer::u8>"
-      }
-    ]
-  },
-  {
-    "type": "struct",
-    "name": "dojo::database::introspect::FieldLayout",
-    "members": [
-      {
-        "name": "selector",
-        "type": "core::felt252"
-      },
-      {
-        "name": "layout",
-        "type": "dojo::database::introspect::Layout"
-      }
-    ]
-  },
-  {
-    "type": "struct",
-    "name": "core::array::Span::<dojo::database::introspect::FieldLayout>",
-    "members": [
-      {
-        "name": "snapshot",
-        "type": "@core::array::Array::<dojo::database::introspect::FieldLayout>"
-      }
-    ]
-  },
-  {
-    "type": "struct",
-    "name": "core::array::Span::<dojo::database::introspect::Layout>",
-    "members": [
-      {
-        "name": "snapshot",
-        "type": "@core::array::Array::<dojo::database::introspect::Layout>"
-      }
-    ]
-  },
-  {
-    "type": "enum",
-    "name": "dojo::database::introspect::Layout",
-    "variants": [
-      {
-        "name": "Fixed",
-        "type": "core::array::Span::<core::integer::u8>"
-      },
-      {
-        "name": "Struct",
-        "type": "core::array::Span::<dojo::database::introspect::FieldLayout>"
-      },
-      {
-        "name": "Tuple",
-        "type": "core::array::Span::<dojo::database::introspect::Layout>"
-      },
-      {
-        "name": "Array",
-        "type": "core::array::Span::<dojo::database::introspect::Layout>"
-      },
-      {
-        "name": "ByteArray",
-        "type": "()"
-      },
-      {
-        "name": "Enum",
-        "type": "core::array::Span::<dojo::database::introspect::FieldLayout>"
       }
     ]
   },
@@ -171,7 +89,7 @@
         "name": "model",
         "inputs": [
           {
-            "name": "selector",
+            "name": "name",
             "type": "core::felt252"
           }
         ],
@@ -205,10 +123,6 @@
           {
             "name": "class_hash",
             "type": "core::starknet::class_hash::ClassHash"
-          },
-          {
-            "name": "init_calldata",
-            "type": "core::array::Span::<core::felt252>"
           }
         ],
         "outputs": [
@@ -279,7 +193,7 @@
           },
           {
             "name": "layout",
-            "type": "dojo::database::introspect::Layout"
+            "type": "core::array::Span::<core::integer::u8>"
           }
         ],
         "outputs": [
@@ -307,27 +221,7 @@
           },
           {
             "name": "layout",
-            "type": "dojo::database::introspect::Layout"
-          }
-        ],
-        "outputs": [],
-        "state_mutability": "external"
-      },
-      {
-        "type": "function",
-        "name": "delete_entity",
-        "inputs": [
-          {
-            "name": "model",
-            "type": "core::felt252"
-          },
-          {
-            "name": "keys",
-            "type": "core::array::Span::<core::felt252>"
-          },
-          {
-            "name": "layout",
-            "type": "dojo::database::introspect::Layout"
+            "type": "core::array::Span::<core::integer::u8>"
           }
         ],
         "outputs": [],
@@ -343,6 +237,26 @@
           }
         ],
         "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "delete_entity",
+        "inputs": [
+          {
+            "name": "model",
+            "type": "core::felt252"
+          },
+          {
+            "name": "keys",
+            "type": "core::array::Span::<core::felt252>"
+          },
+          {
+            "name": "layout",
+            "type": "core::array::Span::<core::integer::u8>"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
       },
       {
         "type": "function",
@@ -405,7 +319,7 @@
             "type": "core::felt252"
           },
           {
-            "name": "contract",
+            "name": "system",
             "type": "core::starknet::contract_address::ContractAddress"
           }
         ],
@@ -425,7 +339,7 @@
             "type": "core::felt252"
           },
           {
-            "name": "contract",
+            "name": "system",
             "type": "core::starknet::contract_address::ContractAddress"
           }
         ],
@@ -441,7 +355,7 @@
             "type": "core::felt252"
           },
           {
-            "name": "contract",
+            "name": "system",
             "type": "core::starknet::contract_address::ContractAddress"
           }
         ],
@@ -709,7 +623,7 @@
       },
       {
         "name": "uri",
-        "type": "core::byte_array::ByteArray",
+        "type": "core::array::Span::<core::felt252>",
         "kind": "data"
       }
     ]
@@ -721,7 +635,7 @@
     "members": [
       {
         "name": "name",
-        "type": "core::byte_array::ByteArray",
+        "type": "core::felt252",
         "kind": "data"
       },
       {
@@ -796,7 +710,7 @@
         "kind": "data"
       },
       {
-        "name": "contract",
+        "name": "system",
         "type": "core::starknet::contract_address::ContractAddress",
         "kind": "data"
       },

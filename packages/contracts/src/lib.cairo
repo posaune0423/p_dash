@@ -1,12 +1,13 @@
-mod systems {
-    mod actions;
+mod models {
+    mod stage;
+    mod blocktype;
 }
 
-mod models {
-    mod moves;
-    mod position;
+mod systems {
+    mod app;
 }
 
 mod tests {
-    mod test_world;
+    mod test_origin;
+    mod test_p_dash;
 }

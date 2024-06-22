@@ -14,10 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: curl -L https://install.dojoengine.org | bash
-      - run: /home/runner/.config/.dojo/bin/dojoup -v v0.7.0-alpha.5
+      - run: /home/runner/.config/.dojo/bin/dojoup -v v0.7.0-alpha.2
       - run: |
-          /home/runner/.config/.dojo/bin/sozo build
           /home/runner/.config/.dojo/bin/sozo test
+          /home/runner/.config/.dojo/bin/sozo build
           if [[ `git status --porcelain` ]]; then
             echo The git repo is dirty
             echo "Make sure to run \"sozo build\" after changing Scarb.toml"

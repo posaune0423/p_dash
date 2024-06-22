@@ -1,0 +1,36 @@
+.inner {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100vw;
+}
+
+.settingsList {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    max-width: 600px; /* Adjust based on preference */
+}
+
+.settingItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc; /* Visual separation */
+}
+
+.settingLabel {
+    font-weight: bold;
+}
+
+.settingInput {
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+}
