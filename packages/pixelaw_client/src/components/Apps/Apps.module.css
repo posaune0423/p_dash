@@ -1,0 +1,19 @@
+.inner {
+    background-color: white;
+    padding: 1rem; /* Adjusted padding */
+    border-radius: 1rem; /* More rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping of buttons */
+    justify-content: center; /* Center buttons horizontally */
+    gap: 0.5rem; /* Gap between buttons */
+    width: 100vw;
+
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items vertically */
+}
+
+.selected {
+
+    background-color: lightblue;
+}
