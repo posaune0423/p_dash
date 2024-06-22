@@ -5,6 +5,8 @@ mod systems {
 mod models {
     mod moves;
     mod position;
+    mod stage;
+    mod blocktype;
 }
 
 mod tests {
