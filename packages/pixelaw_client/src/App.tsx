@@ -152,7 +152,7 @@ function App() {
     return (
         // <div className={styles.container}>
         <div className='bg-bg-primary min-h-screen flex flex-col'>
-            <MenuBar pixelStore={pixelStore}/>
+            <MenuBar />
 
             <div className={styles.main}>
 
@@ -180,7 +180,7 @@ function App() {
                             </div>
 
                             <div className={styles.buttonContainer}>
-                                <button className={styles.placePixelButton} onClick={() => {toggleColorPicker(); setSelectedApp('paint');}} style={{ display: isColorPickerVisible ? 'none' : 'flex' }}>
+                                <button className={styles.placePixelButton} onClick={() => {toggleColorPicker(); setSelectedApp('p_dash');}} style={{ display: isColorPickerVisible ? 'none' : 'flex' }}>
                                     Place a Pixel
                                 </button>
                             </div>

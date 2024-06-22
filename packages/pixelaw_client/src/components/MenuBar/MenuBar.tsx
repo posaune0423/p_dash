@@ -24,8 +24,9 @@ interface MenuBarProps {
 
 type State = { [key: string]: Pixel | undefined };
 
-const MenuBar: React.FC<MenuBarProps> = ({ pixelStore }) => {
-    const navigate = useNavigate();
+// const MenuBar: React.FC<MenuBarProps> = ({ pixelStore }) => {
+const MenuBar: React.FC = () => {
+        const navigate = useNavigate();
     const location = useLocation();
     const [state, setState] = useState<State>({});
 
@@ -75,21 +76,26 @@ const MenuBar: React.FC<MenuBarProps> = ({ pixelStore }) => {
                 "yLTE": bottom
             }
         }).then((data) => {
-            data!.pixelModels!.edges!.map(({ node }: { node: Pixel }) => {
+            const obstacles = data!.pixelModels!.edges!.map(({ node }: { node: Pixel }) => {
                 const pixel: Pixel = {
                     ...node,
                     text: shortString.decodeShortString(node.text),
                     action: shortString.decodeShortString(node.action),
                     timestamp: parseInt(node.timestamp as string, 16),
+                };
+                let block_type: string;
+                if (pixel.color === 4278190080) { // red
+                    block_type = "spike";
+                } else if (pixel.color === 16711680) { // green
+                    block_type = "block";
+                } else {
+                    block_type = "null";
                 }
-                // console.log("pixel", pixel);
-
-                setState(produce(draftState => {
-                    draftState[`${node.x}_${node.y}`] = pixel;
-                }));
-            })
+                // return { x: pixel.x, y: pixel.y, type: "block" }; 
+                return { x: pixel.x, y: pixel.y, type: block_type }; 
+            });
             
-            const json = JSON.stringify(state, null, 2);
+            const json = JSON.stringify({ obstacles }, null, 2);
             const blob = new Blob([json], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
