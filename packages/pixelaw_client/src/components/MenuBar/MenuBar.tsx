@@ -1,20 +1,41 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './MenuBar.module.css';
+import GET_PIXELS_QUERY from "@/../graphql/GetPixels.graphql";
 import { useDojoPixelStore } from '@/stores/DojoPixelStore';
+import { Bounds, Coordinate, MAX_UINT32, Pixel, PixelStore } from "@/webtools/types.ts";
+import { areBoundsEqual, MAX_VIEW_SIZE } from "@/webtools/utils.ts";
+import { GraphQLClient } from 'graphql-request';
+import { shortString } from "starknet";
+import { produce } from 'immer';
 
+
+type GetPixelsResponse = {
+    pixelModels: {
+        edges: Array<{
+            node: Pixel;
+        }>;
+    };
+};
 
 interface MenuBarProps {
     pixelStore: number[][];
 }
 
+type State = { [key: string]: Pixel | undefined };
+
 const MenuBar: React.FC<MenuBarProps> = ({ pixelStore }) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [state, setState] = useState<State>({});
 
     // Determine if the settings page is shown based on the current path
     const showSettings = location.pathname === '/settings';
     const showGovernance = location.pathname !== '/governance';
+
+    const baseUrl = "http://localhost:8080";
+    const gqlClient = baseUrl ? new GraphQLClient(`${baseUrl}/graphql`) : null;
+
 
     const toggleSettings = () => {
         if (showSettings) {
@@ -35,11 +56,56 @@ const MenuBar: React.FC<MenuBarProps> = ({ pixelStore }) => {
 
     const exportJson = () => {
         console.log("export a json file");
+
+        if (!gqlClient) return;
+
+        let bounds = [[0, 0], [20, 20]];
+
+        let [[left, top], [right, bottom]] = bounds;
+
+        if (left > MAX_VIEW_SIZE && left > right) right = MAX_UINT32;
+        if (top > MAX_VIEW_SIZE && top > bottom) bottom = MAX_UINT32;
+
+        gqlClient.request<GetPixelsResponse>(GET_PIXELS_QUERY, {
+            first: 50000,
+            where: {
+                "xGTE": left,
+                "xLTE": right,
+                "yGTE": top,
+                "yLTE": bottom
+            }
+        }).then((data) => {
+            data!.pixelModels!.edges!.map(({ node }: { node: Pixel }) => {
+                const pixel: Pixel = {
+                    ...node,
+                    text: shortString.decodeShortString(node.text),
+                    action: shortString.decodeShortString(node.action),
+                    timestamp: parseInt(node.timestamp as string, 16),
+                }
+                // console.log("pixel", pixel);
+
+                setState(produce(draftState => {
+                    draftState[`${node.x}_${node.y}`] = pixel;
+                }));
+            })
+            
+            const json = JSON.stringify(state, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'pixels.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+        }).catch((e) => {
+            console.error("Error retrieving pixels from torii for", bounds, e.message)
+        })
+
         // // pixelStore.
         // const bounds = JSON.stringify([[0, 0], [10, 10]]);
         // console.log(pixelStore.getPixel(JSON.stringify([1, 1])));
-        
-
         // console.log(pixelStore.getPixel());
     };
 
@@ -49,11 +115,11 @@ const MenuBar: React.FC<MenuBarProps> = ({ pixelStore }) => {
                 <img src="/assets/logo/pixeLaw-logo.png" alt="logo"/>
 
             </div>
-            {/* <div>
+            <div>
                 <button className={styles.menuButton} onClick={exportJson}>
                     Export a stage
                 </button>
-            </div> */}
+            </div>
             {/* <div>
                 {showGovernance && <button className={styles.menuButton} onClick={() => navigate('/governance')}>Governance</button>}
                 <button className={styles.menuButton} onClick={toggleSettings}>Settings</button>
