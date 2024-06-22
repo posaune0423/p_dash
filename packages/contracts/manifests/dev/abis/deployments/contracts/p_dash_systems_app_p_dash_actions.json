@@ -56,72 +56,118 @@
   {
     "type": "impl",
     "name": "ActionsImpl",
-    "interface_name": "contracts::systems::actions::IActions"
+    "interface_name": "p_dash::systems::app::IPDashActions"
+  },
+  {
+    "type": "struct",
+    "name": "pixelaw::core::utils::Position",
+    "members": [
+      {
+        "name": "x",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "y",
+        "type": "core::integer::u32"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "pixelaw::core::utils::DefaultParameters",
+    "members": [
+      {
+        "name": "for_player",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "for_system",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "position",
+        "type": "pixelaw::core::utils::Position"
+      },
+      {
+        "name": "color",
+        "type": "core::integer::u32"
+      }
+    ]
   },
   {
     "type": "enum",
-    "name": "contracts::models::moves::Direction",
+    "name": "p_dash::models::blocktype::BlockType",
     "variants": [
       {
-        "name": "None",
+        "name": "Unknown",
         "type": "()"
       },
       {
-        "name": "Left",
+        "name": "InitBlock",
         "type": "()"
       },
       {
-        "name": "Right",
+        "name": "Block",
         "type": "()"
       },
       {
-        "name": "Up",
+        "name": "Spike",
         "type": "()"
       },
       {
-        "name": "Down",
+        "name": "Hole",
         "type": "()"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "contracts::systems::actions::IActions",
+    "name": "p_dash::systems::app::IPDashActions",
     "items": [
       {
         "type": "function",
-        "name": "spawn",
+        "name": "init",
         "inputs": [],
         "outputs": [],
         "state_mutability": "view"
       },
       {
         "type": "function",
-        "name": "move",
+        "name": "interact",
         "inputs": [
           {
-            "name": "direction",
-            "type": "contracts::models::moves::Direction"
+            "name": "default_params",
+            "type": "pixelaw::core::utils::DefaultParameters"
           }
         ],
         "outputs": [],
         "state_mutability": "view"
-      }
-    ]
-  },
-  {
-    "type": "impl",
-    "name": "IDojoInitImpl",
-    "interface_name": "contracts::systems::actions::actions::IDojoInit"
-  },
-  {
-    "type": "interface",
-    "name": "contracts::systems::actions::actions::IDojoInit",
-    "items": [
+      },
       {
         "type": "function",
-        "name": "dojo_init",
-        "inputs": [],
+        "name": "initialize_stage",
+        "inputs": [
+          {
+            "name": "default_params",
+            "type": "pixelaw::core::utils::DefaultParameters"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "put_block",
+        "inputs": [
+          {
+            "name": "default_params",
+            "type": "pixelaw::core::utils::DefaultParameters"
+          },
+          {
+            "name": "blocktype",
+            "type": "p_dash::models::blocktype::BlockType"
+          }
+        ],
         "outputs": [],
         "state_mutability": "view"
       }
@@ -176,7 +222,7 @@
   },
   {
     "type": "event",
-    "name": "contracts::systems::actions::actions::Event",
+    "name": "p_dash::systems::app::p_dash_actions::Event",
     "kind": "enum",
     "variants": [
       {

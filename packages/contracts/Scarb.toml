@@ -1,40 +1,62 @@
 [package]
 cairo-version = "2.6.3"
-name = "contracts"
+name = "p_dash"
 version = "0.0.1"
 
 [cairo]
 sierra-replace-ids = true
 
-[scripts]
-migrate = "sozo build && sozo migrate apply && ./scripts/default_auth.sh"
-spawn = "./scripts/spawn.sh"
-move = "./scripts/move.sh"
-
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v0.7.0-alpha.5" }
+pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.18" }
 
 [[target.dojo]]
+build-external-contracts = [
+    "pixelaw::apps::snake::app::snake",
+    "pixelaw::apps::snake::app::snake_segment",
+    "pixelaw::core::models::pixel::pixel",
+    "pixelaw::core::models::pixel::Pixel",
+    "pixelaw::core::models::pixel::PixelUpdate",
+    "pixelaw::core::models::queue::queue_item",
+    "pixelaw::core::models::registry::app",
+    "pixelaw::core::models::registry::app_name",
+    "pixelaw::core::models::registry::app_user",
+    "pixelaw::core::models::registry::app_instruction",
+    "pixelaw::core::models::registry::instruction",
+    "pixelaw::core::models::registry::core_actions_address",
+    "pixelaw::core::models::permissions::permissions",
+    "pixelaw::core::utils::get_core_actions",
+    "pixelaw::core::utils::Direction",
+    "pixelaw::core::utils::Position",
+    "pixelaw::core::utils::DefaultParameters",
+    "pixelaw::core::actions::actions",
+    "pixelaw::core::actions::IActionsDispatcher",
+    "pixelaw::core::actions::IActionsDispatcherTrait"
+]
 
 [tool.dojo]
 initializer_class_hash = "0xbeef"
 
+[scripts]
+ready_for_deployment = "bash ./scripts/ready_for_deployment.sh"
+initialize = "bash ./scripts/default_auth.sh"
+upload_manifest = "bash ./scripts/upload_manifest.sh"
+create_stage = "bash ./scripts/create_stage.sh"
+ready_for_deployment_zsh = "zsh ./scripts/ready_for_deployment.sh"
+initialize_zsh = "zsh ./scripts/default_auth.sh"
+upload_manifest_zsh = "zsh ./scripts/upload_manifest.sh"
+
+
+# Dev: http://localhost:3000
 [tool.dojo.env]
-rpc_url = "http://localhost:5050/"
-# Default account for katana with seed = 0
-account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
+rpc_url = "http://127.0.0.1:5050/"
+account_address = "0x003c4dd268780ef738920c801edc3a75b6337bc17558c74795b530c0ff502486"
 private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world_address = "0x009f1c624eea5ad97ea4bee805b2c46d4db96c8bee88a061a1905e67e5683cc1"  # Update this line with your world address
+world_address= "0x60916a73fe631fcba3b2a930e21c6f7bb2533ea398c7bfa75c72f71a8709fc2"
 
-[tool.dojo.world]
-name = "Dojo starter"
-description = "The official Dojo Starter guide, the quickest and most streamlined way to get your Dojo Autonomous World up and running. This guide will assist you with the initial setup, from cloning the repository to deploying your world."
-cover_uri = "file://assets/cover.png"
-icon_uri = "file://assets/icon.png"
-website = "https://github.com/dojoengine/dojo-starter"
-
-[tool.dojo.world.socials]
-x = "https://x.com/ohayo_dojo"
-discord = "https://discord.gg/FB2wR6uF"
-github = "https://github.com/dojoengine/dojo-starter"
-telegram = "https://t.me/dojoengine"
+# demo.pixelaw.xyz
+[profile.demo.tool.dojo.env]
+rpc_url = "https://katana.demo.pixelaw.xyz/"
+account_address = "0x003c4dd268780ef738920c801edc3a75b6337bc17558c74795b530c0ff502486"
+private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
+world_address = "0x608cc3b3f4cf88e180bd3222dbf4af8afc1f0dbe93b2c30cd58f86ea6ccdbbf"
+manifest_url="https://demo.pixelaw.xyz/manifests"
