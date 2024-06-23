@@ -181,7 +181,7 @@ function App() {
 
                             <div className={styles.buttonContainer}>
                                 <button className={styles.placePixelButton} onClick={() => {toggleColorPicker(); setSelectedApp('p_dash');}} style={{ display: isColorPickerVisible ? 'none' : 'flex' }}>
-                                    Place a Pixel
+                                    Place a Object
                                 </button>
                             </div>
 

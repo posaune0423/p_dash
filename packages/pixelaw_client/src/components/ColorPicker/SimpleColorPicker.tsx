@@ -1,15 +1,11 @@
 import styles from './SimpleColorPicker.module.css';
 
 const colors = [
-    "#FF0000",
-    "#FF7F00",
-    "#FFFF00",
+    // "#FF7F00",
+    // "#FFFF00",
     "#00FF00",
-    "#0000FF",
-    "#4B0082",
-    "#9400D3",
-    "#FFFFFF", // white
-    "#000000"  // black
+    "#FF0000",
+    "#000000", 
 ];
 
 export interface ColorPickerProps {
@@ -31,7 +27,7 @@ const SimpleColorPicker: React.FC<ColorPickerProps> = ({onColorSelect, color: se
               onClick={() => onColorSelect(color)}
             >
               <span className={styles.label}>
-                {index === 0 ? 'New' : index === 8 ? 'Old' : ''}
+                {index === 0 ? 'Blcok' : index === 1 ? 'Spike' : 'Hole'}
               </span>
             </button>
           ))}
