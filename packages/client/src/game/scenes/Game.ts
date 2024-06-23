@@ -130,7 +130,7 @@ export class Game extends Scene {
       }
     })
 
-    // 地面に触れたときにジャンプカウントをリセット
+    // reset jumpCount when player touches the ground
     if (this.player.body?.touching.down) {
       this.jumpCount = 0
     }
@@ -142,13 +142,13 @@ export class Game extends Scene {
   }
 
   gameOver() {
-    // ゲームオーバーの処理
-    this.physics.pause() // 物理エンジンを停止
-    this.player.setTint(0xff0000) // プレイヤーを赤く表示
+    // game over
+    this.physics.pause() // stop physics engine
+    this.player.setTint(0xff0000) // make player red
 
     const timeout = setTimeout(() => {
       EventBus.emit('game-over')
-      this.scene.pause() // シーンを一時停止
+      this.scene.pause() // pause scene
     }, 200)
 
     clearTimeout(timeout)
