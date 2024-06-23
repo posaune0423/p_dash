@@ -91,11 +91,12 @@ $ pnpm run dev
   - Downgrade to beta version of Dojo
 
 ## How we buid?
-To bring digital physics to our game, we are building our game on PixeLAW. You can create stages on PixeLAW and play those stages dynamically by loading them. The gameplay itself is built off-chain, so there are no constraints on the gaming experience. Theoretically, we can provide a game of the same quality as existing web2 games.
+Our project is a lightweight WebGL game built with React and Phaser, aiming to enhance UX by delivering it to users as a PWA. The on-chain components are built with Starknet and the Dojo Framework, and this project functions as an application on the PixeLAW Protocol.
 
 ## Tech stacks.
-- [React](https://react.dev/)/[Vite](https://vitejs.dev/)
-- [Phaser](https://phaser.io/)
-- [PWA](https://en.wikipedia.org/wiki/Progressive_web_app)
-- [Dojo Framework](https://book.dojoengine.org/)
-- [PixeLAW](https://www.pixelaw.xyz/)
+- [React](https://react.dev/)/[Vite](https://vitejs.dev/): to build a PixeLAW frontend.
+- [Phaser](https://phaser.io/): to build a game client.
+- [PWA](https://en.wikipedia.org/wiki/Progressive_web_app): to provide proggressive application.
+- [Dojo Framework](https://book.dojoengine.org/): to write contracts in ECS.
+  - [slot](https://book.dojoengine.org/toolchain/slot): to deploy.
+- [PixeLAW](https://www.pixelaw.xyz/): to get a degital physics, composability and interoperability.
