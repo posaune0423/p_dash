@@ -100,3 +100,12 @@ Our project is a lightweight WebGL game built with React and Phaser, aiming to e
 - [Dojo Framework](https://book.dojoengine.org/): to write contracts in ECS.
   - [slot](https://book.dojoengine.org/toolchain/slot): to deploy.
 - [PixeLAW](https://www.pixelaw.xyz/): to get a degital physics, composability and interoperability.
+
+## Future plans.
+This project holds great potential, and we plan to continue building it even after the hackathon. Our future expansions include the following ideas:
+
+- Enhancing the gaming experience: We aim to provide a gaming experience equal to or better than existing web2 games. To achieve this, we will first focus on improving the UI/UX.
+- Hosting stage co-creation events: We plan to organize events where participants can collaboratively create a stage on PixeLAW over a set period.
+- Exploring composability: We aim to allow users to automatically add new objects and create betting functions on top.
+- Exploring interoperability: PixeLAW will enable interaction with stages created by other applications and players, leading to new experiences.
+- Exploring different games: It is also possible to create objects like stages on PixeLAW and explore the potential of off-chain gameplay. For example, action games similar to Mario could be considered.
