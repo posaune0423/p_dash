@@ -16,11 +16,13 @@ const config: Phaser.Types.Core.GameConfig = {
       gravity: { x: 0, y: 0 },
     },
   },
-  scene: [Preloader, MainGame],
 }
 
-const StartGame = (parent: string) => {
-  return new Game({ ...config, parent })
+const StartGame = (parent: string, data: { stageData: { obstacles: Obstacle[] } }) => {
+  const game = new Game({ ...config, parent })
+  game.scene.add('Preloader', Preloader, true, { stageData: data.stageData })
+  game.scene.add('MainGame', MainGame, false)
+  return game
 }
 
 export { StartGame }

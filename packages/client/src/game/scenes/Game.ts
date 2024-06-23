@@ -35,7 +35,7 @@ export class Game extends Scene {
     }
 
     // Load stage data
-    const { obstacles } = this.cache.json.get('obstacles-2')
+    const { obstacles } = this.cache.json.get('obstacles')
     this.stage = obstacles
     this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + 1000
     this.goalX = this.STAGE_WIDTH - 200

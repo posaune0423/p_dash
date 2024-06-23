@@ -22,5 +22,4 @@ type Obstacle = {
   x: number
   y: number
   type: 'block' | 'spike' | 'tiles' | 'hole'
-  frame: number
 }

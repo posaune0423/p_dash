@@ -8,7 +8,13 @@ import { useOrientation } from '@/hooks/useOrientation'
 
 const Game = dynamic(() => import('@/components/Game'), { ssr: false })
 
-const GamePage = () => {
+interface Props {
+  params: {
+    id: string
+  }
+}
+
+const GamePage = ({ params }: Props) => {
   const { isLandscape } = useOrientation()
   const phaserRef = useRef<IRefPhaserGame | null>(null)
 
@@ -16,7 +22,7 @@ const GamePage = () => {
     return <RotateInstruction />
   }
 
-  return <Game phaserRef={phaserRef} />
+  return <Game phaserRef={phaserRef} stageId={params.id} />
 }
 
 export default GamePage
