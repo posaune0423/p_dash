@@ -15,7 +15,8 @@ By integrating these elements, we aim to attract web2 gamers and create a situat
 <img src="./assets/three_features.png" width="500px">
 
 ## How to play?
-WIP
+We can play a game.
+<img src="./assets/gameplay.png" width="500px">
 
 ## Getting Started
 
@@ -66,9 +67,6 @@ $ pnpm run dev --port 9000
 4. Make a Stage (WIP)
 Please place objects to create  a stage.
 ![image](./assets/create_a_stage.png)
-
-<!-- 5. Export a Json file (WIP)
- -->
 
 ### Frotend to play a game.
 1. Install dependencies.
