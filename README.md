@@ -23,7 +23,7 @@ We can play a game.(WIP)
 
 ### Contracts
 
-1. Check versions of Scarb and Dojo and Cairo
+1. Check versions of Scarb, Cairo and Dojo
 
 ```zsh
 $ sozo --version                                                                               
@@ -92,7 +92,7 @@ $ pnpm run dev
 ## How we buid?
 Our project is a lightweight WebGL game built with React and Phaser, aiming to enhance UX by delivering it to users as a PWA. The on-chain components are built with Starknet and the Dojo Framework, and this project functions as an application on the PixeLAW Protocol.
 
-## Tech stacks.
+## Tech stacks
 - [React](https://react.dev/)/[Vite](https://vitejs.dev/): to build a PixeLAW frontend.
 - [Phaser](https://phaser.io/): to build a game client.
 - [PWA](https://en.wikipedia.org/wiki/Progressive_web_app): to provide proggressive application.
@@ -100,7 +100,7 @@ Our project is a lightweight WebGL game built with React and Phaser, aiming to e
   - [slot](https://book.dojoengine.org/toolchain/slot): to deploy.
 - [PixeLAW](https://www.pixelaw.xyz/): to get a degital physics, composability and interoperability.
 
-## Future plans.
+## Future plans
 This project holds great potential, and we plan to continue building it even after the hackathon. Our future expansions include the following ideas:
 
 - Enhancing the gaming experience: We aim to provide a gaming experience equal to or better than existing web2 games. To achieve this, we will first focus on improving the UI/UX.
