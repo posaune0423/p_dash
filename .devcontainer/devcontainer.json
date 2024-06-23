@@ -14,7 +14,7 @@
     "FEETOKEN_ADDRESS": "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
     "SERVER_PORT": "3000"
   },
-  // "postStartCommand": ["/pixelaw/scripts/startup.sh"],
+  "postStartCommand": ["/pixelaw/scripts/startup.sh"],
   // Configure tool-specific properties.
   "customizations": {
     // Configure properties specific to VS Code.
