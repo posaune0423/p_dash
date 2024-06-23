@@ -11,6 +11,7 @@ We aim to build the first game that incorporates all three of the following elem
 - An engaging and fun gameplay experience.
 
 By integrating these elements, we aim to attract web2 gamers and create a situation where they must interact with blockchain technology to gain new experiences. When that time comes, the first blockchain they will encounter will be [Starknet](https://www.starknet.io/).
+
 <img src="./assets/three_features.png" width="500px">
 
 ## How to play?
