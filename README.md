@@ -86,7 +86,9 @@ $ pnpm run dev
   - Then remove `contracts/manifests` and `sozo migrate plan` to re-generate them
   - Then in the `client` dir, run `pn components` to re-generate clientComponents
 - When using alpha verison of Dojo, Language Server may not work correctly
-  - Downgrade to beta version of Dojo
+  - Downgrade to beta version of Dojo.
+  - use VSCode instead of Cursor.
+- Please run the PixeLAW client on the host side, not inside a Docker container.
 
 ## How we buid?
 To bring digital physics to our game, we are building our game on PixeLAW. You can create stages on PixeLAW and play those stages dynamically by loading them. The gameplay itself is built off-chain, so there are no constraints on the gaming experience. Theoretically, we can provide a game of the same quality as existing web2 games.
@@ -96,4 +98,6 @@ To bring digital physics to our game, we are building our game on PixeLAW. You c
 - [Phaser](https://phaser.io/)
 - [PWA](https://en.wikipedia.org/wiki/Progressive_web_app)
 - [Dojo Framework](https://book.dojoengine.org/)
+  - [slot](https://book.dojoengine.org/toolchain/slot)
 - [PixeLAW](https://www.pixelaw.xyz/)
+- [Argent](https://www.argent.xyz/)
