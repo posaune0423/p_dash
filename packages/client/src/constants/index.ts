@@ -7,6 +7,10 @@ export const APP_URL = 'https://p-dash.vercel.app'
 export const APP_DEFAULT_TITLE = 'P/Dash'
 export const APP_TITLE_TEMPLATE = 'P/Dash | %s'
 
+export const GROUND_HEIGHT = 78
+export const BASIC_PIXEL = 50
+export const GRAVITY = 2000
+
 export const metadataConfig: Metadata = {
   applicationName: APP_NAME,
   icons: {

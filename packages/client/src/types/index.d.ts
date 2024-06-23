@@ -23,3 +23,27 @@ type Obstacle = {
   y: number
   type: 'block' | 'spike' | 'tiles' | 'hole'
 }
+
+type Pixel = {
+  action: string
+  color: number | string
+  owner: string
+  text: string
+  timestamp: number | string
+  x: number
+  y: number
+}
+
+type GetPixelsResponse = {
+  pixelModels: {
+    edges: Array<{
+      node: Pixel
+    }>
+  }
+}
+
+declare module '*.graphql' {
+  import { type DocumentNode } from 'graphql'
+  const value: DocumentNode
+  export = value
+}

@@ -39,7 +39,7 @@
         "mutantdino.resourcemonitor",
         "tamasfe.even-better-toml",
         "serayuzgur.crates",
-        "starkware.cairo1"
+        "StarkWare.cairo1"
       ]
     }
   }

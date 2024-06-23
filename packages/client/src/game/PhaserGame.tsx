@@ -5,7 +5,7 @@ import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import CustomButton from '@/components/CustomButton'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { mockStageData } from '@/constants/mock'
+// import { mockStageData } from '@/constants/mock'
 import { EventBus } from '@/game/EventBus'
 import { StartGame } from '@/game/main'
 import { FixedLengthQueueStorage } from '@/lib/queueStorage'
@@ -16,11 +16,11 @@ export interface IRefPhaserGame {
 }
 
 interface PhaserGameProps {
-  stageId: string
+  stageData: Obstacle[]
 }
 
 export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function PhaserGame(
-  { stageId },
+  { stageData },
   ref,
 ) {
   const game = useRef<Phaser.Game | null>(null!)
@@ -36,7 +36,8 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
 
   useLayoutEffect(() => {
     if (game.current === null) {
-      game.current = StartGame('game-container', { stageData: mockStageData[stageId] })
+      game.current = StartGame('game-container', { stageData })
+      // game.current = StartGame('game-container', { stageData: mockStageData['normal'] })
 
       if (typeof ref === 'function') {
         ref({ game: game.current, scene: null })

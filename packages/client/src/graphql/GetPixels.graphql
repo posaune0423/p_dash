@@ -1,0 +1,16 @@
+query GetPixels($first: Int, $where: PixelWhereInput) {
+    pixelModels(first: $first, where: $where) {
+        edges {
+            node {
+                x
+                y
+                color
+                owner
+                text
+                timestamp
+                action
+            }
+        }
+        totalCount
+    }
+}

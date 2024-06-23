@@ -1,14 +1,20 @@
+'use client'
+
+import { useRef } from 'react'
+import RotateInstruction from './RotateInstruction'
 import { type IRefPhaserGame, PhaserGame } from '@/game/PhaserGame'
+import { useOrientation } from '@/hooks/useOrientation'
 
 // NOTE: JUST Wrapper component of PhaserGame cuz somehow dynamic import does not work with Ref
-const Game = ({
-  phaserRef,
-  stageId,
-}: {
-  phaserRef: React.RefObject<IRefPhaserGame>
-  stageId: string
-}) => {
-  return <PhaserGame stageId={stageId} ref={phaserRef} />
+const Game = ({ stageData }: { stageData: Obstacle[] }) => {
+  const { isLandscape } = useOrientation()
+  const phaserRef = useRef<IRefPhaserGame | null>(null)
+
+  if (!isLandscape) {
+    return <RotateInstruction />
+  }
+
+  return <PhaserGame ref={phaserRef} stageData={stageData} />
 }
 
 export default Game
