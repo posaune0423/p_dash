@@ -1,12 +1,7 @@
 {
   "name": "PixeLAW p-dash",
   "image": "ghcr.io/pixelaw/core:0.3.19",
-  "forwardPorts": [
-    5050,
-    8080,
-    9090,
-    3000
-  ],
+  "forwardPorts": [5050, 8080, 9090, 3000],
   "containerEnv": {
     "RPC_URL": "http://localhost:5050",
     "TORII_URL": "http://localhost:8080",
@@ -19,9 +14,7 @@
     "FEETOKEN_ADDRESS": "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
     "SERVER_PORT": "3000"
   },
-  "postStartCommand": [
-    "/pixelaw/scripts/startup.sh"
-  ],
+  // "postStartCommand": ["/pixelaw/scripts/startup.sh"],
   // Configure tool-specific properties.
   "customizations": {
     // Configure properties specific to VS Code.
@@ -42,11 +35,20 @@
       },
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
+        "esbenp.prettier-vscode",
         "mutantdino.resourcemonitor",
         "tamasfe.even-better-toml",
         "serayuzgur.crates",
         "starkware.cairo1"
       ]
     }
-  }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "latest"
+    }
+  },
+  "mounts": [
+    "source=try-node-node_modules,target=${containerWorkspaceFolder}/packages/client/node_modules,type=volume"
+  ]
 }

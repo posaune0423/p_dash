@@ -8,11 +8,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen",
-    "components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts http://localhost:5050 0x009f1c624eea5ad97ea4bee805b2c46d4db96c8bee88a061a1905e67e5683cc1",
+    "codegen": "npx graphql-codegen",
+    "components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts http://localhost:5050 0x60916a73fe631fcba3b2a930e21c6f7bb2533ea398c7bfa75c72f71a8709fc2",
     "format": "prettier --write 'src/**/*.ts' && eslint --fix --ext .ts src"
   },
   "dependencies": {
+    "@apollo/client": "^3.10.6",
     "@dojoengine/core": "0.7.0-alpha.1",
     "@dojoengine/create-burner": "0.7.0-alpha.1",
     "@dojoengine/react": "0.7.0-alpha.1",
@@ -30,6 +31,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "copy-to-clipboard": "^3.3.3",
+    "graphql": "^16.9.0",
     "lucide-react": "^0.396.0",
     "next": "14.2.4",
     "next-themes": "^0.3.0",
