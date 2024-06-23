@@ -15,7 +15,8 @@ By integrating these elements, we aim to attract web2 gamers and create a situat
 <img src="./assets/three_features.png" width="500px">
 
 ## How to play?
-We can play a game.
+We can play a game.(WIP)
+
 <img src="./assets/gameplay.png" width="500px">
 
 ## Getting Started
