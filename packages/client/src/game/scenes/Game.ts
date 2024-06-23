@@ -145,12 +145,8 @@ export class Game extends Scene {
     // game over
     this.physics.pause() // stop physics engine
     this.player.setTint(0xff0000) // make player red
+    this.scene.pause() // pause scene
 
-    const timeout = setTimeout(() => {
-      EventBus.emit('game-over')
-      this.scene.pause() // pause scene
-    }, 200)
-
-    clearTimeout(timeout)
+    EventBus.emit('game-over')
   }
 }
