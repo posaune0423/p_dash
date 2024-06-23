@@ -6,14 +6,21 @@ export class Preloader extends Scene {
   }
 
   init() {
-    //  We loaded this image in our Boot Scene, so we can display it here
-    this.add.image(this.scale.width / 2, this.scale.height / 2, 'base')
+    //  A simple progress bar. This is the outline of the bar.
+    this.add.rectangle(this.scale.width / 2, this.scale.height / 2, 468, 32).setStrokeStyle(1, 0x6b7280)
+
+    //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
+    const bar = this.add.rectangle(this.scale.width / 2 - 230, this.scale.height / 2, 4, 28, 0x6b7280)
+
+    //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
+    this.load.on('progress', (progress: number) => {
+      //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
+      bar.width = 4 + 460 * progress
+    })
   }
 
   preload() {
-    //  Load the assets for the game - Replace with your own assets
     this.load.setPath('/assets')
-
     // Load images for MainGame
     this.load.image('block', 'block.png')
     this.load.image('spike', 'spike.png')
@@ -22,7 +29,7 @@ export class Preloader extends Scene {
     this.load.image('tiles', 'tiles.png')
 
     // this.load.json("obstacles-1", "/obstacle-1.json");
-    this.load.json('obstacles-2', '/obstacle-2.json')
+    this.load.json('obstacles-2', 'obstacle-2.json')
   }
 
   create() {

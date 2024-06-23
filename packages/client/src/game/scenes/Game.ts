@@ -71,9 +71,6 @@ export class Game extends Scene {
     // Resized and centered
     this.background.setDisplaySize(width, height)
     this.background.setTileScale(width / originalImage.width, height / originalImage.height)
-
-    // scroll background
-    this.background.tilePositionX += 4
   }
 
   generatePlayer() {
@@ -117,6 +114,7 @@ export class Game extends Scene {
   setupGameLogic() {
     const speed = 340
     this.player.setVelocityX(speed)
+    this.background.tilePositionX += 5
 
     if (Input.Keyboard.JustDown(this.jumpButton) && this.jumpCount < 1) {
       this.player.setVelocityY(-700)

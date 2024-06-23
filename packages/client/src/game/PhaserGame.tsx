@@ -87,7 +87,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame>(function PhaserGame(_, ref)
 
   return (
     <>
-      <div id='game-container' />
+      <div style={{ backgroundColor: 'black' }} id='game-container' />
       <Dialog open={isDialogOpen}>
         <DialogContent>
           <DialogHeader>

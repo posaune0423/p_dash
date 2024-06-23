@@ -1,5 +1,6 @@
 {
   "obstacles": [
+    { "x": 300, "y": 0, "type": "block" },
     { "x": 620, "y": 0, "type": "spike" },
     { "x": 680, "y": 0, "type": "block" },
     { "x": 1160, "y": 0, "type": "spike" },
