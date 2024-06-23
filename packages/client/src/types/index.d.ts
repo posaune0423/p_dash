@@ -17,3 +17,10 @@ type GameResult = {
   date: Date
   result: 'clear' | 'death'
 }
+
+type Obstacle = {
+  x: number
+  y: number
+  type: 'block' | 'spike' | 'tiles' | 'hole'
+  frame: number
+}

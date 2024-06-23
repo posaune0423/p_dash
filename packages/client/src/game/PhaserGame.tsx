@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 import CustomButton from '@/components/CustomButton'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { EventBus } from '@/game/EventBus'
@@ -17,6 +17,7 @@ export interface IRefPhaserGame {
 export const PhaserGame = forwardRef<IRefPhaserGame>(function PhaserGame(_, ref) {
   const game = useRef<Phaser.Game | null>(null!)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isGameClear, setIsGameClear] = useState(false)
   const [totalDead, setTotalDead] = useState(0)
   const router = useRouter()
 
@@ -55,7 +56,15 @@ export const PhaserGame = forwardRef<IRefPhaserGame>(function PhaserGame(_, ref)
       }
     })
     EventBus.on('game-clear', () => {
-      alert('Game Clear!')
+      const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
+      gameResultQueue.enqueue({
+        id: uuidv4(),
+        stage: 'easy',
+        date: new Date(),
+        result: 'clear',
+      })
+      setIsGameClear(true)
+      setIsDialogOpen(true)
     })
     EventBus.on('game-over', () => {
       const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
@@ -82,9 +91,9 @@ export const PhaserGame = forwardRef<IRefPhaserGame>(function PhaserGame(_, ref)
       <Dialog open={isDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Game Over</DialogTitle>
-            <p>Total Dead: {totalDead}</p>
-            <CustomButton onClick={restartGame}>Continue</CustomButton>
+            <DialogTitle>{isGameClear ? 'Game Clear!' : 'Game Over'}</DialogTitle>
+            {!isGameClear && <p>Total Dead: {totalDead}</p>}
+            {!isGameClear && <CustomButton onClick={restartGame}>Continue</CustomButton>}
             <CustomButton onClick={() => router.push('/game')}>Back to Menu</CustomButton>
           </DialogHeader>
         </DialogContent>
