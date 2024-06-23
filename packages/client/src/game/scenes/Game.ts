@@ -1,9 +1,6 @@
 import { Input, Scene } from 'phaser'
 import { EventBus } from '../EventBus'
-
-const GROUND_HEIGHT = 78
-const BASIC_PIXEL = 50
-const GRAVITY = 2000
+import { GROUND_HEIGHT, BASIC_PIXEL, GRAVITY } from '@/constants'
 
 export class Game extends Scene {
   background!: Phaser.GameObjects.TileSprite
@@ -24,7 +21,7 @@ export class Game extends Scene {
   }
 
   init(): void {
-    process.env.NEXT_PUBLIC_DEBUG === 'true' && this.physics.world.createDebugGraphic()
+    // process.env.NEXT_PUBLIC_DEBUG === 'true' && this.physics.world.createDebugGraphic()
     this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height)
     this.camera = this.cameras.main
 
@@ -37,7 +34,9 @@ export class Game extends Scene {
     // Load stage data
     const { obstacles } = this.cache.json.get('obstacles')
     this.stage = obstacles
+    console.log(this.stage)
     this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + 1000
+    console.log(this.STAGE_WIDTH)
     this.goalX = this.STAGE_WIDTH - 200
     this.camera.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
     this.physics.world.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
@@ -102,6 +101,7 @@ export class Game extends Scene {
   setupStage() {
     const bufferHeight = 70
     this.stage.forEach((ele) => {
+      console.log(ele)
       const asset = this.generateAsset(ele.x, this.scale.height - ele.y - bufferHeight, ele.type)
       if (ele.type === 'spike') {
         this.physics.add.collider(this.player, asset, () => this.gameOver())
@@ -112,9 +112,9 @@ export class Game extends Scene {
   }
 
   setupGameLogic() {
-    const speed = 340
-    this.player.setVelocityX(speed)
-    this.background.tilePositionX += 5
+    // const speed = 340
+    // this.player.setVelocityX(speed)
+    // this.background.tilePositionX += 5
 
     if (Input.Keyboard.JustDown(this.jumpButton) && this.jumpCount < 1) {
       this.player.setVelocityY(-700)
@@ -127,6 +127,13 @@ export class Game extends Scene {
         this.jumpCount++
       }
     })
+
+    if (this.cursors.left.isDown) {
+      this.player.x -= 10
+    }
+    if (this.cursors.right.isDown) {
+      this.player.x += 10
+    }
 
     // reset jumpCount when player touches the ground
     if (this.player.body?.touching.down) {

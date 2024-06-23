@@ -1,13 +1,13 @@
 import { Scene } from 'phaser'
 
 export class Preloader extends Scene {
-  stageData!: { obstacles: Obstacle[] }
+  stageData!: Obstacle[]
 
   constructor() {
     super('Preloader')
   }
 
-  init({ stageData }: { stageData: { obstacles: Obstacle[] } }) {
+  init({ stageData }: { stageData: Obstacle[] }) {
     this.stageData = stageData
 
     //  A simple progress bar. This is the outline of the bar.
@@ -39,7 +39,7 @@ export class Preloader extends Scene {
     this.load.image('background', 'bg.png')
     this.load.image('player', 'player.png')
     this.load.image('tiles', 'tiles.png')
-    this.load.json('obstacles', this.stageData)
+    this.load.json('obstacles', { obstacles: this.stageData })
   }
 
   create() {
