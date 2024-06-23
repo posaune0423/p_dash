@@ -42,13 +42,13 @@
         "starkware.cairo1"
       ]
     }
-  },
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "latest"
-    }
-  },
-  "mounts": [
-    "source=try-node-node_modules,target=${containerWorkspaceFolder}/packages/client/node_modules,type=volume"
-  ]
+  }
+  // "features": {
+  //   "ghcr.io/devcontainers/features/node:1": {
+  //     "version": "latest"
+  //   }
+  // },
+  // "mounts": [
+  //   "source=try-node-node_modules,target=${containerWorkspaceFolder}/packages/client/node_modules,type=volume"
+  // ]
 }
