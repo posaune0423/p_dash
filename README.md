@@ -1,4 +1,7 @@
-# p/dash
+# <img src="/packages/client/public/logo.png" alt="p/dash">
+
+[![ci-front](https://github.com/posaune0423/p_dash/actions/workflows/ci-front.yaml/badge.svg)](https://github.com/posaune0423/p_dash/actions/workflows/ci-front.yaml)
+[![ci-contracts](https://github.com/posaune0423/p_dash/actions/workflows/ci-contracts.yaml/badge.svg)](https://github.com/posaune0423/p_dash/actions/workflows/ci-contracts.yaml)
 
 ## What is p/dash?
 p/dash is a forced-scroll action game built on PixeLAW, inspired by [Geometry Dash](https://geometry-dash.fandom.com/wiki/Geometry_Dash_Wiki).
@@ -93,8 +96,9 @@ $ pnpm run dev
 Our project is a lightweight WebGL game built with React and Phaser, aiming to enhance UX by delivering it to users as a PWA. The on-chain components are built with Starknet and the Dojo Framework, and this project functions as an application on the PixeLAW Protocol.
 
 ## Tech stacks
-- [React](https://react.dev/)/[Vite](https://vitejs.dev/): to build a PixeLAW frontend.
+- [Next.js](https://nextjs.org/): to build a p/dash client
 - [Phaser](https://phaser.io/): to build a game client.
+- [React](https://react.dev/)/[Vite](https://vitejs.dev/): to build a PixeLAW frontend.
 - [PWA](https://en.wikipedia.org/wiki/Progressive_web_app): to provide proggressive application.
 - [Dojo Framework](https://book.dojoengine.org/): to write contracts in ECS.
   - [slot](https://book.dojoengine.org/toolchain/slot): to deploy.
