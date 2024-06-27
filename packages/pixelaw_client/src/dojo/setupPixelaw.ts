@@ -5,12 +5,19 @@ import { createSystemCalls } from "./createSystemCalls";
 import { defineContractComponents } from "./contractComponents";
 import { world } from "./world";
 import { setupWorld } from "./generated";
-import { Account, RpcProvider } from "starknet";
+import {
+    Account,
+    // RpcProvider
+} from "starknet";
 import { BurnerManager, useBurnerManager } from "@dojoengine/create-burner";
 import { getSdk } from "../generated/graphql";
 import { GraphQLClient } from "graphql-request";
-import { ComponentValue, getComponentEntities, getComponentValue } from "@dojoengine/recs";
-import { felt252ToString } from "../global/utils";
+import {
+    // ComponentValue,
+    getComponentEntities,
+    getComponentValue,
+} from "@dojoengine/recs";
+// import { felt252ToString } from "../global/utils";
 import { Manifest } from "../global/types.ts";
 
 export type TPixelLawError = Error & {
@@ -38,21 +45,21 @@ export interface IPixelawGameData {
     account: ReturnType<typeof useBurnerManager>;
 }
 
-async function getAbi(provider: RpcProvider, app: ComponentValue) {
-    let name = felt252ToString(app.name).toLowerCase();
-    console.log("reloading abi for", name);
-    const ch = await provider.getClassHashAt(app.system);
-    const cl = await provider.getClass(ch);
+// async function getAbi(provider: RpcProvider, app: ComponentValue) {
+//     let name = felt252ToString(app.name).toLowerCase();
+//     console.log("reloading abi for", name);
+//     const ch = await provider.getClassHashAt(app.system);
+//     const cl = await provider.getClass(ch);
 
-    name = `pixelaw::apps::${name}::app::${name}_actions`;
+//     name = `pixelaw::apps::${name}::app::${name}_actions`;
 
-    return {
-        kind: "DojoContract",
-        address: app.system,
-        abi: cl.abi,
-        name,
-    };
-}
+//     return {
+//         kind: "DojoContract",
+//         address: app.system,
+//         abi: cl.abi,
+//         name,
+//     };
+// }
 
 export async function setupPixelaw({ ...config }: DojoConfig): Promise<IPixelawGameData> {
     console.group("🏵️ Setting up Dojo 🔨");
@@ -81,12 +88,12 @@ export async function setupPixelaw({ ...config }: DojoConfig): Promise<IPixelawG
         getComponentValue(contractComponents.App, entityId)
     );
 
-    const contracts = await Promise.all(apps.map((app) => getAbi(new RpcProvider({ nodeUrl: config!.rpcUrl }), app!)));
+    // const contracts = await Promise.all(apps.map((app) => getAbi(new RpcProvider({ nodeUrl: config!.rpcUrl }), app!)));
 
     // Manifest with updated contract ABIs
     const manifest = {
         ...config.manifest,
-        contracts,
+        // contracts,
     };
 
     // Create Dojo Provider

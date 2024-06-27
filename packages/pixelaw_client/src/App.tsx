@@ -67,6 +67,7 @@ function App() {
     }
 
     function onCellClick(coordinate: Coordinate) {
+        console.log("x: ", coordinate[0], "y: ", coordinate[1]);
         setClickedCell(coordinate);
     }
 

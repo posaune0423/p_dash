@@ -20,8 +20,8 @@ const gqlClient = new GraphQLClient(`${dojoConfig.toriiUrl}/graphql`)
 // FIX: these number can be fetched from Stage model
 const bounds = {
   easy: [
-    [13, 42],
-    [47, 48],
+    [14, 19],
+    [80, 28],
   ],
   normal: [
     [12, 55],

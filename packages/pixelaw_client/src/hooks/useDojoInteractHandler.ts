@@ -44,7 +44,7 @@ export const useDojoInteractHandler = (pixelStore: PixelStore, gameData: IPixela
         );
 
         // Execute the call
-        gameData.dojoProvider.execute(gameData.account.account!, dojoCall).then((res) => {
+        gameData.dojoProvider.execute(gameData.masterAccount, dojoCall).then((res) => {
             console.log("dojocall", res);
             // Do something with the UI?
         });

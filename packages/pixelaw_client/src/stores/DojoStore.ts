@@ -63,7 +63,7 @@ const useDojoStore = create<
             worldAddress: manifest.world.address,
             relayUrl: "", // Assuming this needs to be dynamically set or fetched
         });
-        set({ client });
+        set({ ...client });
     },
 }));
 
