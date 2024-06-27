@@ -17,6 +17,7 @@ interface Props {
 }
 
 const gqlClient = new GraphQLClient(`${dojoConfig.toriiUrl}/graphql`)
+// FIX: these number can be fetched from Stage model
 const bounds = {
   easy: [
     [13, 42],
@@ -48,6 +49,7 @@ const GamePage = ({ params }: Props) => {
         },
       })
 
+      // FIX: Fetch Stage model directly and detect Block type
       const obstacles = result!.pixelModels!.edges!.map(({ node }: { node: Pixel }) => {
         const pixel: Pixel = {
           ...node,
