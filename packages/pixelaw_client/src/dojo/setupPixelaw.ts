@@ -1,17 +1,17 @@
-import {getSyncEntities} from "@dojoengine/state";
-import {DojoConfig, DojoProvider} from "@dojoengine/core";
+import { getSyncEntities } from "@dojoengine/state";
+import { DojoConfig, DojoProvider } from "@dojoengine/core";
 import * as torii from "@dojoengine/torii-client";
-import {createSystemCalls} from "./createSystemCalls";
-import {defineContractComponents} from "./contractComponents";
-import {world} from "./world";
-import {setupWorld} from "./generated";
-import {Account, RpcProvider} from "starknet";
-import {BurnerManager, useBurnerManager} from "@dojoengine/create-burner";
-import {getSdk} from "../generated/graphql";
-import {GraphQLClient} from "graphql-request";
-import {getComponentEntities, getComponentValue} from "@dojoengine/recs";
-import {felt252ToString} from "../global/utils";
-import {Manifest} from "../global/types.ts";
+import { createSystemCalls } from "./createSystemCalls";
+import { defineContractComponents } from "./contractComponents";
+import { world } from "./world";
+import { setupWorld } from "./generated";
+import { Account, RpcProvider } from "starknet";
+import { BurnerManager, useBurnerManager } from "@dojoengine/create-burner";
+import { getSdk } from "../generated/graphql";
+import { GraphQLClient } from "graphql-request";
+import { ComponentValue, getComponentEntities, getComponentValue } from "@dojoengine/recs";
+import { felt252ToString } from "../global/utils";
+import { Manifest } from "../global/types.ts";
 
 export type TPixelLawError = Error & {
     type?: "DojoStateError" | "ConfigError";
@@ -38,7 +38,7 @@ export interface IPixelawGameData {
     account: ReturnType<typeof useBurnerManager>;
 }
 
-async function getAbi(provider: RpcProvider, app: any): Promise<any> {
+async function getAbi(provider: RpcProvider, app: ComponentValue) {
     let name = felt252ToString(app.name).toLowerCase();
     console.log("reloading abi for", name);
     const ch = await provider.getClassHashAt(app.system);
@@ -54,9 +54,7 @@ async function getAbi(provider: RpcProvider, app: any): Promise<any> {
     };
 }
 
-export async function setupPixelaw({
-                                       ...config
-                                   }: DojoConfig): Promise<IPixelawGameData> {
+export async function setupPixelaw({ ...config }: DojoConfig): Promise<IPixelawGameData> {
     console.group("🏵️ Setting up Dojo 🔨");
     console.log("⚙️ Config:", config);
     console.log("torii.createClient", config.manifest.world.address);
@@ -73,20 +71,17 @@ export async function setupPixelaw({
     // const clientComponents = createClientComponents({contractComponents});
 
     // FIXME: this is throwing failed to get entities: Missing expected data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await getSyncEntities(toriiClient, contractComponents as any, []);
 
     // Get apps from the world
     const entities = getComponentEntities(contractComponents.App);
 
-    const apps: ReturnType<typeof getComponentValue>[] = [...entities].map(
-        (entityId) => getComponentValue(contractComponents.App, entityId)
+    const apps: ReturnType<typeof getComponentValue>[] = [...entities].map((entityId) =>
+        getComponentValue(contractComponents.App, entityId)
     );
 
-    const contracts = await Promise.all(
-        apps.map((address) =>
-            getAbi(new RpcProvider({nodeUrl: config!.rpcUrl}), address)
-        )
-    );
+    const contracts = await Promise.all(apps.map((app) => getAbi(new RpcProvider({ nodeUrl: config!.rpcUrl }), app!)));
 
     // Manifest with updated contract ABIs
     const manifest = {
@@ -100,11 +95,7 @@ export async function setupPixelaw({
 
     // Create burner manager
     const burnerManager = new BurnerManager({
-        masterAccount: new Account(
-            dojoProvider.provider,
-            config.masterAddress,
-            config.masterPrivateKey
-        ),
+        masterAccount: new Account(dojoProvider.provider, config.masterAddress, config.masterPrivateKey),
         accountClassHash: config.accountClassHash,
         rpcProvider: dojoProvider.provider,
         feeTokenAddress: config.feeTokenAddress,
@@ -114,24 +105,17 @@ export async function setupPixelaw({
     if (burnerManager.list().length === 0) {
         try {
             await burnerManager.create();
-            console.log("burner done")
+            console.log("burner done");
         } catch (e) {
             console.error(e);
         }
     }
 
-    const masterAccount = new Account(
-        dojoProvider.provider,
-        config.masterAddress,
-        config.masterPrivateKey,
-        "1"
-    );
-    const {create, list, get, select, clear, account, isDeploying} =
-        burnerManager;
+    const masterAccount = new Account(dojoProvider.provider, config.masterAddress, config.masterPrivateKey, "1");
+    const { create, list, get, select, clear, account, isDeploying } = burnerManager;
 
     // Create Graph SDK
-    const createGraphSdk = () =>
-        getSdk(new GraphQLClient(`${config.toriiUrl}/graphql`));
+    const createGraphSdk = () => getSdk(new GraphQLClient(`${config.toriiUrl}/graphql`));
 
     // Wrap up
     console.groupEnd();
@@ -142,7 +126,7 @@ export async function setupPixelaw({
         client,
         contractComponents,
         graphSdk: createGraphSdk(),
-        systemCalls: createSystemCalls({client}),
+        systemCalls: createSystemCalls({ client }),
         config,
         manifest,
         dojoProvider,

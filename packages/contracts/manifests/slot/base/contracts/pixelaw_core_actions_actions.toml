@@ -1,0 +1,9 @@
+kind = "DojoContract"
+class_hash = "0x192b0f77607ad6e522be8893e67f71eb8a27b56c5ab820043c283be5134291"
+original_class_hash = "0x192b0f77607ad6e522be8893e67f71eb8a27b56c5ab820043c283be5134291"
+base_class_hash = "0x0"
+abi = "manifests/slot/abis/base/contracts/pixelaw_core_actions_actions.json"
+reads = []
+writes = []
+computed = []
+name = "pixelaw::core::actions::actions"

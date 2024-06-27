@@ -23,8 +23,8 @@ const bounds = {
     [47, 48],
   ],
   normal: [
-    [14, 42],
-    [64, 142],
+    [12, 55],
+    [41, 63],
   ],
   hard: [
     [14, 42],
@@ -65,7 +65,11 @@ const GamePage = ({ params }: Props) => {
         } else {
           block_type = 'null'
         }
-        return { x: pixel.x * BASIC_PIXEL, y: -50 * (pixel.y - 48), type: block_type } as Obstacle
+        return {
+          x: pixel.x * BASIC_PIXEL,
+          y: -BASIC_PIXEL * (pixel.y - bottom),
+          type: block_type,
+        } as Obstacle
       })
 
       // prepare obstacles for game
@@ -78,7 +82,11 @@ const GamePage = ({ params }: Props) => {
   }, [])
 
   if (obstacles.length === 0) {
-    return <div>Loading...</div>
+    return (
+      <div className='flex h-screen w-screen items-center justify-center bg-slate-800 text-lg text-white'>
+        Loading...
+      </div>
+    )
   }
 
   return <Game stageData={obstacles} />

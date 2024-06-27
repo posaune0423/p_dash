@@ -21,7 +21,7 @@ type GameResult = {
 type Obstacle = {
   x: number
   y: number
-  type: 'block' | 'spike' | 'tiles' | 'hole'
+  type: 'block' | 'spike' | 'tiles' | 'null'
 }
 
 type Pixel = {
