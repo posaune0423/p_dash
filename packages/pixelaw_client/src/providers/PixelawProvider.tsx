@@ -1,7 +1,7 @@
-import {ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState} from "react";
-import {IPixelawGameData, setupPixelaw, TPixelLawError} from "@/dojo/setupPixelaw";
-import {useSettingsStore} from "@/stores/SettingsStore.ts";
-import {createDojoConfig} from "@dojoengine/core";
+import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from "react";
+import { IPixelawGameData, setupPixelaw, TPixelLawError } from "@/dojo/setupPixelaw";
+import { useSettingsStore } from "@/stores/SettingsStore.ts";
+import { createDojoConfig } from "@dojoengine/core";
 
 export type IPixelLawContext = {
     clientState: "worldSelect" | "loading" | "error" | "gameActive";
@@ -14,7 +14,7 @@ export const PixelawContext = createContext<IPixelLawContext | null>(null);
 // @dev createDojoConfig can only be called once, or we get a full hangup
 let activeLoad = false;
 
-export const PixelawProvider = ({children}: { children: ReactNode }) => {
+export const PixelawProvider = ({ children }: { children: ReactNode }) => {
     const currentValue = useContext(PixelawContext);
     const [contextValues, setContextValues] = useState<IPixelLawContext | null>({
         clientState: "loading",
@@ -24,7 +24,7 @@ export const PixelawProvider = ({children}: { children: ReactNode }) => {
 
     if (currentValue) throw new Error("DojoProvider can only be used once");
 
-    const {config, configIsValid} = useSettingsStore((state) => {
+    const { config, configIsValid } = useSettingsStore((state) => {
         return {
             config: state.config,
             configIsValid: state.configIsValid,
@@ -58,7 +58,6 @@ export const PixelawProvider = ({children}: { children: ReactNode }) => {
             });
             activeLoad = false;
         }
-
     }, [config, configIsValid, setContextValues]);
 
     useEffect(() => {

@@ -14,8 +14,8 @@ export default defineConfig({
         wasm(),
         topLevelAwait(),
         viteEnvs({
-            // declarationFile: ".env.dev"
-            declarationFile: ".env.slot"
+            declarationFile: ".env.dev"
+            // declarationFile: ".env.slot"
         })
 
     ],

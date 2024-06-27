@@ -1,7 +1,8 @@
-import {RpcProvider} from "starknet";
-import {felt252ToString} from "@/global/utils.ts";
+import { RpcProvider } from "starknet";
+import { felt252ToString } from "@/global/utils.ts";
+import { ComponentValue } from "@dojoengine/recs";
 
-export async function getAbi(provider: RpcProvider, app: any): Promise<any> {
+export async function getAbi(provider: RpcProvider, app: ComponentValue) {
     let name = felt252ToString(app.name).toLowerCase();
     console.log("reloading abi for", name);
     const ch = await provider.getClassHashAt(app.system);

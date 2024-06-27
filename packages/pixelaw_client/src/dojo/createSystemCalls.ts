@@ -1,17 +1,13 @@
-import {AccountInterface, num} from 'starknet'
-import {ZERO_ADDRESS} from '@/global/constants'
-import {IWorld} from '@/dojo/generated'
-import {ProposalArgs, ProposalType} from "@/global/types.js";
+import { AccountInterface, num } from "starknet";
+import { ZERO_ADDRESS } from "@/global/constants";
+import { IWorld } from "@/dojo/generated";
+import { ProposalArgs, ProposalType } from "@/global/types.js";
 
 const FAILURE_REASON_REGEX = /Failure reason: ".+"/;
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
-export function createSystemCalls(
-    {client}: { client: IWorld },
-) {
-
-
+export function createSystemCalls({ client }: { client: IWorld }) {
     /**
      * @notice calls an action in a specific pixel
      * @dev the only value being optimistically rendered is color
@@ -25,55 +21,51 @@ export function createSystemCalls(
     const interact = async (
         signer: AccountInterface,
         contractName: string,
-        position: { x: number, y: number },
+        position: { x: number; y: number },
         color: number,
-        action = 'interact',
+        action = "interact",
         otherParams?: num.BigNumberish[]
     ) => {
         try {
-
             const tx = await client.actions.interact({
                 account: signer,
                 contract_name: contractName,
                 call: action,
-                calldata: [
-                    ZERO_ADDRESS,
-                    ZERO_ADDRESS,
-                    position.x,
-                    position.y,
-                    color,
-                    ...(otherParams ?? [])
-                ]
+                calldata: [ZERO_ADDRESS, ZERO_ADDRESS, position.x, position.y, color, ...(otherParams ?? [])],
             });
 
-            const receipt = await signer.waitForTransaction(tx.transaction_hash, {retryInterval: 100})
+            const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 });
 
-            if ('execution_status' in receipt && receipt.statusReceipt === "reverted") {
-                if ('revert_reason' in receipt && !!receipt.revert_reason) {
-                    throw receipt.revert_reason.match(FAILURE_REASON_REGEX)?.[0] ?? receipt.revert_reason
-                } else throw new Error('transaction reverted')
+            if ("execution_status" in receipt && receipt.statusReceipt === "reverted") {
+                if ("revert_reason" in receipt && !!receipt.revert_reason) {
+                    throw receipt.revert_reason.match(FAILURE_REASON_REGEX)?.[0] ?? receipt.revert_reason;
+                } else throw new Error("transaction reverted");
             }
 
             if (receipt.statusReceipt === "rejected") {
-                if ('transaction_failure_reason' in receipt) throw receipt.transaction_failure_reason.error_message
-                else throw new Error('transaction rejected')
+                if ("transaction_failure_reason" in receipt) throw receipt.transaction_failure_reason.error_message;
+                else throw new Error("transaction rejected");
             }
-
-
         } catch (e) {
-            console.error(e)
-            throw e
+            console.error(e);
+            throw e;
         }
-    }
+    };
 
-    const vote = async (account: AccountInterface, gameId: number, index: number, usePx: number, isInFavor: boolean) => {
+    const vote = async (
+        account: AccountInterface,
+        gameId: number,
+        index: number,
+        usePx: number,
+        isInFavor: boolean
+    ) => {
         try {
             const { transaction_hash } = await client.actions.vote({
                 account,
                 gameId,
                 index,
                 usePx,
-                isInFavor
+                isInFavor,
             });
 
             console.log(
@@ -88,13 +80,18 @@ export function createSystemCalls(
         }
     };
 
-    const createProposal = async (account: AccountInterface, gameId: number, proposalType: ProposalType, args: ProposalArgs) => {
-        if (proposalType === ProposalType.Unknown) throw new Error('Unknown proposal type supplied')
+    const createProposal = async (
+        account: AccountInterface,
+        gameId: number,
+        proposalType: ProposalType,
+        args: ProposalArgs
+    ) => {
+        if (proposalType === ProposalType.Unknown) throw new Error("Unknown proposal type supplied");
         const { transaction_hash } = await client.actions.createProposal({
             account,
             gameId,
             proposalType,
-            args
+            args,
         });
 
         await account.waitForTransaction(transaction_hash, {
@@ -107,6 +104,6 @@ export function createSystemCalls(
     return {
         interact,
         vote,
-        createProposal
-    }
+        createProposal,
+    };
 }

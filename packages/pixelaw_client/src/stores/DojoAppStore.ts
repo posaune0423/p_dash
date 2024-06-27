@@ -1,13 +1,12 @@
-import {App, AppStore} from "@/webtools/types.ts";
-import {usePixelawProvider} from "@/providers/PixelawProvider.tsx";
-import {shortString} from "starknet";
-import {felt252ToUnicode} from "@/webtools/utils.ts";
-import {getComponentValue} from "@dojoengine/recs";
-import {useEffect, useState} from "react";
-
+import { App, AppStore } from "@/webtools/types.ts";
+import { usePixelawProvider } from "@/providers/PixelawProvider.tsx";
+import { shortString } from "starknet";
+import { felt252ToUnicode } from "@/webtools/utils.ts";
+import { getComponentValue } from "@dojoengine/recs";
+import { useEffect, useState } from "react";
 
 export function useDojoAppStore(): AppStore {
-    const {gameData} = usePixelawProvider();
+    const { gameData } = usePixelawProvider();
     const [preparedApps, setPreparedApps] = useState<App[]>([]);
 
     useEffect(() => {
@@ -27,18 +26,18 @@ export function useDojoAppStore(): AppStore {
     };
 
     const getByName = (name: string): App | undefined => {
-        return preparedApps.find(app => app.name === name);
+        return preparedApps.find((app) => app.name === name);
     };
 
     const getAll = (): App[] => {
         return preparedApps;
     };
 
-    return {getByName, getAll, prepare};
+    return { getByName, getAll, prepare };
 }
 
 function fromComponent(appComponent: ReturnType<typeof getComponentValue>): App | undefined {
-    if (!appComponent) return undefined
+    if (!appComponent) return undefined;
     return {
         name: shortString.decodeShortString(appComponent.name),
         icon: felt252ToUnicode(appComponent.icon),
@@ -46,7 +45,7 @@ function fromComponent(appComponent: ReturnType<typeof getComponentValue>): App 
         system: appComponent.system,
         manifest: appComponent.manifest,
         entity: {
-            id: ""  // For now there's no reason
-        }
-    }
+            id: "", // For now there's no reason
+        },
+    };
 }

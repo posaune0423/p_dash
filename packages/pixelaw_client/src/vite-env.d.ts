@@ -14,6 +14,7 @@ type ImportMetaEnv = {
   SERVER_URL: string
   MASTER_ADDRESS: string
   MASTER_PRIVATE_KEY: string
+  MASTER_PUBLIC_KEY: string
   WORLD_ADDRESS: string
   ACCOUNT_CLASS_HASH: string
   FEETOKEN_ADDRESS: string

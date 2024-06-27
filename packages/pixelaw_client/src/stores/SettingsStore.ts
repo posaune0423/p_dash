@@ -1,8 +1,7 @@
-import {create} from "zustand";
-import {immer} from "zustand/middleware/immer";
-import manifest from "@/dojo/manifest";
-import {DojoConfig} from "@dojoengine/core";
-
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
+import { manifest } from "@/dojo/manifest";
+import { DojoConfig } from "@dojoengine/core";
 
 interface PixelawConfig extends DojoConfig {
     serverUrl?: string;
@@ -30,7 +29,7 @@ export const defaultDojoConfig: PixelawConfig = {
     relayUrl: import.meta.env.RELAY_URL,
     rpcUrl: import.meta.env.RPC_URL,
     toriiUrl: import.meta.env.TORII_URL,
-    manifest: manifest(import.meta.env.WORLD_ADDRESS),
+    manifest,
     masterAddress: import.meta.env.MASTER_ADDRESS,
     masterPrivateKey: import.meta.env.MASTER_PRIVATE_KEY,
     accountClassHash: import.meta.env.ACCOUNT_CLASS_HASH,
@@ -47,12 +46,8 @@ const checkUrl = async (url: string) => {
 };
 
 const checkUrls = async (urls: string[]): Promise<boolean> => {
-    try {
-        const results = await Promise.all(urls.map(checkUrl));
-        return results.every((result) => result);
-    } catch (e) {
-        throw e;
-    }
+    const results = await Promise.all(urls.map(checkUrl));
+    return results.every((result) => result);
 };
 
 const checkConfig = async (config: DojoConfig): Promise<DojoConfigResult> => {
@@ -73,8 +68,7 @@ const useSettingsStore = create<ISettingsStore>()(
     immer((set, get) => ({
         config: undefined,
         configIsValid: true,
-        worldAddress:
-            "0xfea84b178ab1dc982ef9e369246f8c4d53aea52ea7af08879911f436313e4e",
+        worldAddress: "0xfea84b178ab1dc982ef9e369246f8c4d53aea52ea7af08879911f436313e4e",
         setDojoConfig: async (data: Partial<PixelawConfig>) => {
             try {
                 const newConfig = {
@@ -84,7 +78,7 @@ const useSettingsStore = create<ISettingsStore>()(
                 } as DojoConfig;
                 await checkConfig(newConfig);
                 set((state) => {
-                    Object.assign(state, {config: newConfig, configIsValid: true});
+                    Object.assign(state, { config: newConfig, configIsValid: true });
                 });
             } catch (e) {
                 set((state) => {
@@ -101,16 +95,17 @@ const useSettingsStore = create<ISettingsStore>()(
             });
         },
         setWorldAddress: async (_address: string) => {
+            console.warn(_address);
             console.warn("unimplemented");
             // TODO: update the world address
         },
     }))
 );
 
-const {getState: getSettingsStore} = useSettingsStore;
+const { getState: getSettingsStore } = useSettingsStore;
 const setDojoConfig = getSettingsStore().setDojoConfig; // syntactic sugar
 
 // uses the set function to validate the default config
 setDojoConfig(defaultDojoConfig);
 
-export {getSettingsStore, useSettingsStore, setDojoConfig};
+export { getSettingsStore, useSettingsStore, setDojoConfig };
