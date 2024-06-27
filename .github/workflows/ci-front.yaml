@@ -1,4 +1,4 @@
-name: CI
+name: ci-front
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - 'packages/client/**'
 
 jobs:
-  ci:
+  lint-n-format:
     runs-on: ubuntu-latest
     defaults:
       run:
