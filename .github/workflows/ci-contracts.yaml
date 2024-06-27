@@ -2,7 +2,13 @@ name: ci-contracts
 
 on:
   push:
+    branches: [main]
+    paths:
+      - 'packages/contracts/**'
   pull_request:
+    branches: [main]
+    paths:
+      - 'packages/contracts/**'
 
 defaults:
   run:
