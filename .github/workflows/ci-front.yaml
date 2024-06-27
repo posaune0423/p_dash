@@ -3,12 +3,19 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - 'packages/client/**'
   pull_request:
     branches: [main]
+    paths:
+      - 'packages/client/**'
 
 jobs:
   ci:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/client
     strategy:
       matrix:
         node-version: [20.x]
