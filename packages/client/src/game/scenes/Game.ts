@@ -115,6 +115,12 @@ export class Game extends Scene {
       const asset = this.generateAsset(ele.x, this.scale.height - ele.y - bufferHeight, ele.type)
       if (ele.type === 'spike') {
         this.physics.add.collider(this.player, asset, () => this.gameOver())
+      } else if (ele.type === 'block') {
+        this.physics.add.collider(this.player, asset, () => {
+          if (this.player.body?.touching.right && asset.body.touching.left) {
+            this.gameOver()
+          }
+        })
       } else {
         this.physics.add.collider(this.player, asset)
       }
