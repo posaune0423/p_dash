@@ -23,7 +23,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
   { stageData },
   ref,
 ) {
-  const game = useRef<Phaser.Game | null>(null!)
+  const game = useRef<Phaser.Game | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isGameClear, setIsGameClear] = useState(false)
   const [totalDead, setTotalDead] = useState(0)
@@ -37,7 +37,6 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
   useLayoutEffect(() => {
     if (game.current === null) {
       game.current = StartGame('game-container', { stageData })
-      // game.current = StartGame('game-container', { stageData: mockStageData['normal'] })
 
       if (typeof ref === 'function') {
         ref({ game: game.current, scene: null })

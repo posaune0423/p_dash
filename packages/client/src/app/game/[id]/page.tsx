@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
 import { dojoConfig } from '../../../../dojoConfig'
 import { BASIC_PIXEL } from '@/constants'
+import { mockStageData } from '@/constants/mock'
 import GET_PIXELS_QUERY from '@/graphql/GetPixels.graphql'
 
 const Game = dynamic(() => import('@/components/Game'), { ssr: false })
@@ -24,8 +25,8 @@ const bounds = {
     [80, 28],
   ],
   normal: [
-    [12, 55],
-    [41, 63],
+    [14, 19],
+    [80, 28],
   ],
   hard: [
     [14, 42],
@@ -80,7 +81,11 @@ const GamePage = ({ params }: Props) => {
       setObstacles(obstacles)
     }
 
-    fetchObstacles()
+    if (params.id === 'easy') {
+      setObstacles(mockStageData['easy'])
+    } else {
+      fetchObstacles()
+    }
   }, [])
 
   if (obstacles.length === 0) {
