@@ -2,6 +2,7 @@
 src/assets/tiles
 coverage/
 .env
+.env.slot
 
 # Logs
 logs

@@ -18,6 +18,7 @@ type ImportMetaEnv = {
   ACCOUNT_CLASS_HASH: string
   FEETOKEN_ADDRESS: string
   SERVER_PORT: string
+  PROFILE: string
   // @user-defined-start
   /*
    * Here you can define your own special variables
