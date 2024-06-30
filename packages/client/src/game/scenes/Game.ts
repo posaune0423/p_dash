@@ -23,7 +23,7 @@ export class Game extends Scene {
   }
 
   init(): void {
-    // process.env.NEXT_PUBLIC_DEBUG === 'true' && this.physics.world.createDebugGraphic()
+    process.env.NEXT_PUBLIC_DEBUG && this.physics.world.createDebugGraphic()
     this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height)
     this.camera = this.cameras.main
 
@@ -36,9 +36,9 @@ export class Game extends Scene {
     // Load stage data
     const { obstacles } = this.cache.json.get('obstacles')
     this.stage = obstacles
-    console.log(this.stage)
+
     this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + 1000
-    console.log(this.STAGE_WIDTH)
+
     this.goalX = this.STAGE_WIDTH - 200
     this.camera.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
     this.physics.world.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
@@ -57,7 +57,11 @@ export class Game extends Scene {
   }
 
   update(): void {
-    this.setupGameLogic()
+    if (process.env.NEXT_PUBLIC_DEBUG) {
+      this.setupDebug()
+    } else {
+      this.setupGameLogic()
+    }
   }
 
   setBg(): void {
@@ -131,7 +135,6 @@ export class Game extends Scene {
     const speed = 340
     this.player.setVelocityX(speed)
     this.background.tilePositionX += 5
-
     if (Input.Keyboard.JustDown(this.jumpButton) && this.jumpCount < 1) {
       this.player.setVelocityY(-700)
       this.jumpCount++
@@ -144,13 +147,39 @@ export class Game extends Scene {
       }
     })
 
-    // if (this.cursors.left.isDown) {
-    //   this.player.setVelocityX(-340)
-    // } else if (this.cursors.right.isDown) {
-    //   this.player.setVelocityX(340)
-    // } else {
-    //   this.player.setVelocityX(0)
-    // }
+    // reset jumpCount when player touches the ground
+    if (this.player.body?.touching.down) {
+      this.jumpCount = 0
+    }
+
+    if (this.player.x > this.goalX) {
+      this.scene.pause()
+      EventBus.emit('game-clear')
+    }
+  }
+
+  setupDebug() {
+    const speed = 340
+    if (this.cursors.left.isDown) {
+      this.player.setVelocityX(-340)
+    } else if (this.cursors.right.isDown) {
+      this.player.setVelocityX(340)
+    } else {
+      this.player.setVelocityX(0)
+    }
+
+    if (Input.Keyboard.JustDown(this.jumpButton) && this.jumpCount < 1) {
+      this.player.setVelocityY(-700)
+      this.jumpCount++
+    }
+
+    this.input.once('pointerdown', () => {
+      this.player.setVelocityX(speed)
+    })
+
+    this.input.once('pointerup', () => {
+      this.player.setVelocityX(0)
+    })
 
     // reset jumpCount when player touches the ground
     if (this.player.body?.touching.down) {

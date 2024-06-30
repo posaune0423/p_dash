@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 // import { mockStageData } from '@/constants/mock'
 import { EventBus } from '@/game/EventBus'
 import { StartGame } from '@/game/main'
+import { useDimension } from '@/hooks/useDimension'
 import { FixedLengthQueueStorage } from '@/lib/queueStorage'
 
 export interface IRefPhaserGame {
@@ -29,6 +30,8 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
   const [totalDead, setTotalDead] = useState(0)
   const router = useRouter()
 
+  const { width, height } = useDimension()
+
   const restartGame = () => {
     setIsDialogOpen(false)
     game.current?.scene.start('Game')
@@ -36,7 +39,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
 
   useLayoutEffect(() => {
     if (game.current === null) {
-      game.current = StartGame('game-container', { stageData })
+      game.current = StartGame('game-container', { stageData, width, height })
 
       if (typeof ref === 'function') {
         ref({ game: game.current, scene: null })
@@ -94,7 +97,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
   }, [ref])
 
   return (
-    <>
+    <main>
       <div id='game-container' />
       <Dialog open={isDialogOpen}>
         <DialogContent>
@@ -106,6 +109,6 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
           </DialogHeader>
         </DialogContent>
       </Dialog>
-    </>
+    </main>
   )
 })
