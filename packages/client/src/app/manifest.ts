@@ -1,17 +1,18 @@
 import { type MetadataRoute } from 'next'
+import { APP_DESCRIPTION, APP_NAME } from '@/constants'
 
-export default function manifet(): MetadataRoute.Manifest {
+export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'P/Dash',
-    short_name: 'P/Dash',
+    name: APP_NAME,
+    short_name: APP_NAME,
     start_url: '/',
     display: 'standalone',
-    background_color: '#000000',
+    // background_color: '#000000',
+    // theme_color: '#000000',
     lang: 'en',
     scope: '/',
     orientation: 'landscape-primary',
-    description: "Very basic React 2d game that can be installed on user's phone screen",
-    theme_color: '#000000',
+    description: APP_DESCRIPTION,
     icons: [
       {
         src: '/pwa-192x192.png',
