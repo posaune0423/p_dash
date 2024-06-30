@@ -6,8 +6,10 @@ import { Preloader } from '@/game/scenes/Preloader'
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Phaser.Types.Core.GameConfig = {
   type: AUTO,
-  width: screen.width > screen.height ? screen.width : screen.height, // https://github.com/posaune0423/p_dash/issues/15#issuecomment-2198617311
-  height: screen.width > screen.height ? screen.height : screen.width, // https://github.com/posaune0423/p_dash/issues/15#issuecomment-2198617311
+  width: 734,
+  height: 310,
+  // width: screen.width > screen.height ? screen.width : screen.height, // https://github.com/posaune0423/p_dash/issues/15#issuecomment-2198617311
+  // height: screen.width > screen.height ? screen.height : screen.width, // https://github.com/posaune0423/p_dash/issues/15#issuecomment-2198617311
   parent: 'game-container',
   backgroundColor: '#0f172a',
   physics: {
