@@ -36,9 +36,9 @@ export class Game extends Scene {
     // Load stage data
     const { obstacles } = this.cache.json.get('obstacles')
     this.stage = obstacles
-    console.log(this.stage)
+
     this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + 1000
-    console.log(this.STAGE_WIDTH)
+
     this.goalX = this.STAGE_WIDTH - 200
     this.camera.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
     this.physics.world.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
@@ -180,6 +180,16 @@ export class Game extends Scene {
     this.input.once('pointerup', () => {
       this.player.setVelocityX(0)
     })
+
+    // reset jumpCount when player touches the ground
+    if (this.player.body?.touching.down) {
+      this.jumpCount = 0
+    }
+
+    if (this.player.x > this.goalX) {
+      this.scene.pause()
+      EventBus.emit('game-clear')
+    }
   }
 
   gameOver() {
