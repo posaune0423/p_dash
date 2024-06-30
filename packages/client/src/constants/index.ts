@@ -2,7 +2,8 @@ import { type Viewport, type Metadata } from 'next'
 
 export const APP_NAME = 'P/Dash'
 export const APP_DESCRIPTION = 'P/Dash is a game that you can play with your friends'
-export const APP_URL = 'https://p-dash.vercel.app'
+export const APP_URL =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://p-dash.vercel.app'
 
 export const APP_DEFAULT_TITLE = 'P/Dash'
 export const APP_TITLE_TEMPLATE = 'P/Dash | %s'
@@ -17,7 +18,7 @@ export const metadataConfig: Metadata = {
     icon: '/favicon.png',
     apple: '/favicon.png',
   },
-  manifest: '/manifest.json',
+  metadataBase: new URL(APP_URL),
   title: {
     default: APP_DEFAULT_TITLE,
     template: APP_TITLE_TEMPLATE,
@@ -52,7 +53,6 @@ export const metadataConfig: Metadata = {
 }
 
 export const viewportConfig: Viewport = {
-  themeColor: '#000000',
   width: 'device-width',
   initialScale: 1,
   minimumScale: 1,

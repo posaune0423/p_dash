@@ -90,9 +90,9 @@ const GamePage = ({ params }: Props) => {
 
   if (obstacles.length === 0) {
     return (
-      <div className='flex h-screen w-screen items-center justify-center bg-slate-800 text-lg text-white'>
+      <main className='flex h-screen w-screen items-center justify-center bg-slate-800 text-lg text-white'>
         Loading...
-      </div>
+      </main>
     )
   }
 
