@@ -138,7 +138,7 @@ export class Game extends Scene {
     this.background.tilePositionX += 5
 
     // reset jumpCount when player touches the ground
-    if (this.player.body?.wasTouching.down) {
+    if (this.player.body?.touching.down || this.player.body?.wasTouching) {
       this.jumpCount = 0
     }
 
@@ -171,7 +171,7 @@ export class Game extends Scene {
     }
 
     // reset jumpCount when player touches the ground
-    if (this.player.body?.wasTouching.down) {
+    if (this.player.body?.touching.down || this.player.body?.wasTouching) {
       this.jumpCount = 0
     }
 
