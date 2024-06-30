@@ -35,6 +35,8 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
   }
 
   useLayoutEffect(() => {
+    console.log('=== useLayoutEffect ===')
+    console.log('width: ', window.innerWidth, 'height: ', window.innerHeight)
     if (game.current === null) {
       game.current = StartGame('game-container', { stageData })
 
