@@ -136,6 +136,12 @@ export class Game extends Scene {
     const speed = 340
     this.player.setVelocityX(speed)
     this.background.tilePositionX += 5
+
+    // reset jumpCount when player touches the ground
+    if (this.player.body?.touching.down) {
+      this.jumpCount = 0
+    }
+
     if (Input.Keyboard.JustDown(this.jumpButton) && this.jumpCount < 1) {
       this.player.setVelocityY(-700)
       this.jumpCount++
@@ -147,11 +153,6 @@ export class Game extends Scene {
         this.jumpCount++
       }
     })
-
-    // reset jumpCount when player touches the ground
-    if (this.player.body?.touching.down) {
-      this.jumpCount = 0
-    }
 
     if (this.player.x > this.goalX) {
       this.scene.pause()
