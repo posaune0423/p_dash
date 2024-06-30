@@ -1,6 +1,7 @@
 import { Input, Scene } from 'phaser'
 import { EventBus } from '../EventBus'
 import { GROUND_HEIGHT, BASIC_PIXEL, GRAVITY } from '@/constants'
+import { env } from '@/env'
 
 export class Game extends Scene {
   background!: Phaser.GameObjects.TileSprite
@@ -23,7 +24,7 @@ export class Game extends Scene {
   }
 
   init(): void {
-    process.env.NEXT_PUBLIC_DEBUG && this.physics.world.createDebugGraphic()
+    env.NEXT_PUBLIC_DEBUG && this.physics.world.createDebugGraphic()
     this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height)
     this.camera = this.cameras.main
 
@@ -57,7 +58,7 @@ export class Game extends Scene {
   }
 
   update(): void {
-    if (process.env.NEXT_PUBLIC_DEBUG) {
+    if (env.NEXT_PUBLIC_DEBUG) {
       this.setupDebug()
     } else {
       this.setupGameLogic()

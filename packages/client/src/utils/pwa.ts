@@ -1,3 +1,5 @@
+import { env } from '@/env'
+
 // export const registerServiceWorker = async () => {
 //   return navigator.serviceWorker.register('/sw.js')
 // }
@@ -33,7 +35,7 @@ export const notificationsSupported = () => {
 }
 
 export const isPWA = () => {
-  if (process.env.NEXT_PUBLIC_DEBUG === 'true') {
+  if (env.NEXT_PUBLIC_DEBUG) {
     return true
   }
 
