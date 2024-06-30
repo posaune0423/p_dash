@@ -145,6 +145,10 @@ export class Game extends Scene {
       this.player.setVelocityX(speed)
     })
 
+    this.input.once('pointerup', () => {
+      this.player.setVelocityX(0)
+    })
+
     // if (this.cursors.left.isDown) {
     //   this.player.setVelocityX(-340)
     // } else if (this.cursors.right.isDown) {
