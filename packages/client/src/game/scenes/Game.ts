@@ -129,7 +129,7 @@ export class Game extends Scene {
 
   setupGameLogic() {
     const speed = 340
-    this.player.setVelocityX(speed)
+    // this.player.setVelocityX(speed)
     this.background.tilePositionX += 5
 
     if (Input.Keyboard.JustDown(this.jumpButton) && this.jumpCount < 1) {
@@ -138,10 +138,11 @@ export class Game extends Scene {
     }
 
     this.input.once('pointerdown', () => {
-      if (this.jumpCount < 1) {
-        this.player.setVelocityY(-700)
-        this.jumpCount++
-      }
+      // if (this.jumpCount < 1) {
+      //   this.player.setVelocityY(-700)
+      //   this.jumpCount++
+      // }
+      this.player.setVelocityX(speed)
     })
 
     // if (this.cursors.left.isDown) {

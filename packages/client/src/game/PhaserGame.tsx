@@ -5,6 +5,7 @@ import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import CustomButton from '@/components/CustomButton'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+// import { mockStageData } from '@/constants/mock'
 import { EventBus } from '@/game/EventBus'
 import { StartGame } from '@/game/main'
 import { FixedLengthQueueStorage } from '@/lib/queueStorage'
@@ -93,8 +94,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
   }, [ref])
 
   return (
-    <>
-      <div id='game-container' />
+    <main>
       <Dialog open={isDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -105,6 +105,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
           </DialogHeader>
         </DialogContent>
       </Dialog>
-    </>
+      <div id='game-container' />
+    </main>
   )
 })
