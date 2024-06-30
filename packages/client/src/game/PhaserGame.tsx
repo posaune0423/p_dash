@@ -95,6 +95,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
 
   return (
     <main>
+      <div id='game-container' />
       <Dialog open={isDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -105,7 +106,6 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      <div id='game-container' />
     </main>
   )
 })
