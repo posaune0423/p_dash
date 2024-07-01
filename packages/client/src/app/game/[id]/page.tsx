@@ -1,6 +1,7 @@
 'use client'
 
 import { GraphQLClient } from 'graphql-request'
+import { type Viewport } from 'next'
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
@@ -32,6 +33,10 @@ const bounds = {
     [14, 42],
     [64, 142],
   ],
+}
+
+export const viewport: Viewport = {
+  viewportFit: 'cover',
 }
 
 const GamePage = ({ params }: Props) => {
