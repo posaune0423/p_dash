@@ -15,6 +15,7 @@ export class Game extends Scene {
 
   goalX!: number
   STAGE_WIDTH!: number
+  preparationWidth = 1200
 
   constructor() {
     super('Game')
@@ -36,7 +37,7 @@ export class Game extends Scene {
     const { obstacles } = this.cache.json.get('obstacles')
     this.stage = obstacles
 
-    this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + 1000
+    this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + this.preparationWidth * 2
 
     this.goalX = this.STAGE_WIDTH - 200
     this.camera.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
@@ -60,7 +61,7 @@ export class Game extends Scene {
   }
 
   update(): void {
-    if (env.NEXT_PUBLIC_DEBUG) {
+    if (!env.NEXT_PUBLIC_DEBUG) {
       this.setupDebug()
     } else {
       this.setupGameLogic()
@@ -93,7 +94,7 @@ export class Game extends Scene {
   }
 
   fillTiles() {
-    for (let x = 0; x < this.STAGE_WIDTH; x += BASIC_PIXEL) {
+    for (let x = 0; x < this.STAGE_WIDTH + this.preparationWidth; x += BASIC_PIXEL) {
       const tile = this.generateAsset(x, this.camera.height - BASIC_PIXEL / 2, 'tiles')
       this.tiles.push(tile)
       this.physics.add.collider(this.player, tile)
@@ -111,6 +112,9 @@ export class Game extends Scene {
   setupStage() {
     const bufferHeight = 70
     this.stage.forEach((ele) => {
+      // 助走期間
+      ele.x += this.preparationWidth
+
       if (ele.type === 'null') {
         this.tiles.forEach((tile) => {
           if (tile.x === ele.x) {
