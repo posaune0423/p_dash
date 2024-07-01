@@ -9,7 +9,14 @@ import { BASIC_PIXEL } from '@/constants'
 import { mockStageData } from '@/constants/mock'
 import GET_PIXELS_QUERY from '@/graphql/GetPixels.graphql'
 
-const Game = dynamic(() => import('@/components/Game'), { ssr: false })
+const Game = dynamic(() => import('@/components/Game'), {
+  ssr: false,
+  loading: () => (
+    <main className='flex h-screen w-screen items-center justify-center bg-slate-800 text-lg text-white'>
+      Loading...
+    </main>
+  ),
+})
 
 interface Props {
   params: {

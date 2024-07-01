@@ -12,14 +12,12 @@ export class Game extends Scene {
 
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   jumpButton!: Phaser.Input.Keyboard.Key
-  jumpCount: number
 
   goalX!: number
   STAGE_WIDTH!: number
 
   constructor() {
     super('Game')
-    this.jumpCount = 0
     this.tiles = []
   }
 
@@ -53,6 +51,10 @@ export class Game extends Scene {
 
     this.fillTiles()
     this.setupStage()
+
+    this.input.addPointer(2)
+
+    this.sound.play('main-bgm', { loop: true })
 
     EventBus.emit('current-scene-ready', this)
   }
@@ -137,26 +139,25 @@ export class Game extends Scene {
     this.player.setVelocityX(speed)
     this.background.tilePositionX += 5
 
-    // reset jumpCount when player touches the ground
-    if (this.player.body?.touching.down || this.player.body?.wasTouching) {
-      this.jumpCount = 0
-    }
-
-    if (Input.Keyboard.JustDown(this.jumpButton) && this.jumpCount < 1) {
-      this.player.setVelocityY(-700)
-      this.jumpCount++
-    }
-
-    this.input.once('pointerdown', () => {
-      if (this.jumpCount < 1) {
+    if (Input.Keyboard.JustDown(this.jumpButton)) {
+      if (this.player.body?.touching.down) {
         this.player.setVelocityY(-700)
-        this.jumpCount++
       }
-    })
+    }
+
+    if (this.input.pointer1.isDown) {
+      if (this.player.body?.touching.down) {
+        this.player.setVelocityY(-700)
+      }
+    }
 
     if (this.player.x > this.goalX) {
       this.scene.pause()
-      EventBus.emit('game-clear')
+      this.sound.stopByKey('main-bgm')
+      this.sound.play('clear')
+      setTimeout(() => {
+        EventBus.emit('game-clear')
+      }, 1000)
     }
   }
 
@@ -170,27 +171,29 @@ export class Game extends Scene {
       this.player.setVelocityX(0)
     }
 
-    // reset jumpCount when player touches the ground
-    if (this.player.body?.touching.down || this.player.body?.wasTouching) {
-      this.jumpCount = 0
-    }
-
-    if (Input.Keyboard.JustDown(this.jumpButton) && this.jumpCount < 1) {
+    if (Input.Keyboard.JustDown(this.jumpButton)) {
       this.player.setVelocityY(-700)
-      this.jumpCount++
     }
 
-    this.input.once('pointerdown', () => {
-      this.player.setVelocityX(speed)
-    })
+    if (this.input.pointer1.isDown) {
+      if (this.input.activePointer.x < this.scale.width / 2) {
+        this.player.setVelocityX(speed)
+      }
+    }
 
-    this.input.once('pointerup', () => {
-      this.player.setVelocityX(0)
-    })
+    if (this.input.pointer2.isDown) {
+      if (this.input.activePointer.x > this.scale.width / 2) {
+        this.player.setVelocityY(-700)
+      }
+    }
 
     if (this.player.x > this.goalX) {
       this.scene.pause()
-      EventBus.emit('game-clear')
+      this.sound.stopByKey('main-bgm')
+      this.sound.play('clear')
+      setTimeout(() => {
+        EventBus.emit('game-clear')
+      }, 1000)
     }
   }
 
@@ -199,7 +202,11 @@ export class Game extends Scene {
     this.physics.pause() // stop physics engine
     this.player.setTint(0xff0000) // make player red
     this.scene.pause() // pause scene
+    this.sound.stopByKey('main-bgm')
+    this.sound.play('dead')
 
-    EventBus.emit('game-over')
+    setTimeout(() => {
+      EventBus.emit('game-over')
+    }, 1000)
   }
 }
