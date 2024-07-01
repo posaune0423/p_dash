@@ -7,7 +7,7 @@ const StageMenu = () => {
   return (
     <main className='relative'>
       <StageMenuHeader />
-      <section className='flex min-h-screen w-full flex-col items-center justify-center space-y-6 bg-gray-800'>
+      <section className='flex min-h-[calc(100dvh)] w-full flex-col items-center justify-center space-y-6 bg-gray-800'>
         <h2 className='mb-8 text-center text-3xl font-medium text-white'>Choose Level</h2>
         <SoundButton
           className='w-60 border-2 !bg-gray-800 !text-white'

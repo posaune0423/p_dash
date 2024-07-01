@@ -16,7 +16,7 @@ const History = () => {
   }, [])
 
   return (
-    <div className={`min-h-screen text-white ${isLandscape && 'px-10'}`}>
+    <div className={`min-h-[calc(100dvh)] text-white ${isLandscape && 'px-10'}`}>
       {gameResults.map((item) => (
         <div key={item.id} className='flex justify-between'>
           <div>{item.stage}</div>

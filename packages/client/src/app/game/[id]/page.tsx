@@ -12,7 +12,7 @@ import GET_PIXELS_QUERY from '@/graphql/GetPixels.graphql'
 const Game = dynamic(() => import('@/components/Game'), {
   ssr: false,
   loading: () => (
-    <main className='flex h-screen w-screen items-center justify-center bg-slate-800 text-lg text-white'>
+    <main className='flex h-[calc(100dvh)] w-screen items-center justify-center bg-slate-800 text-lg text-white'>
       Loading...
     </main>
   ),
@@ -97,7 +97,7 @@ const GamePage = ({ params }: Props) => {
 
   if (obstacles.length === 0) {
     return (
-      <main className='flex h-screen w-screen items-center justify-center bg-slate-800 text-lg text-white'>
+      <main className='flex h-[calc(100dvh)] w-screen items-center justify-center bg-slate-800 text-lg text-white'>
         Loading...
       </main>
     )
