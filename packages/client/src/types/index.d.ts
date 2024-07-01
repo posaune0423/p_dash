@@ -16,6 +16,7 @@ type GameResult = {
   stage: 'easy' | 'normal' | 'hard'
   date: Date
   result: 'clear' | 'death'
+  distance: number
 }
 
 type Obstacle = {

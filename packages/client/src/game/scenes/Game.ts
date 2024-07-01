@@ -170,8 +170,11 @@ export class Game extends Scene {
       this.scene.pause()
       this.sound.stopByKey('main-bgm')
       this.sound.play('clear')
+      const playResult = {
+        distance: Math.floor(this.player.x / 100),
+      }
       setTimeout(() => {
-        EventBus.emit('game-clear')
+        EventBus.emit('game-clear', playResult)
       }, 1000)
     }
   }
@@ -206,8 +209,11 @@ export class Game extends Scene {
       this.scene.pause()
       this.sound.stopByKey('main-bgm')
       this.sound.play('clear')
+      const playResult = {
+        distance: Math.floor(this.player.x / 100),
+      }
       setTimeout(() => {
-        EventBus.emit('game-clear')
+        EventBus.emit('game-clear', playResult)
       }, 1000)
     }
   }

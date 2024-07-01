@@ -68,13 +68,14 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
         ref.current = { game: game.current, scene: scene_instance }
       }
     })
-    EventBus.on('game-clear', () => {
+    EventBus.on('game-clear', (playResult: { distance: number }) => {
       const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
       gameResultQueue.enqueue({
         id: uuidv4(),
         stage: 'easy',
         date: new Date(),
         result: 'clear',
+        distance: playResult.distance,
       })
       setIsGameClear(true)
       setIsDialogOpen(true)
@@ -86,9 +87,10 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
         stage: 'easy',
         date: new Date(),
         result: 'death',
+        distance: playResult.distance,
       })
       setTotalDead((prev) => prev + 1)
-      setIsNewRecord(distance < playResult.distance)
+      setIsNewRecord(gameResultQueue[-1].distance < playResult.distance)
       setDistance(playResult.distance)
       setIsDialogOpen(true)
     })
