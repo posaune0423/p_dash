@@ -94,7 +94,7 @@ export class Game extends Scene {
   }
 
   fillTiles() {
-    for (let x = 0; x < this.STAGE_WIDTH + this.preparationWidth; x += BASIC_PIXEL) {
+    for (let x = 0; x < this.STAGE_WIDTH; x += BASIC_PIXEL) {
       const tile = this.generateAsset(x, this.camera.height - BASIC_PIXEL / 2, 'tiles')
       this.tiles.push(tile)
       this.physics.add.collider(this.player, tile)
