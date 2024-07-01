@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useOrientation } from '@/hooks/useOrientation'
 import { FixedLengthQueueStorage } from '@/lib/queueStorage'
 import { formatDate } from '@/utils'
 
 const History = () => {
   const [gameResults, setGameResults] = useState<GameResult[]>([])
+  const { isLandscape } = useOrientation()
 
   useEffect(() => {
     const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
@@ -14,7 +16,7 @@ const History = () => {
   }, [])
 
   return (
-    <div className='min-h-screen text-white'>
+    <div className={`min-h-screen text-white ${isLandscape && 'px-10'}`}>
       {gameResults.map((item) => (
         <div key={item.id} className='flex justify-between'>
           <div>{item.stage}</div>
