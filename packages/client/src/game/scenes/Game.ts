@@ -54,6 +54,8 @@ export class Game extends Scene {
 
     this.input.addPointer(2)
 
+    this.sound.play('main-bgm', { loop: true })
+
     EventBus.emit('current-scene-ready', this)
   }
 
@@ -151,7 +153,11 @@ export class Game extends Scene {
 
     if (this.player.x > this.goalX) {
       this.scene.pause()
-      EventBus.emit('game-clear')
+      this.sound.stopByKey('main-bgm')
+      this.sound.play('clear')
+      setTimeout(() => {
+        EventBus.emit('game-clear')
+      }, 1000)
     }
   }
 
@@ -183,7 +189,11 @@ export class Game extends Scene {
 
     if (this.player.x > this.goalX) {
       this.scene.pause()
-      EventBus.emit('game-clear')
+      this.sound.stopByKey('main-bgm')
+      this.sound.play('clear')
+      setTimeout(() => {
+        EventBus.emit('game-clear')
+      }, 1000)
     }
   }
 
@@ -192,7 +202,11 @@ export class Game extends Scene {
     this.physics.pause() // stop physics engine
     this.player.setTint(0xff0000) // make player red
     this.scene.pause() // pause scene
+    this.sound.stopByKey('main-bgm')
+    this.sound.play('dead')
 
-    EventBus.emit('game-over')
+    setTimeout(() => {
+      EventBus.emit('game-over')
+    }, 1000)
   }
 }
