@@ -9,6 +9,7 @@ export class Game extends Scene {
   player!: Phaser.Physics.Arcade.Image
   tiles: Phaser.Physics.Arcade.Sprite[]
   stage!: Obstacle[]
+  distanceText!: Phaser.GameObjects.Text
 
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   jumpButton!: Phaser.Input.Keyboard.Key
@@ -55,6 +56,13 @@ export class Game extends Scene {
 
     this.input.addPointer(2)
 
+    this.distanceText = this.add
+      .text(10, 10, '0M', {
+        font: '16px Silkscreen',
+        color: '#ffffff',
+      })
+      .setScrollFactor(0)
+
     this.sound.play('main-bgm', { loop: true })
 
     EventBus.emit('current-scene-ready', this)
@@ -94,7 +102,7 @@ export class Game extends Scene {
   }
 
   fillTiles() {
-    for (let x = 0; x < this.STAGE_WIDTH + this.preparationWidth; x += BASIC_PIXEL) {
+    for (let x = 0; x < this.STAGE_WIDTH; x += BASIC_PIXEL) {
       const tile = this.generateAsset(x, this.camera.height - BASIC_PIXEL / 2, 'tiles')
       this.tiles.push(tile)
       this.physics.add.collider(this.player, tile)
@@ -113,17 +121,17 @@ export class Game extends Scene {
     const bufferHeight = 70
     this.stage.forEach((ele) => {
       // 助走期間
-      ele.x += this.preparationWidth
+      const x = ele.x + this.preparationWidth
 
       if (ele.type === 'null') {
         this.tiles.forEach((tile) => {
-          if (tile.x === ele.x) {
+          if (tile.x === x) {
             tile.destroy()
           }
         })
         return
       }
-      const asset = this.generateAsset(ele.x, this.scale.height - ele.y - bufferHeight, ele.type)
+      const asset = this.generateAsset(x, this.scale.height - ele.y - bufferHeight, ele.type)
       if (ele.type === 'spike') {
         this.physics.add.collider(this.player, asset, () => this.gameOver())
       } else if (ele.type === 'block') {
@@ -154,6 +162,9 @@ export class Game extends Scene {
         this.player.setVelocityY(-700)
       }
     }
+
+    const distanceInMeters = Math.floor(this.player.x / 100) // Assuming 100 pixels = 1 meter
+    this.distanceText.setText(`${distanceInMeters}M`)
 
     if (this.player.x > this.goalX) {
       this.scene.pause()
@@ -209,8 +220,12 @@ export class Game extends Scene {
     this.sound.stopByKey('main-bgm')
     this.sound.play('dead')
 
+    const playResult = {
+      distance: Math.floor(this.player.x / 100),
+    }
+
     setTimeout(() => {
-      EventBus.emit('game-over')
+      EventBus.emit('game-over', playResult)
     }, 1000)
   }
 }

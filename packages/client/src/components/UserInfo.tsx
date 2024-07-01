@@ -15,7 +15,7 @@ const UserInfo = () => {
   const { chain } = useNetwork()
 
   return (
-    <section className='min-h-screen py-10 text-white'>
+    <section className='min-h-[calc(100dvh)] py-10 text-white'>
       <div className='mx-auto mb-8 w-fit'>
         {address && (
           <Avatar
