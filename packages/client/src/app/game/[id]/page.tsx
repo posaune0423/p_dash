@@ -1,7 +1,6 @@
 'use client'
 
 import { GraphQLClient } from 'graphql-request'
-import { type Viewport } from 'next'
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
@@ -10,7 +9,14 @@ import { BASIC_PIXEL } from '@/constants'
 import { mockStageData } from '@/constants/mock'
 import GET_PIXELS_QUERY from '@/graphql/GetPixels.graphql'
 
-const Game = dynamic(() => import('@/components/Game'), { ssr: false })
+const Game = dynamic(() => import('@/components/Game'), {
+  ssr: false,
+  loading: () => (
+    <main className='flex h-screen w-screen items-center justify-center bg-slate-800 text-lg text-white'>
+      Loading...
+    </main>
+  ),
+})
 
 interface Props {
   params: {
@@ -33,10 +39,6 @@ const bounds = {
     [14, 42],
     [64, 142],
   ],
-}
-
-export const viewport: Viewport = {
-  viewportFit: 'cover',
 }
 
 const GamePage = ({ params }: Props) => {

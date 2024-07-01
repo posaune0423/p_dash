@@ -2,4 +2,7 @@
   "cairo1.enableLanguageServer": true,
   "cairo1.enableScarb": true,
   "cairo1.languageServerPath": "~/.asdf/installs/dojo/0.7.0-alpha.2/bin/dojo-language-server",
+  "cSpell.words": [
+    "starknet"
+  ],
 }
