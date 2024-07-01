@@ -9,6 +9,12 @@
     "plugin:import/warnings"
   ],
   "plugins": ["tailwindcss", "@typescript-eslint"],
+  "settings": {
+    "tailwindcss": {
+      "callees": ["tw", "cva"],
+      "cssFiles": ["src/app/globals.scss"]
+    }
+  },
   "rules": {
     "react/jsx-curly-brace-presence": "error",
     "react/self-closing-comp": [

@@ -3,5 +3,9 @@
   "cairo1.languageServerPath": "${userHome}/.asdf/shims/dojo-language-server",
   "cairo1.enableScarb": true,
   "cairo1.scarbPath": "${userHome}/.asdf/shims/scarb",
-  "cSpell.words": ["starknet"]
+  "cSpell.words": [
+    "callees",
+    "starknet",
+    "tailwindcss"
+  ]
 }

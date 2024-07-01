@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { ConfettiEffect } from '@/components/ConfettiEffect'
 import CustomButton from '@/components/CustomButton'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { EventBus } from '@/game/EventBus'
@@ -97,7 +98,8 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
 
   return (
     <main>
-      <div className='h-screen w-screen bg-slate-800' id='game-container' />
+      {isGameClear && <ConfettiEffect />}
+      <div className='bg-slate-800' id='game-container' />
       <Dialog open={isDialogOpen}>
         <DialogContent>
           <DialogTitle>{isGameClear ? 'Game Clear!' : 'Game Over'}</DialogTitle>
