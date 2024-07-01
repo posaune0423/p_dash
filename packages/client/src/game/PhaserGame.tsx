@@ -3,13 +3,13 @@
 import { useRouter } from 'next/navigation'
 import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { ConfettiEffect } from '@/components/ConfettiEffect'
 import CustomButton from '@/components/CustomButton'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { EventBus } from '@/game/EventBus'
 import { StartGame } from '@/game/main'
 import { useDimension } from '@/hooks/useDimension'
 import { FixedLengthQueueStorage } from '@/lib/queueStorage'
-import { ConfettiEffect } from '@/components/ConfettiEffect'
 
 export interface IRefPhaserGame {
   game: Phaser.Game | null

@@ -32,12 +32,12 @@ export const ConfettiEffect = () => {
   const [confettiPieces, setConfettiPieces] = useState<ConfettiPiece[]>([])
 
   useEffect(() => {
-    const pieces: ConfettiPiece[] = Array.from({ length: 100 }, (_, i) => ({
+    const pieces: ConfettiPiece[] = Array.from({ length: 100 }, () => ({
       left: `${Math.random() * 100}%`,
       backgroundColor: generateColor(),
       width: `${Math.random() * 10 + 5}px`,
       height: `${Math.random() * 15 + 10}px`,
-      fallDuration: Math.random() * 5 + 10, // 10-15秒のランダムな落下時間
+      fallDuration: Math.random() * 5 + 10,
       rotationDirection: Math.random() > 0.5 ? 1 : -1,
       swayAmount: Math.random() * 30 + 20,
     }))
@@ -61,7 +61,7 @@ export const ConfettiEffect = () => {
           animation: fall var(--fall-duration) linear infinite;
         }
       `}</style>
-      <div className='fixed inset-0 pointer-events-none overflow-hidden'>
+      <div className='pointer-events-none fixed inset-0 overflow-hidden'>
         {confettiPieces.map((piece, index) => (
           <div
             key={index}
