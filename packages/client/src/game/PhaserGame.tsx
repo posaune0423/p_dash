@@ -9,6 +9,7 @@ import { EventBus } from '@/game/EventBus'
 import { StartGame } from '@/game/main'
 import { useDimension } from '@/hooks/useDimension'
 import { FixedLengthQueueStorage } from '@/lib/queueStorage'
+import { ConfettiEffect } from '@/components/ConfettiEffect'
 
 export interface IRefPhaserGame {
   game: Phaser.Game | null
@@ -97,7 +98,8 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
 
   return (
     <main>
-      <div className='h-screen w-screen bg-slate-800' id='game-container' />
+      {isGameClear && <ConfettiEffect />}
+      <div className='bg-slate-800' id='game-container' />
       <Dialog open={isDialogOpen}>
         <DialogContent>
           <DialogTitle>{isGameClear ? 'Game Clear!' : 'Game Over'}</DialogTitle>
