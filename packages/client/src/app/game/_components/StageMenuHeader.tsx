@@ -12,7 +12,7 @@ const StageMenuHeader = () => {
 
   return (
     <header
-      className={`absolute inset-x-0 top-0 flex items-center justify-between p-4 ${isLandscape && 'px-6'}`}
+      className={`absolute inset-x-0 top-0 flex items-center justify-between p-4 ${isLandscape && 'px-10'}`}
     >
       <SoundLink href='/history'>
         <History color='white' size={36} />
