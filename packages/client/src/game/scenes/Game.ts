@@ -58,7 +58,7 @@ export class Game extends Scene {
   }
 
   update(): void {
-    if (env.NEXT_PUBLIC_DEBUG) {
+    if (!env.NEXT_PUBLIC_DEBUG) {
       this.setupDebug()
     } else {
       this.setupGameLogic()
@@ -138,7 +138,9 @@ export class Game extends Scene {
     this.background.tilePositionX += 5
 
     if (Input.Keyboard.JustDown(this.jumpButton)) {
-      this.player.setVelocityY(-700)
+      if (this.player.body?.touching.down) {
+        this.player.setVelocityY(-700)
+      }
     }
 
     if (this.input.pointer1.isDown) {
