@@ -26,7 +26,6 @@ export async function setup({ ...config }: DojoConfig) {
   const clientComponents = createClientComponents({ contractComponents })
 
   // fetch all existing entities from torii
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await getSyncEntities(toriiClient, contractComponents as any, [])
 
   const client = await setupWorld(new DojoProvider(config.manifest, config.rpcUrl))

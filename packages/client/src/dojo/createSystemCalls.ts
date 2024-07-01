@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { type AccountInterface } from 'starknet'
 import { type ClientComponents } from './createClientComponents'
 import { type ContractComponents } from './generated/contractComponents'
