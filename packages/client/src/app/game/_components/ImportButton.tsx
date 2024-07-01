@@ -2,7 +2,7 @@
 
 import { Upload } from 'lucide-react'
 import { useRef, useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { SoundButton } from '@/components/SoundButton'
 
 const ImportButton = () => {
   const [file, setFile] = useState<File>()
@@ -21,7 +21,7 @@ const ImportButton = () => {
     inputRef.current?.click()
   }
   return (
-    <Button
+    <SoundButton
       className='w-60 cursor-pointer border-2 !bg-gray-800 !text-white'
       size='xl'
       variant='outline'
@@ -31,7 +31,7 @@ const ImportButton = () => {
       <input hidden ref={inputRef} type='file' accept='.json' onChange={onFileInputChange} />
       <Upload className='mr-2' />
       Import
-    </Button>
+    </SoundButton>
   )
 }
 
