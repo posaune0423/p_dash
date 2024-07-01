@@ -1,8 +1,7 @@
 {
   "cairo1.enableLanguageServer": true,
+  "cairo1.languageServerPath": "${userHome}/.asdf/shims/dojo-language-server",
   "cairo1.enableScarb": true,
-  "cairo1.languageServerPath": "~/.asdf/installs/dojo/0.7.0-alpha.2/bin/dojo-language-server",
-  "cSpell.words": [
-    "starknet"
-  ],
+  "cairo1.scarbPath": "${userHome}/.asdf/shims/scarb",
+  "cSpell.words": ["starknet"]
 }

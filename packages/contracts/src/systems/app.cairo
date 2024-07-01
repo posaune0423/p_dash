@@ -8,9 +8,11 @@ use p_dash::models::blocktype::{BlockType, Block};
 trait IPDashActions<TContractState> {
     fn init(self: @TContractState);
     fn interact(self: @TContractState, default_params: DefaultParameters); // deprecated
-    fn initialize_stage(self: @TContractState, default_params: DefaultParameters); // optimally input the width in the future.
+    fn initialize_stage(
+        self: @TContractState, default_params: DefaultParameters
+    ); // optimally input the width in the future.
     fn put_block(self: @TContractState, default_params: DefaultParameters, blocktype: BlockType);
-    // fn export_stage(self: @TContractState, default_params: DefaultParameters);
+// fn export_stage(self: @TContractState, default_params: DefaultParameters);
 }
 
 /// APP_KEY must be unique across the entire platform
@@ -54,24 +56,22 @@ mod p_dash_actions {
             let core_actions = pixelaw::core::utils::get_core_actions(world);
 
             core_actions.update_app(APP_KEY, APP_ICON, APP_MANIFEST);
+        ///Grant permission to the snake App
 
-
-            ///Grant permission to the snake App
-
-            // core_actions
-            //     .update_permission(
-            //         'snake',
-            //         Permission {
-            //             app: false,
-            //             color: true,
-            //             owner: false,
-            //             text: true,
-            //             timestamp: false,
-            //             action: true
-            //         }
-            //     );
+        // core_actions
+        //     .update_permission(
+        //         'snake',
+        //         Permission {
+        //             app: false,
+        //             color: true,
+        //             owner: false,
+        //             text: true,
+        //             timestamp: false,
+        //             action: true
+        //         }
+        //     );
         }
-				
+
 
         /// Put color on a certain position
         ///
@@ -98,9 +98,9 @@ mod p_dash_actions {
 
             // Check if 5 seconds have passed or if the sender is the owner
             assert(
-								pixel.owner.is_zero() || (pixel.owner) == player || starknet::get_block_timestamp()
-								- pixel.timestamp < COOLDOWN_SECS,
-								'Cooldown not over'
+                pixel.owner.is_zero() || (pixel.owner) == player || starknet::get_block_timestamp()
+                    - pixel.timestamp < COOLDOWN_SECS,
+                'Cooldown not over'
             );
 
             // We can now update color of the pixel
@@ -132,7 +132,7 @@ mod p_dash_actions {
 
         fn initialize_stage(self: @ContractState, default_params: DefaultParameters) {
             'Initialize the stage for p/dash'.print();
-            
+
             // width and height should be set by the frontend in the future.
             let mut width: u32 = 200;
             let mut height: u32 = 16;
@@ -155,47 +155,16 @@ mod p_dash_actions {
             let mut pixel = get!(world, (position.x, position.y), (Pixel));
 
             // Check if the pixel is free.
-            assert(
-                pixel.owner.is_zero(), 'Please select free pixel'
-            );
+            assert(pixel.owner.is_zero(), 'Please select free pixel');
 
             // set the head block's to the id.
-            set!(
-                world,
-                (
-                    StageId {
-                        x: position.x,
-                        y: position.y,
-                        value: id
-                    }
-                )
-            );
+            set!(world, (StageId { x: position.x, y: position.y, value: id }));
 
             // set the Stage configs.
-            set!(
-                world,
-                (
-                    Stage {
-                        id: id,
-                        x: position.x,
-                        y: position.y,
-                        w: width,
-                        h: height
-                    }
-                )
-            );
+            set!(world, (Stage { id: id, x: position.x, y: position.y, w: width, h: height }));
 
             // // set the block types for init block.
-            set!(
-                world,
-                (
-                    Block {
-                        x: position.x,
-                        y: position.y,
-                        block: BlockType::InitBlock(())
-                    }
-                )
-            );
+            set!(world, (Block { x: position.x, y: position.y, block: BlockType::InitBlock(()) }));
 
             // have to change here for p/dash functions.
             core_actions
@@ -213,11 +182,13 @@ mod p_dash_actions {
                         action: Option::None // Not using this feature for p_dash
                     }
                 );
-            
+
             'p/dash set up done'.print();
         }
 
-        fn put_block(self: @ContractState, default_params: DefaultParameters, blocktype: BlockType) {
+        fn put_block(
+            self: @ContractState, default_params: DefaultParameters, blocktype: BlockType
+        ) {
             'Put block'.print();
 
             // Load important variables
@@ -231,9 +202,7 @@ mod p_dash_actions {
             let mut pixel = get!(world, (position.x, position.y), (Pixel));
 
             // Check if the pixel is free.
-            assert(
-                pixel.owner.is_zero(), 'Please select free pixel'
-            );
+            assert(pixel.owner.is_zero(), 'Please select free pixel');
 
             core_actions
                 .update_pixel(
@@ -252,16 +221,7 @@ mod p_dash_actions {
                 );
 
             // set the block types for init block.
-            set!(
-                world,
-                (
-                    Block {
-                        x: position.x,
-                        y: position.y,
-                        block: BlockType::Block(())
-                    }
-                )
-            );
+            set!(world, (Block { x: position.x, y: position.y, block: BlockType::Block(()) }));
 
             'Block set'.print();
         }
