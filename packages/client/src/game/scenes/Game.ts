@@ -57,8 +57,8 @@ export class Game extends Scene {
     this.input.addPointer(2)
 
     this.distanceText = this.add
-      .text(20, 20, '0M', {
-        font: '16px Silkscreen',
+      .text(28, 28, '0M', {
+        font: '18px Silkscreen',
         color: '#ffffff',
       })
       .setScrollFactor(0)
