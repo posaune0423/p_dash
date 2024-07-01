@@ -113,17 +113,17 @@ export class Game extends Scene {
     const bufferHeight = 70
     this.stage.forEach((ele) => {
       // 助走期間
-      ele.x += this.preparationWidth
+      const x = ele.x + this.preparationWidth
 
       if (ele.type === 'null') {
         this.tiles.forEach((tile) => {
-          if (tile.x === ele.x) {
+          if (tile.x === x) {
             tile.destroy()
           }
         })
         return
       }
-      const asset = this.generateAsset(ele.x, this.scale.height - ele.y - bufferHeight, ele.type)
+      const asset = this.generateAsset(x, this.scale.height - ele.y - bufferHeight, ele.type)
       if (ele.type === 'spike') {
         this.physics.add.collider(this.player, asset, () => this.gameOver())
       } else if (ele.type === 'block') {
