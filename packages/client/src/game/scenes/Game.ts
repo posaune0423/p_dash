@@ -69,7 +69,7 @@ export class Game extends Scene {
   }
 
   update(): void {
-    if (!env.NEXT_PUBLIC_DEBUG) {
+    if (env.NEXT_PUBLIC_DEBUG) {
       this.setupDebug()
     } else {
       this.setupGameLogic()
