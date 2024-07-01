@@ -28,6 +28,8 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isGameClear, setIsGameClear] = useState(false)
   const [totalDead, setTotalDead] = useState(0)
+  const [distance, setDistance] = useState(0)
+  const [isNewRecord, setIsNewRecord] = useState(false)
   const router = useRouter()
 
   const { width, height } = useDimension()
@@ -77,7 +79,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
       setIsGameClear(true)
       setIsDialogOpen(true)
     })
-    EventBus.on('game-over', () => {
+    EventBus.on('game-over', (playResult: { distance: number }) => {
       const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
       gameResultQueue.enqueue({
         id: uuidv4(),
@@ -85,8 +87,10 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
         date: new Date(),
         result: 'death',
       })
-      setIsDialogOpen(true)
       setTotalDead((prev) => prev + 1)
+      setIsNewRecord(distance < playResult.distance)
+      setDistance(playResult.distance)
+      setIsDialogOpen(true)
     })
 
     return () => {
@@ -104,6 +108,12 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
         <DialogContent>
           <DialogTitle>{isGameClear ? 'Game Clear!' : 'Game Over'}</DialogTitle>
           {!isGameClear && <p>Total Dead: {totalDead}</p>}
+          {!isGameClear && (
+            <p>
+              Distance: {distance}M
+              {isNewRecord && <span className='ml-2 font-medium text-yellow-600'>New Record!</span>}
+            </p>
+          )}
           {!isGameClear && <CustomButton onClick={restartGame}>Continue</CustomButton>}
           <CustomButton onClick={() => router.push('/game')}>Back to Menu</CustomButton>
         </DialogContent>

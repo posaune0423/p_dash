@@ -9,6 +9,7 @@ export class Game extends Scene {
   player!: Phaser.Physics.Arcade.Image
   tiles: Phaser.Physics.Arcade.Sprite[]
   stage!: Obstacle[]
+  distanceText!: Phaser.GameObjects.Text
 
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   jumpButton!: Phaser.Input.Keyboard.Key
@@ -54,6 +55,13 @@ export class Game extends Scene {
     this.setupStage()
 
     this.input.addPointer(2)
+
+    this.distanceText = this.add
+      .text(10, 10, '0M', {
+        font: '16px Silkscreen',
+        color: '#ffffff',
+      })
+      .setScrollFactor(0)
 
     this.sound.play('main-bgm', { loop: true })
 
@@ -155,6 +163,9 @@ export class Game extends Scene {
       }
     }
 
+    const distanceInMeters = Math.floor(this.player.x / 100) // Assuming 100 pixels = 1 meter
+    this.distanceText.setText(`${distanceInMeters}M`)
+
     if (this.player.x > this.goalX) {
       this.scene.pause()
       this.sound.stopByKey('main-bgm')
@@ -209,8 +220,12 @@ export class Game extends Scene {
     this.sound.stopByKey('main-bgm')
     this.sound.play('dead')
 
+    const playResult = {
+      distance: Math.floor(this.player.x / 100),
+    }
+
     setTimeout(() => {
-      EventBus.emit('game-over')
+      EventBus.emit('game-over', playResult)
     }, 1000)
   }
 }
