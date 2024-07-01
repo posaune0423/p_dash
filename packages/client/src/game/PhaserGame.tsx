@@ -82,6 +82,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
     })
     EventBus.on('game-over', (playResult: { distance: number }) => {
       const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
+      const previousDistance = gameResultQueue.getLatest()?.distance ?? 0
       gameResultQueue.enqueue({
         id: uuidv4(),
         stage: 'easy',
@@ -90,7 +91,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
         distance: playResult.distance,
       })
       setTotalDead((prev) => prev + 1)
-      setIsNewRecord(gameResultQueue[-1].distance < playResult.distance)
+      setIsNewRecord(previousDistance < playResult.distance)
       setDistance(playResult.distance)
       setIsDialogOpen(true)
     })

@@ -51,6 +51,10 @@ export class FixedLengthQueueStorage<T> {
     return this.queue.length === 0
   }
 
+  getLatest(): T | undefined {
+    return this.queue[this.queue.length - 1]
+  }
+
   getQueue(): T[] {
     return [...this.queue]
   }
