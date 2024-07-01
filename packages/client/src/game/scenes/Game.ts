@@ -180,13 +180,14 @@ export class Game extends Scene {
       this.jumpCount++
     }
 
-    this.input.once('pointerdown', () => {
-      this.player.setVelocityX(speed)
-    })
-
-    this.input.once('pointerup', () => {
-      this.player.setVelocityX(0)
-    })
+    if (this.input.activePointer.isDown) {
+      if (this.input.activePointer.x < this.scale.width / 2) {
+        this.player.setVelocityX(speed)
+      } else {
+        this.player.setVelocityY(-700)
+        this.jumpCount++
+      }
+    }
 
     if (this.player.x > this.goalX) {
       this.scene.pause()
