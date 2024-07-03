@@ -13,8 +13,6 @@ interface Props {
     id: string
   }
 }
-
-const gqlClient = new GraphQLClient(`${dojoConfig.toriiUrl}/graphql`)
 // FIX: these number can be fetched from Stage model
 const bounds = {
   easy: [
@@ -44,6 +42,8 @@ const GamePage = async ({ params }: Props) => {
   if (params.id === 'easy') {
     obstacles = mockStageData[params.id]
   } else {
+    const gqlClient = new GraphQLClient(`${dojoConfig.toriiUrl}/graphql`)
+
     const result = await gqlClient.request<GetPixelsResponse>(GET_PIXELS_QUERY, {
       first: 50000,
       where: {
