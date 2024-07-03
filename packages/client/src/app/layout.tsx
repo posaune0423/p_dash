@@ -1,12 +1,12 @@
 import { Silkscreen } from 'next/font/google'
 import './globals.scss'
 import Providers from './providers'
-import { metadataConfig } from '@/constants'
+import { metadataConfig, viewportConfig } from '@/constants'
 
 const silkscreen = Silkscreen({ subsets: ['latin'], weight: ['400', '700'] })
 
 export const metadata = metadataConfig
-// export const viewport = viewportConfig
+export const viewport = viewportConfig
 
 export default function RootLayout({
   children,
