@@ -14,7 +14,7 @@ const History = () => {
   }, [])
 
   return (
-    <div className='min-h-[calc(100dvh)] text-white'>
+    <div className='min-h-[calc(100dvh)] px-4 text-white'>
       {gameResults.map((item) => (
         <div key={item.id} className='flex justify-between'>
           <div>{item.stage}</div>
