@@ -4,16 +4,12 @@ import { useAccount } from '@starknet-react/core'
 import { History } from 'lucide-react'
 import Avatar from '@/components/Avatar'
 import { SoundLink } from '@/components/SoundLink'
-import { useOrientation } from '@/hooks/useOrientation'
 
 const StageMenuHeader = () => {
   const { address, status } = useAccount()
-  const { isLandscape } = useOrientation()
 
   return (
-    <header
-      className={`absolute inset-x-0 top-0 flex items-center justify-between p-4 ${isLandscape && 'px-10'}`}
-    >
+    <header className='absolute inset-x-0 top-0 flex items-center justify-between p-4'>
       <SoundLink href='/history'>
         <History color='white' size={36} />
       </SoundLink>
