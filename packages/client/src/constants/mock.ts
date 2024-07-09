@@ -8,7 +8,6 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
     { x: 1840, y: 0, type: 'block' },
     { x: 2140, y: 30, type: 'block' },
     { x: 2190, y: 0, type: 'spike' },
-    { x: 2440, y: 0, type: 'block' },
     { x: 2580, y: 0, type: 'block' },
     { x: 2910, y: 50, type: 'block' },
     { x: 2960, y: 0, type: 'spike' },
