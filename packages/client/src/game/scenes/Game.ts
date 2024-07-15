@@ -183,6 +183,8 @@ export class Game extends Scene {
 
   setupDebug() {
     const speed = 340
+    this.background.tilePositionX += 5
+
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-340)
     } else if (this.cursors.right.isDown) {

@@ -1,5 +1,5 @@
 export const mockStageData: { [key: string]: Obstacle[] } = {
-  easy: [
+  'sci-fi': [
     { x: 600, y: 0, type: 'block' },
     { x: 920, y: 0, type: 'spike' },
     { x: 980, y: 0, type: 'block' },
@@ -24,7 +24,7 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
     { x: 5040, y: 0, type: 'spike' },
   ],
 
-  normal: [
+  desert: [
     { x: 200, y: 0, type: 'spike' },
     { x: 300, y: 50, type: 'block' },
     { x: 400, y: 150, type: 'block' },
@@ -33,7 +33,7 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
     { x: 550, y: 0, type: 'block' },
   ],
 
-  hard: [
+  jungle: [
     { x: 100, y: 300, type: 'block' },
     { x: 200, y: 300, type: 'block' },
     { x: 280, y: 300, type: 'block' },

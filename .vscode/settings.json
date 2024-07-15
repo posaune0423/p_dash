@@ -5,6 +5,7 @@
   "cairo1.scarbPath": "${userHome}/.asdf/shims/scarb",
   "cSpell.words": [
     "callees",
+    "Embla",
     "starknet",
     "tailwindcss"
   ]
