@@ -18,10 +18,10 @@ const config: Phaser.Types.Core.GameConfig = {
 
 const StartGame = (
   parent: string,
-  { stageData, width, height }: { stageData: Obstacle[]; width: number; height: number },
+  { stageData, width, height, stage }: { stageData: Obstacle[]; width: number; height: number; stage: string },
 ) => {
   const game = new Game({ ...config, parent, width, height })
-  game.scene.add('Preloader', Preloader, true, { stageData })
+  game.scene.add('Preloader', Preloader, true, { stageData, stage })
   game.scene.add('MainGame', MainGame, false)
   return game
 }

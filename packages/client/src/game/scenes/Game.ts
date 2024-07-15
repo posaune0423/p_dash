@@ -133,6 +133,8 @@ export class Game extends Scene {
       }
       const asset = this.generateAsset(x, this.scale.height - ele.y - bufferHeight, ele.type)
       if (ele.type === 'spike') {
+        asset.setBodySize(asset.width * 0.8, asset.height * 0.8)
+
         this.physics.add.collider(this.player, asset, () => this.gameOver())
       } else if (ele.type === 'block') {
         this.physics.add.collider(this.player, asset, () => {
@@ -181,6 +183,8 @@ export class Game extends Scene {
 
   setupDebug() {
     const speed = 340
+    this.background.tilePositionX += 5
+
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-340)
     } else if (this.cursors.right.isDown) {

@@ -2,13 +2,15 @@ import { Scene } from 'phaser'
 
 export class Preloader extends Scene {
   stageData!: Obstacle[]
+  stage!: string
 
   constructor() {
     super('Preloader')
   }
 
-  init({ stageData }: { stageData: Obstacle[] }) {
+  init({ stageData, stage }: { stageData: Obstacle[]; stage: string }) {
     this.stageData = stageData
+    this.stage = stage
 
     //  A simple progress bar. This is the outline of the bar.
     this.add
@@ -32,7 +34,7 @@ export class Preloader extends Scene {
   }
 
   preload() {
-    this.load.setPath('/assets')
+    this.load.setPath(`/assets/stage/${this.stage}`)
 
     this.load.image('block', 'block.png')
     this.load.image('spike', 'spike.png')

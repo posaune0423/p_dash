@@ -15,17 +15,17 @@ interface Props {
 }
 // FIX: these number can be fetched from Stage model
 const bounds = {
-  easy: [
+  'sci-fi': [
     [14, 19],
     [80, 28],
   ],
-  normal: [
+  desert: [
     [14, 19],
     [80, 28],
   ],
-  hard: [
-    [14, 42],
-    [64, 142],
+  jungle: [
+    [14, 19],
+    [80, 28],
   ],
 }
 
@@ -39,7 +39,7 @@ const GamePage = async ({ params }: Props) => {
   const [[left, top], [right, bottom]] = bounds[params.id]
   let obstacles: Obstacle[] = []
 
-  if (params.id === 'easy') {
+  if (params.id === 'sci-fi') {
     obstacles = mockStageData[params.id]
   } else {
     const gqlClient = new GraphQLClient(`${dojoConfig.toriiUrl}/graphql`)
@@ -84,7 +84,7 @@ const GamePage = async ({ params }: Props) => {
     obstacles.filter((obstacle) => obstacle.y > 0)
   }
 
-  return <Game stageData={obstacles} />
+  return <Game stageData={obstacles} stage={params.id} />
 }
 
 export default GamePage
