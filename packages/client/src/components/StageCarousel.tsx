@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useState, useTransition } from 'react'
+import useSound from 'use-sound'
 import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { cn } from '@/utils'
 
@@ -55,11 +56,10 @@ const StageCard = ({
           <Image
             src={thumbnail}
             alt={name}
-            objectFit='cover'
             height={400}
             width={400}
             className={cn(
-              'mx-auto rounded-lg',
+              'mx-auto rounded-lg object-cover',
               active ? 'h-[160px] w-[320px]' : 'h-[140px] w-[300px]',
             )}
           />
@@ -80,8 +80,10 @@ const StageCarousel = () => {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [, startTransition] = useTransition()
+  const [play] = useSound('/assets/sounds/effects/swipe.mp3', { volume: 0.5 })
+
   const updateCurrent = useCallback((index: number) => {
-    const TRANSITION_DURATION = 410
+    const TRANSITION_DURATION = 430
     setTimeout(() => {
       startTransition(() => {
         setCurrent(index)
@@ -96,8 +98,9 @@ const StageCarousel = () => {
 
     api.on('select', () => {
       updateCurrent(api.selectedScrollSnap())
+      play()
     })
-  }, [api, updateCurrent])
+  }, [api, updateCurrent, play])
 
   return (
     <Carousel
@@ -106,7 +109,7 @@ const StageCarousel = () => {
         align: 'center',
         loop: true,
       }}
-      className='mx-auto w-full max-w-xl'
+      className='mx-auto w-full max-w-2xl'
     >
       <CarouselContent className='items-center'>
         {stageList.map((stage, index) => (
