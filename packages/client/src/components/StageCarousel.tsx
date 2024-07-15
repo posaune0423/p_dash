@@ -83,7 +83,7 @@ const StageCarousel = () => {
   const [play] = useSound('/assets/sounds/effects/swipe.mp3', { volume: 0.5 })
 
   const updateCurrent = useCallback((index: number) => {
-    const TRANSITION_DURATION = 430
+    const TRANSITION_DURATION = 580
     setTimeout(() => {
       startTransition(() => {
         setCurrent(index)
@@ -109,7 +109,7 @@ const StageCarousel = () => {
         align: 'center',
         loop: true,
       }}
-      className='mx-auto w-full max-w-2xl'
+      className='mx-auto w-full max-w-[80%]'
     >
       <CarouselContent className='items-center'>
         {stageList.map((stage, index) => (
