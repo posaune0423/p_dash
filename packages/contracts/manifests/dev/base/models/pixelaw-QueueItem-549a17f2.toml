@@ -1,0 +1,16 @@
+kind = "DojoModel"
+class_hash = "0x6955a5481bde098ffbf3745a76030ae37aa5843ae37362581f0c1ad467535a0"
+original_class_hash = "0x6955a5481bde098ffbf3745a76030ae37aa5843ae37362581f0c1ad467535a0"
+abi = "manifests/dev/base/abis/models/pixelaw-QueueItem-549a17f2.json"
+tag = "pixelaw-QueueItem"
+manifest_name = "pixelaw-QueueItem-549a17f2"
+
+[[members]]
+name = "id"
+type = "felt252"
+key = true
+
+[[members]]
+name = "valid"
+type = "bool"
+key = false

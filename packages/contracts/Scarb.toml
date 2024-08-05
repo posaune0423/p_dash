@@ -1,5 +1,5 @@
 [package]
-cairo-version = "2.6.3"
+cairo-version = "=2.7.0-rc.3"
 name = "p_dash"
 version = "0.0.1"
 
@@ -7,7 +7,7 @@ version = "0.0.1"
 sierra-replace-ids = true
 
 [dependencies]
-pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.25" }
+pixelaw = { path = "/Users/asumayamada/Private/pixelaw/core/contracts" }
 
 [[target.dojo]]
 build-external-contracts = [
@@ -35,6 +35,15 @@ build-external-contracts = [
 
 [tool.dojo]
 initializer_class_hash = "0xbeef"
+
+[tool.dojo.world]
+description = "p_dash world"
+name = "p_dash"
+seed="p_dash"
+
+[tool.dojo.world.namespace]
+default = "p_dash"
+mappings = { }
 
 [scripts]
 ready_for_deployment = "bash ./scripts/ready_for_deployment.sh"

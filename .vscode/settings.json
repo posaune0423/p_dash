@@ -1,8 +1,8 @@
 {
   "cairo1.enableLanguageServer": true,
-  "cairo1.languageServerPath": "${userHome}/.asdf/shims/dojo-language-server",
+  "cairo1.languageServerPath": "~/.asdf/shims/dojo-language-server",
   "cairo1.enableScarb": true,
-  "cairo1.scarbPath": "${userHome}/.asdf/shims/scarb",
+  "cairo1.scarbPath": "~/.asdf/shims/scarb",
   "cSpell.words": [
     "callees",
     "Embla",

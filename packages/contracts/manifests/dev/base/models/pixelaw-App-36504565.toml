@@ -1,8 +1,9 @@
 kind = "DojoModel"
-class_hash = "0x74c630be9062098affb2ac8b27955ebaa8c863319800213a34ccc02ca97fc9"
-original_class_hash = "0x74c630be9062098affb2ac8b27955ebaa8c863319800213a34ccc02ca97fc9"
-abi = "manifests/dev/abis/base/models/pixelaw_core_models_registry_app.json"
-name = "pixelaw::core::models::registry::app"
+class_hash = "0x480f000803ac3f522c60f5781f3ebe4242eb3cde658027682092a689b3d5945"
+original_class_hash = "0x480f000803ac3f522c60f5781f3ebe4242eb3cde658027682092a689b3d5945"
+abi = "manifests/dev/base/abis/models/pixelaw-App-36504565.json"
+tag = "pixelaw-App"
+manifest_name = "pixelaw-App-36504565"
 
 [[members]]
 name = "system"
