@@ -15,7 +15,7 @@ mod tests {
     use p_dash::models::stage::{Stage, StageId};
     use p_dash::models::blocktype::{Block, BlockType};
 
-    use dojo::test_utils::{spawn_test_world, deploy_contract};
+    use dojo::utils::test::{spawn_test_world, deploy_contract};
 
     use p_dash::systems::app::{
         p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
@@ -27,6 +27,7 @@ mod tests {
     fn deploy_world() -> (IWorldDispatcher, IActionsDispatcher, IPDashActionsDispatcher) {
         // Deploy World and models
         let world = spawn_test_world(
+            "p_dash",
             array![
                 pixel::TEST_CLASS_HASH,
                 app::TEST_CLASS_HASH,
@@ -38,12 +39,12 @@ mod tests {
 
         // Deploy Core actions
         let core_actions_address = world
-            .deploy_contract('salt1', actions::TEST_CLASS_HASH.try_into().unwrap());
+            .deploy_contract('salt1', actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span());
         let core_actions = IActionsDispatcher { contract_address: core_actions_address };
 
         // Deploy PDash actions
         let p_dash_actions_address = world
-            .deploy_contract('salt2', p_dash_actions::TEST_CLASS_HASH.try_into().unwrap());
+            .deploy_contract('salt2', p_dash_actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span());
         let p_dash_actions = IPDashActionsDispatcher { contract_address: p_dash_actions_address };
 
         // Setup dojo auth
@@ -58,7 +59,7 @@ mod tests {
         world.grant_writer('StageId', p_dash_actions_address);
         world.grant_writer('Block', p_dash_actions_address);
         world.grant_writer('BlockType', p_dash_actions_address);
-        
+
         (world, core_actions, p_dash_actions)
     }
 
