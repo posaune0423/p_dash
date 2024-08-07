@@ -8,31 +8,10 @@ sierra-replace-ids = true
 
 [dependencies]
 pixelaw = { path = "/Users/asumayamada/Private/pixelaw/core/contracts" }
-# pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.34" }
+# pixelaw = { git = "https://github.com/pixelaw/core", rev = "cdeb4d609f34f359eec0c82324ee7ab0861fa1c6" }
 
 [[target.dojo]]
-build-external-contracts = [
-    "pixelaw::apps::snake::app::snake",
-    "pixelaw::apps::snake::app::snake_segment",
-    "pixelaw::core::models::pixel::pixel",
-    "pixelaw::core::models::pixel::Pixel",
-    "pixelaw::core::models::pixel::PixelUpdate",
-    "pixelaw::core::models::queue::queue_item",
-    "pixelaw::core::models::registry::app",
-    "pixelaw::core::models::registry::app_name",
-    "pixelaw::core::models::registry::app_user",
-    "pixelaw::core::models::registry::app_instruction",
-    "pixelaw::core::models::registry::instruction",
-    "pixelaw::core::models::registry::core_actions_address",
-    "pixelaw::core::models::permissions::permissions",
-    "pixelaw::core::utils::get_core_actions",
-    "pixelaw::core::utils::Direction",
-    "pixelaw::core::utils::Position",
-    "pixelaw::core::utils::DefaultParameters",
-    "pixelaw::core::actions::actions",
-    "pixelaw::core::actions::IActionsDispatcher",
-    "pixelaw::core::actions::IActionsDispatcherTrait",
-]
+build-external-contracts = []
 
 [tool.dojo]
 initializer_class_hash = "0xbeef"

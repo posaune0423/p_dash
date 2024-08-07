@@ -7,8 +7,10 @@ enum BlockType {
     Hole: ()
 }
 
-// should we set the id for the game?? → For now, we set the id. but it should be deprecated for copmosability.
-// how can we get all all blocks in the area? → excute loop in the whole area? / set the index for object?->hard for delete.
+// should we set the id for the game?? → For now, we set the id. but it should be deprecated for
+// copmosability.
+// how can we get all all blocks in the area? → excute loop in the whole area? / set the index for
+// object?->hard for delete.
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
 struct Block {

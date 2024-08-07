@@ -11,7 +11,9 @@ trait IPDashActions<TContractState> {
     fn initialize_stage(
         ref world: IWorldDispatcher, default_params: DefaultParameters
     ); // optimally input the width in the future.
-    fn put_block(ref world: IWorldDispatcher, default_params: DefaultParameters, blocktype: BlockType);
+    fn put_block(
+        ref world: IWorldDispatcher, default_params: DefaultParameters, blocktype: BlockType
+    );
 }
 
 /// APP_KEY must be unique across the entire platform
@@ -54,9 +56,9 @@ mod p_dash_actions {
             let core_actions = pixelaw::core::utils::get_core_actions(world);
 
             core_actions.update_app(APP_KEY, APP_ICON, APP_MANIFEST);
-        ///Grant permission to the snake App
+            ///Grant permission to the snake App
 
-        // core_actions
+            // core_actions
         //     .update_permission(
         //         'snake',
         //         Permission {

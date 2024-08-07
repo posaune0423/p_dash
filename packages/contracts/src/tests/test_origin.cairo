@@ -12,6 +12,7 @@ mod tests {
     use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
     use pixelaw::core::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
 
+    use dojo::utils::{selector_from_names};
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
     use p_dash::systems::app::{
@@ -23,7 +24,7 @@ mod tests {
     // Helper function: deploys world and actions
     fn deploy_world() -> (IWorldDispatcher, IActionsDispatcher, IPDashActionsDispatcher) {
         // Deploy World and models
-        let models = array![
+        let mut models = array![
             pixel::TEST_CLASS_HASH,
             app::TEST_CLASS_HASH,
             app_name::TEST_CLASS_HASH,
@@ -34,23 +35,22 @@ mod tests {
 
         // Deploy Core actions
         let core_actions_address = world
-            .deploy_contract('salt1', actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span());
+            .deploy_contract(
+                'salt1', actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span()
+            );
         let core_actions = IActionsDispatcher { contract_address: core_actions_address };
 
         // Deploy PDash actions
         let p_dash_actions_address = world
-            .deploy_contract('salt2', p_dash_actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span());
+            .deploy_contract(
+                'salt2', p_dash_actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span()
+            );
         let p_dash_actions = IPDashActionsDispatcher { contract_address: p_dash_actions_address };
 
-        // Setup dojo auth
-        world.grant_writer('Pixel', core_actions_address);
-        world.grant_writer('App', core_actions_address);
-        world.grant_writer('AppName', core_actions_address);
-        world.grant_writer('CoreActionsAddress', core_actions_address);
-        world.grant_writer('Permissions', core_actions_address);
-
-        // PLEASE ADD YOUR APP PERMISSIONS HERE
-        world.grant_writer('Pixel', p_dash_actions_address);
+        let namespace: ByteArray = "p_dash";
+        let pixel_model_name: ByteArray = "Pixel";
+        world
+            .grant_writer(selector_from_names(@namespace, @pixel_model_name), core_actions_address);
 
         (world, core_actions, p_dash_actions)
     }
@@ -63,6 +63,7 @@ mod tests {
 
         core_actions.init();
         p_dash_actions.init();
+
 
         let player1 = starknet::contract_address_const::<0x1337>();
         starknet::testing::set_account_contract_address(player1);

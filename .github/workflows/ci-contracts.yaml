@@ -4,28 +4,37 @@ on:
   push:
     branches: [main]
     paths:
-      - 'packages/contracts/**'
+      - "packages/contracts/**"
   pull_request:
     branches: [main]
     paths:
-      - 'packages/contracts/**'
+      - "packages/contracts/**"
 
 defaults:
   run:
     working-directory: packages/contracts
 
+env:
+  CARGO_TERM_COLOR: always
+  RUST_VERSION: 1.79.0
+
 jobs:
-  sozo-test:
+  cairofmt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: curl -L https://install.dojoengine.org | bash
-      - run: /home/runner/.config/.dojo/bin/dojoup -v v1.0.0-alpha.4
+      - uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.7.0"
       - run: |
-          /home/runner/.config/.dojo/bin/sozo test
-          /home/runner/.config/.dojo/bin/sozo build
-          if [[ `git status --porcelain` ]]; then
-            echo The git repo is dirty
-            echo "Make sure to run \"sozo build\" after changing Scarb.toml"
-            exit 1
-          fi
+          scarb fmt --check
+  core-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: asdf-vm/actions/setup@v3
+      - run: |
+          asdf plugin add dojo https://github.com/dojoengine/asdf-dojo
+          asdf install dojo 1.0.0-alpha.4
+          asdf global dojo 1.0.0-alpha.4
+          sozo test
