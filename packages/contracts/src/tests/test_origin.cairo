@@ -64,7 +64,6 @@ mod tests {
         core_actions.init();
         p_dash_actions.init();
 
-
         let player1 = starknet::contract_address_const::<0x1337>();
         starknet::testing::set_account_contract_address(player1);
 
