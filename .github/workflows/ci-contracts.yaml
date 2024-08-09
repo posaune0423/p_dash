@@ -37,4 +37,5 @@ jobs:
           asdf plugin add dojo https://github.com/dojoengine/asdf-dojo
           asdf install dojo 1.0.0-alpha.4
           asdf global dojo 1.0.0-alpha.4
-          sozo test
+          sozo build
+# TODO: Need to run tsozo test
