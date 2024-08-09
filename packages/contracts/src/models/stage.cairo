@@ -1,6 +1,7 @@
 // we specify the stage by upp-right coordinates and width.
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct Stage {
     #[key]
     id: usize,
@@ -10,7 +11,8 @@ struct Stage {
     h: u32,
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct StageId {
     #[key]
     x: u32,

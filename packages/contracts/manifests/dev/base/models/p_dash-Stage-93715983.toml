@@ -1,0 +1,31 @@
+kind = "DojoModel"
+class_hash = "0xe388ce3a843f84050025b74ecf8cb1330d0074c6d93c8e52b2152c3ecab873"
+original_class_hash = "0xe388ce3a843f84050025b74ecf8cb1330d0074c6d93c8e52b2152c3ecab873"
+abi = "manifests/dev/base/abis/models/p_dash-Stage-93715983.json"
+tag = "p_dash-Stage"
+manifest_name = "p_dash-Stage-93715983"
+
+[[members]]
+name = "id"
+type = "usize"
+key = true
+
+[[members]]
+name = "x"
+type = "u32"
+key = false
+
+[[members]]
+name = "y"
+type = "u32"
+key = false
+
+[[members]]
+name = "w"
+type = "u32"
+key = false
+
+[[members]]
+name = "h"
+type = "u32"
+key = false
