@@ -57,7 +57,7 @@ const useDojoStore = create<
     createClient: async () => {
         const { rpcUrl, toriiUrl, manifest } = get();
         // Assuming async initialization logic for ToriiClient
-        const client = await torii.createClient([], {
+        const client = await torii.createClient({
             rpcUrl,
             toriiUrl,
             worldAddress: manifest.world.address,

@@ -1,5 +1,5 @@
 [package]
-cairo-version = "2.6.3"
+cairo-version = "=2.7.0-rc.3"
 name = "p_dash"
 version = "0.0.1"
 
@@ -7,7 +7,8 @@ version = "0.0.1"
 sierra-replace-ids = true
 
 [dependencies]
-pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.25" }
+# pixelaw = { path = "/Users/asumayamada/Private/pixelaw/core/contracts" }
+pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.35" }
 
 [[target.dojo]]
 build-external-contracts = [
@@ -20,7 +21,6 @@ build-external-contracts = [
     "pixelaw::core::models::registry::app",
     "pixelaw::core::models::registry::app_name",
     "pixelaw::core::models::registry::app_user",
-    "pixelaw::core::models::registry::app_instruction",
     "pixelaw::core::models::registry::instruction",
     "pixelaw::core::models::registry::core_actions_address",
     "pixelaw::core::models::permissions::permissions",
@@ -30,11 +30,20 @@ build-external-contracts = [
     "pixelaw::core::utils::DefaultParameters",
     "pixelaw::core::actions::actions",
     "pixelaw::core::actions::IActionsDispatcher",
-    "pixelaw::core::actions::IActionsDispatcherTrait",
+    "pixelaw::core::actions::IActionsDispatcherTrait"
 ]
 
 [tool.dojo]
 initializer_class_hash = "0xbeef"
+
+[tool.dojo.world]
+description = "p_dash world"
+name = "p_dash"
+seed = "p_dash"
+
+[tool.dojo.world.namespace]
+default = "p_dash"
+mappings = {  }
 
 [scripts]
 ready_for_deployment = "bash ./scripts/ready_for_deployment.sh"
@@ -46,13 +55,12 @@ ready_for_deployment_zsh = "zsh ./scripts/ready_for_deployment.sh"
 initialize_zsh = "zsh ./scripts/default_auth.sh"
 upload_manifest_zsh = "zsh ./scripts/upload_manifest.sh"
 
-
 # Dev: http://localhost:3000
 [tool.dojo.env]
 rpc_url = "http://127.0.0.1:5050/"
-account_address = "0x003c4dd268780ef738920c801edc3a75b6337bc17558c74795b530c0ff502486"
+account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
 private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world_address = "0x60916a73fe631fcba3b2a930e21c6f7bb2533ea398c7bfa75c72f71a8709fc2"
+world_address = "0x3b31a7f08bb1b2028b195f634cac796bbe8bbbf81e7ac287456f394ff867897"
 
 [profile.slot.tool.dojo.env]
 rpc_url = "https://api.cartridge.gg/x/p-dash/katana"

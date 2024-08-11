@@ -5,7 +5,6 @@ import { type ZodError, z } from 'zod'
 export const env = createEnv({
   server: {},
   client: {
-    NEXT_PUBLIC_ETH_CONTRACT_ADDRESS: z.custom<`0x${string}`>(),
     NEXT_PUBLIC_ACCOUNT_CLASS_HASH: z.custom<`0x${string}`>(),
     NEXT_PUBLIC_MASTER_ADDRESS: z.custom<`0x${string}`>(),
     NEXT_PUBLIC_MASTER_PRIVATE_KEY: z.custom<`0x${string}`>(),
@@ -17,7 +16,6 @@ export const env = createEnv({
   },
   // If you're using Next.js < 13.4.4, you'll need to specify the runtimeEnv manually
   runtimeEnv: {
-    NEXT_PUBLIC_ETH_CONTRACT_ADDRESS: process.env.NEXT_PUBLIC_ETH_CONTRACT_ADDRESS,
     NEXT_PUBLIC_ACCOUNT_CLASS_HASH: process.env.NEXT_PUBLIC_ACCOUNT_CLASS_HASH,
     NEXT_PUBLIC_MASTER_ADDRESS: process.env.NEXT_PUBLIC_MASTER_ADDRESS,
     NEXT_PUBLIC_MASTER_PRIVATE_KEY: process.env.NEXT_PUBLIC_MASTER_PRIVATE_KEY,

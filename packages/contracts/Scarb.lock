@@ -3,16 +3,16 @@ version = 1
 
 [[package]]
 name = "dojo"
-version = "0.6.0"
-source = "git+https://github.com/dojoengine/dojo?tag=v0.7.0-alpha.2#f648e870fc48d004e770559ab61a3a8537e4624c"
+version = "0.7.3"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.4#d08c46191fc1b4c4f90816cef4787cb8db02988f"
 dependencies = [
  "dojo_plugin",
 ]
 
 [[package]]
 name = "dojo_plugin"
-version = "0.3.11"
-source = "git+https://github.com/dojoengine/dojo?tag=v0.3.11#1e651b5d4d3b79b14a7d8aa29a92062fcb9e6659"
+version = "0.7.3"
+source = "git+https://github.com/dojoengine/dojo?rev=71b1f1a4#71b1f1a467534cbeeb901356f41e612ed4187bd1"
 
 [[package]]
 name = "p_dash"
@@ -23,8 +23,8 @@ dependencies = [
 
 [[package]]
 name = "pixelaw"
-version = "0.0.0"
-source = "git+https://github.com/pixelaw/core?tag=v0.3.25#48d6f6777dce687a8fb822304302c7eb0a9fa779"
+version = "0.3.35"
+source = "git+https://github.com/pixelaw/core?tag=v0.3.35#c60df919fa9e683a39763366a09623cd4bbdfb09"
 dependencies = [
  "dojo",
 ]

@@ -1,5 +1,5 @@
 query GetAllApps {
-    appModels(first: 1000) {
+    pixelaw_appModels(first: 1000) {
         totalCount
         edges {
             node {

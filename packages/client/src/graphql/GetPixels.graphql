@@ -1,5 +1,5 @@
 query GetPixels($first: Int, $where: PixelWhereInput) {
-    pixelModels(first: $first, where: $where) {
+    pixelaw_pixelModels(first: $first, where: $where) {
         edges {
             node {
                 x

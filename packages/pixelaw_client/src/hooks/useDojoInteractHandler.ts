@@ -6,6 +6,7 @@ import getParamsDef from "@/dojo/utils/paramsDef.ts";
 import { coordinateToPosition, hexRGBtoNumber } from "@/global/utils.ts";
 import { DojoCall } from "@dojoengine/core";
 import { generateDojoCall } from "@/dojo/utils/call.ts";
+import { NAMESPACE } from "@/global/constants";
 
 // TODO maybe cleaner to directly use the Dojo hook here, but its not working.
 // For now passing the pixelStore
@@ -44,9 +45,11 @@ export const useDojoInteractHandler = (pixelStore: PixelStore, gameData: IPixela
         );
 
         // Execute the call
-        gameData.dojoProvider.execute(gameData.masterAccount, dojoCall).then((res) => {
+        gameData.dojoProvider.execute(gameData.masterAccount, dojoCall, 'p_dash').then((res) => {
             console.log("dojocall", res);
             // Do something with the UI?
+        }).catch((e) => {
+            console.error(e);
         });
         setClickedCell(undefined);
     }, [setClickedCell, clickedCell]);

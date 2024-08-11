@@ -1,0 +1,21 @@
+kind = "DojoModel"
+class_hash = "0x5e8ceb6aae8d965b76e0e629e0a12c9cd08803ae5b7846d915c11a71b250802"
+original_class_hash = "0x5e8ceb6aae8d965b76e0e629e0a12c9cd08803ae5b7846d915c11a71b250802"
+abi = "manifests/dev/base/abis/models/p_dash-Block-63c3c136.json"
+tag = "p_dash-Block"
+manifest_name = "p_dash-Block-63c3c136"
+
+[[members]]
+name = "x"
+type = "u32"
+key = true
+
+[[members]]
+name = "y"
+type = "u32"
+key = true
+
+[[members]]
+name = "block"
+type = "BlockType"
+key = false
