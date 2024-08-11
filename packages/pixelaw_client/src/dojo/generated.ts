@@ -2,8 +2,8 @@
 
 import { AccountInterface, BigNumberish } from "starknet";
 import { DojoProvider } from "@dojoengine/core";
-import { PROPOSAL_CONTRACT_ADDRESS, VOTING_CONTRACT_ADDRESS } from "@/global/constants.js";
-import { ProposalArgs, ProposalType } from "@/global/types.js";
+import { NAMESPACE, PROPOSAL_CONTRACT_ADDRESS, VOTING_CONTRACT_ADDRESS } from "@/global/constants";
+import { ProposalArgs, ProposalType } from "@/global/types";
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
@@ -21,13 +21,15 @@ export async function setupWorld(provider: DojoProvider) {
             calldata: BigNumberish[];
         }) => {
             try {
-                return await provider.execute(account, [
+                return await provider.execute(
+                    account,
                     {
                         contractName: contract_name,
                         entrypoint: call,
                         calldata,
                     },
-                ]);
+                    NAMESPACE
+                );
             } catch (error) {
                 console.error("Error executing interact:", error);
                 throw error;
@@ -48,11 +50,15 @@ export async function setupWorld(provider: DojoProvider) {
             isInFavor: boolean;
         }) => {
             try {
-                return await provider.execute(account, {
-                    contractName: VOTING_CONTRACT_ADDRESS,
-                    entrypoint: "vote",
-                    calldata: [gameId, index, usePx, isInFavor],
-                });
+                return await provider.execute(
+                    account,
+                    {
+                        contractName: VOTING_CONTRACT_ADDRESS,
+                        entrypoint: "vote",
+                        calldata: [gameId, index, usePx, isInFavor],
+                    },
+                    NAMESPACE
+                );
             } catch (e) {
                 console.error("Error executing voting:", e);
                 throw e;
@@ -78,9 +84,7 @@ export async function setupWorld(provider: DojoProvider) {
                         entrypoint: "create_proposal",
                         calldata: [gameId, proposalType, args.address, args.arg1, args.arg2],
                     },
-                    {
-                        skipValidate: true,
-                    }
+                    NAMESPACE
                 );
             } catch (e) {
                 console.error("Error executing createProposal:", e);

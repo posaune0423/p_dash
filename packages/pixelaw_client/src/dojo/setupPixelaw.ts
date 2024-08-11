@@ -67,7 +67,7 @@ export async function setupPixelaw({ ...config }: DojoConfig): Promise<IPixelawG
     console.log("torii.createClient", config.manifest.world.address);
 
     // torii client
-    const toriiClient = await torii.createClient([], {
+    const toriiClient = await torii.createClient({
         rpcUrl: config.rpcUrl,
         toriiUrl: config.toriiUrl,
         worldAddress: config.manifest.world.address || "",
