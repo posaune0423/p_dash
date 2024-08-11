@@ -2,10 +2,20 @@
 
 ## How to run in Locally
 
-Please run .devcotainer.
-
+1. Start katana server
 ```zsh
-scarb run initialize
+katana --disable-fee  --allowed-origins "*"
+```zsh
+```
+
+2. Migrate your contracts with sozo
+```zsh
+sozo migrate apply
+```
+
+3. Create a new torii indexer
+```zsh
+torii --world 0x3b31a7f08bb1b2028b195f634cac796bbe8bbbf81e7ac287456f394ff867897 --allowed-origins "*"
 ```
 
 ## To deploy using slot
@@ -13,7 +23,7 @@ scarb run initialize
 1. Create a new katana sequencer with slot
 
 ```zsh
-slot deployments create p-dash-dev katana --version v0.7.0-alpha.2
+slot deployments create p-dash-dev katana --version v1.0.0-alpha.4
 ```
 
 2. Migrate contracts
@@ -28,5 +38,5 @@ sozo --profile slot migrate apply
 3. Create a new torii indexer with slot
 
 ```zsh
-slot deployments create p-dash-dev torii --world YOUR_WORLD_ADDRESS --rpc YOUR_NEW_RPC_URL --version v0.7.0-alpha.2
+slot deployments create p-dash-dev torii --world YOUR_WORLD_ADDRESS --rpc YOUR_NEW_RPC_URL --version v1.0.0-alpha.4
 ```

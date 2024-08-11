@@ -19,13 +19,13 @@ mod tests {
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
     use p_dash::systems::app::{
-        p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
+        actions, IActionsDispatcher, IActionsDispatcherTrait
     };
 
     use zeroable::Zeroable;
 
     // Helper function: deploys world and actions
-    fn deploy_world() -> (IWorldDispatcher, IActionsDispatcher, IPDashActionsDispatcher) {
+    fn deploy_world() -> (IWorldDispatcher, IActionsDispatcher, IActionsDispatcher) {
         // Deploy World and models
         let mut models = array![
             pixel::TEST_CLASS_HASH,
@@ -33,7 +33,7 @@ mod tests {
             app_name::TEST_CLASS_HASH,
             permissions::TEST_CLASS_HASH
         ];
-        let world = spawn_test_world("p_dash", models);
+        let world = spawn_test_world("pixelaw", models);
 
         // Deploy Core actions
         let core_actions_address = world
@@ -42,36 +42,36 @@ mod tests {
             );
         let core_actions = IActionsDispatcher { contract_address: core_actions_address };
 
-        // Deploy PDash actions
-        let p_dash_actions_address = world
+        // Deploy  actions
+        let actions_address = world
             .deploy_contract(
-                'salt2', p_dash_actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span()
+                'salt2', actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span()
             );
-        let p_dash_actions = IPDashActionsDispatcher { contract_address: p_dash_actions_address };
+        let actions = IActionsDispatcher { contract_address: actions_address };
 
-        let namespace: ByteArray = "p_dash";
+        let namespace: ByteArray = "pixelaw";
         let pixel_model_name: ByteArray = "Pixel";
         world
             .grant_writer(selector_from_names(@namespace, @pixel_model_name), core_actions_address);
 
-        (world, core_actions, p_dash_actions)
+        (world, core_actions, actions)
     }
 
     #[test]
     #[available_gas(3000000000)]
-    fn test_p_dash_actions() {
+    fn test_actions() {
         // Deploy everything
-        let (world, core_actions, p_dash_actions) = deploy_world();
+        let (world, core_actions, actions) = deploy_world();
 
         core_actions.init();
-        p_dash_actions.init();
+        actions.init();
 
         let player1 = starknet::contract_address_const::<0x1337>();
         starknet::testing::set_account_contract_address(player1);
 
         let color = encode_color(1, 1, 1);
 
-        p_dash_actions
+        actions
             .initialize_stage(
                 DefaultParameters {
                     for_player: Zeroable::zero(),
@@ -99,7 +99,7 @@ mod tests {
         let block = get!(world, (1, 1), (Block));
         assert(block.block.into() == 0x1, 'config setting error(Block)');
 
-        p_dash_actions
+        actions
             .put_block(
                 DefaultParameters {
                     for_player: Zeroable::zero(),

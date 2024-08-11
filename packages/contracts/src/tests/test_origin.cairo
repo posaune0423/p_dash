@@ -31,7 +31,7 @@ mod tests {
             core_actions_address::TEST_CLASS_HASH,
             permissions::TEST_CLASS_HASH,
         ];
-        let world = spawn_test_world("p_dash", models);
+        let world = spawn_test_world("pixelaw", models);
 
         // Deploy Core actions
         let core_actions_address = world
@@ -47,7 +47,7 @@ mod tests {
             );
         let p_dash_actions = IPDashActionsDispatcher { contract_address: p_dash_actions_address };
 
-        let namespace: ByteArray = "p_dash";
+        let namespace: ByteArray = "pixelaw";
         let pixel_model_name: ByteArray = "Pixel";
         world
             .grant_writer(selector_from_names(@namespace, @pixel_model_name), core_actions_address);
