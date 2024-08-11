@@ -1,0 +1,49 @@
+{
+  "name": "PixeLAW p-dash",
+  "image": "ghcr.io/pixelaw/core:0.3.35",
+  "forwardPorts": [5050, 8080, 9090, 3000],
+  "containerEnv": {
+    "RPC_URL": "http://localhost:5050",
+    "TORII_URL": "http://localhost:8080",
+    "RELAY_URL": "http://localhost:8080",
+    "PUBLIC_SERVER_URL": "http://localhost:3000",
+    "PUBLIC_RPC_URL": "http://localhost:5050",
+    "PUBLIC_TORII_URL": "http://localhost:8080",
+    "PUBLIC_RELAY_URL": "http://localhost:8080",
+    "MASTER_ADDRESS": "0x003c4dd268780ef738920c801edc3a75b6337bc17558c74795b530c0ff502486",
+    "MASTER_PRIVATE_KEY": "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a",
+    "WORLD_ADDRESS": "0xd4136ca2b9f1b08c6d6857b0f19da3dc8d136105ec46459787a6de0fd92bf8",
+    "ACCOUNT_CLASS_HASH": "0x05400e90f7e0ae78bd02c77cd75527280470e2fe19c54970dd79dc37a9d3645c",
+    "FEETOKEN_ADDRESS": "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+    "SERVER_PORT": "3000"
+  },
+  "postStartCommand": ["/pixelaw/scripts/startup.sh"],
+  // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {
+        "cairo1.enableLanguageServer": true,
+        "cairo1.enableScarb": true,
+        "cairo1.languageServerPath": "/root/.dojo/dojo-language-server",
+        "cairo1.scarbPath": "/root/.local/bin/scarb",
+        "lldb.executable": "/usr/bin/lldb",
+        // VS Code don't watch files under ./target
+        "files.watcherExclude": {
+          "**/target/**": true
+        },
+        "rust-analyzer.checkOnSave.command": "clippy",
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "mutantdino.resourcemonitor",
+        "tamasfe.even-better-toml",
+        "serayuzgur.crates",
+        "StarkWare.cairo1"
+      ]
+    }
+  }
+}
