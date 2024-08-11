@@ -1073,7 +1073,7 @@ type World__Query {
         where: PermissionsWhereInput
         order: PermissionsOrder
     ): PermissionsConnection
-    pixelModels(
+    pixelaw_pixelModels(
         first: Int
         last: Int
         before: Cursor

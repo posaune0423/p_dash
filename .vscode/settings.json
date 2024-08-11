@@ -5,6 +5,7 @@
   "cairo1.scarbPath": "${userHome}/.asdf/installs/scarb/2.7.0-rc.4/bin/scarb",
   "cSpell.words": [
     "callees",
+    "dojoengine",
     "Embla",
     "pixelaw",
     "starknet",
