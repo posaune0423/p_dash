@@ -18,9 +18,7 @@ mod tests {
     use dojo::utils::{selector_from_names};
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
-    use p_dash::systems::app::{
-        actions, IActionsDispatcher, IActionsDispatcherTrait
-    };
+    use p_dash::systems::app::{actions, IActionsDispatcher, IActionsDispatcherTrait};
 
     use zeroable::Zeroable;
 
