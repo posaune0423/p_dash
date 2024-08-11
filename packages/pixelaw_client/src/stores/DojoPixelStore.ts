@@ -8,7 +8,7 @@ import { shortString } from "starknet";
 
 // TODO local declaration to deal with typing. Should come from World__Query but thats very generic
 type GetPixelsResponse = {
-    pixelModels: {
+    pixelawPixelModels: {
         edges: Array<{
             node: Pixel;
         }>;
@@ -46,7 +46,7 @@ export function useDojoPixelStore(baseUrl?: string): PixelStore {
                 },
             })
             .then((data) => {
-                data!.pixelModels!.edges!.map(({ node }: { node: Pixel }) => {
+                data!.pixelawPixelModels!.edges!.map(({ node }: { node: Pixel }) => {
                     const pixel: Pixel = {
                         ...node,
                         text: shortString.decodeShortString(node.text),

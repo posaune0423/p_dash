@@ -108,7 +108,8 @@ type ComputedValueEntryPoint = {
 };
 
 type Contract = {
-    name: string;
+    tag: string;
+    kind: string;
     address?: string;
     class_hash: string;
     abi: AbiType;
