@@ -3,10 +3,10 @@ kind = "WorldContract"
 class_hash = "0x2178527e9556d1aa21d3c2961d28f9114fcfed81b4c3674ed591c50ce46cc9d"
 original_class_hash = "0x2178527e9556d1aa21d3c2961d28f9114fcfed81b4c3674ed591c50ce46cc9d"
 abi = "manifests/dev/deployment/abis/dojo-world.json"
-address = "0x3b31a7f08bb1b2028b195f634cac796bbe8bbbf81e7ac287456f394ff867897"
+address = "0xd4136ca2b9f1b08c6d6857b0f19da3dc8d136105ec46459787a6de0fd92bf8"
 transaction_hash = "0x325bc78222640158325123663950d61795ee3f8a6e250a9ee94169235108742"
 block_number = 3
-seed = "p_dash"
+seed = "pixelaw"
 manifest_name = "dojo-world"
 
 [world.metadata]
@@ -23,7 +23,7 @@ manifest_name = "dojo-base"
 
 [[contracts]]
 kind = "DojoContract"
-address = "0x6b12b0b8289f72261789cafa947726a29d50795728da4ac92cd471e7d9fd315"
+address = "0x13782dbe1f93283413f6eae30a44225df3a105df3e357470a74ffaa1bd7cc80"
 class_hash = "0x1c166083b973c058ce410d0f2997c47ff62bd3c444794e18dd884a55c2830e9"
 original_class_hash = "0x1c166083b973c058ce410d0f2997c47ff62bd3c444794e18dd884a55c2830e9"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
@@ -34,20 +34,6 @@ computed = []
 init_calldata = []
 tag = "p_dash-actions"
 manifest_name = "p_dash-actions-19d56844"
-
-[[contracts]]
-kind = "DojoContract"
-address = "0x13758de6a974e4440cb621149f6264a2675b866a7cdf51c6d3f759991b0559b"
-class_hash = "0x118696c1ce2bf6ddfec0ad4493500bd0909e63242789ac8b20d21b80ffa99f3"
-original_class_hash = "0x118696c1ce2bf6ddfec0ad4493500bd0909e63242789ac8b20d21b80ffa99f3"
-base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
-abi = "manifests/dev/deployment/abis/contracts/p_dash-p_dash_actions-2cfacf25.json"
-reads = []
-writes = []
-computed = []
-init_calldata = []
-tag = "p_dash-p_dash_actions"
-manifest_name = "p_dash-p_dash_actions-2cfacf25"
 
 [[models]]
 kind = "DojoModel"

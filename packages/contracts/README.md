@@ -1,21 +1,13 @@
-# p_dash_dev Contracts
+# p_dash Contracts
 
 ## How to run in Locally
 
-1. Start katana server
-```zsh
-katana --disable-fee  --allowed-origins "*"
-```zsh
-```
+1. Start pixelaw server
+`Cmd + Shift + P` and select `Dev Container: Reopen in Container`
 
 2. Migrate your contracts with sozo
 ```zsh
 sozo migrate apply
-```
-
-3. Create a new torii indexer
-```zsh
-torii --world 0x3b31a7f08bb1b2028b195f634cac796bbe8bbbf81e7ac287456f394ff867897 --allowed-origins "*"
 ```
 
 ## To deploy using slot

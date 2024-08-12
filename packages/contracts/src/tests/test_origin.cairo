@@ -16,7 +16,7 @@ mod tests {
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
     use p_dash::systems::app::{
-        p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
+        actions as p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
 
     use zeroable::Zeroable;
@@ -47,10 +47,7 @@ mod tests {
             );
         let p_dash_actions = IPDashActionsDispatcher { contract_address: p_dash_actions_address };
 
-        let namespace: ByteArray = "pixelaw";
-        let pixel_model_name: ByteArray = "Pixel";
-        world
-            .grant_writer(selector_from_names(@namespace, @pixel_model_name), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-Pixel"), core_actions_address);
 
         (world, core_actions, p_dash_actions)
     }

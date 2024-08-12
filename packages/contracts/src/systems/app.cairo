@@ -26,8 +26,8 @@ const APP_ICON: felt252 = 'U+1F3AE';
 const APP_MANIFEST: felt252 = 'BASE/manifests/p_dash';
 
 /// contracts must be named as such (APP_KEY + underscore + "actions")
-#[dojo::contract]
-mod p_dash_actions {
+#[dojo::contract(namespace: "p_dash", nomapping: true)]
+mod actions {
     use starknet::{
         get_tx_info, get_caller_address, get_contract_address, get_execution_info, ContractAddress
     };

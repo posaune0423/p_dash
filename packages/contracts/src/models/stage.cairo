@@ -1,7 +1,7 @@
 // we specify the stage by upp-right coordinates and width.
 
 #[derive(Copy, Drop, Serde)]
-#[dojo::model]
+#[dojo::model(namespace: "p_dash", nomapping: true)]
 struct Stage {
     #[key]
     id: usize,
@@ -12,7 +12,7 @@ struct Stage {
 }
 
 #[derive(Copy, Drop, Serde)]
-#[dojo::model]
+#[dojo::model(namespace: "p_dash", nomapping: true)]
 struct StageId {
     #[key]
     x: u32,

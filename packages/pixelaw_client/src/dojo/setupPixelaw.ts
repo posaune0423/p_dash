@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getSyncEntities } from "@dojoengine/state";
 import { DojoConfig, DojoProvider } from "@dojoengine/core";
 import * as torii from "@dojoengine/torii-client";
@@ -45,22 +46,6 @@ export interface IPixelawGameData {
     account: ReturnType<typeof useBurnerManager>;
 }
 
-// async function getAbi(provider: RpcProvider, app: ComponentValue) {
-//     let name = felt252ToString(app.name).toLowerCase();
-//     console.log("reloading abi for", name);
-//     const ch = await provider.getClassHashAt(app.system);
-//     const cl = await provider.getClass(ch);
-
-//     name = `pixelaw::apps::${name}::app::${name}_actions`;
-
-//     return {
-//         kind: "DojoContract",
-//         address: app.system,
-//         abi: cl.abi,
-//         name,
-//     };
-// }
-
 export async function setupPixelaw({ ...config }: DojoConfig): Promise<IPixelawGameData> {
     console.group("🏵️ Setting up Dojo 🔨");
     console.log("⚙️ Config:", config);
@@ -88,12 +73,13 @@ export async function setupPixelaw({ ...config }: DojoConfig): Promise<IPixelawG
         getComponentValue(contractComponents.App, entityId)
     );
 
-    // const contracts = await Promise.all(apps.map((app) => getAbi(new RpcProvider({ nodeUrl: config!.rpcUrl }), app!)));
 
-    // Manifest with updated contract ABIs
     const manifest = {
         ...config.manifest,
-        // contracts,
+        contracts: config.manifest.contracts.map((contract: any) => ({
+            ...contract,
+            tag: `p_dash-${contract.name}`,
+        })),
     };
 
     // Create Dojo Provider
@@ -135,7 +121,7 @@ export async function setupPixelaw({ ...config }: DojoConfig): Promise<IPixelawG
         graphSdk: createGraphSdk(),
         systemCalls: createSystemCalls({ client }),
         config,
-        manifest,
+        manifest: config.manifest,
         dojoProvider,
         burnerManager,
         masterAccount,

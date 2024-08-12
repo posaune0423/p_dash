@@ -17,11 +17,6 @@ import { useSettingsStore } from "@/stores/SettingsStore.ts";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
 function App() {
-    //<editor-fold desc="State">
-
-    //</editor-fold>
-
-    //<editor-fold desc="Hooks">
     const settings = useSettingsStore();
     const updateService = useUpdateService(`${settings.config?.serverUrl}/tiles`);
     const pixelStore = useDojoPixelStore(settings.config?.toriiUrl);
@@ -45,9 +40,7 @@ function App() {
 
     useDojoInteractHandler(pixelStore, gameData!);
     useSyncedViewStateStore();
-    //</editor-fold>
 
-    //<editor-fold desc="Handlers">
     useEffect(() => {
         console.log("updateService.tileChanged", updateService.tileChanged);
         pixelStore.refresh();
@@ -81,10 +74,6 @@ function App() {
         setIsColorPickerVisible((prevState) => !prevState);
     }
 
-    //</editor-fold>
-
-    //<editor-fold desc="Custom behavior">
-
     // TODO "slide up" the bottom as the zoomlevel increases
     const zoombasedAdjustment = useMemo(() => {
         if (zoom > 3000) {
@@ -93,9 +82,6 @@ function App() {
         return "-100%";
     }, [zoom]);
 
-    //</editor-fold>
-
-    //<editor-fold desc="Output">
     if (clientState === "loading") {
         document.title = "PixeLAW: Loading";
         return <Loading />;
@@ -175,7 +161,6 @@ function App() {
             </div>
         </div>
     );
-    //</editor-fold>
 }
 
 export default App;
