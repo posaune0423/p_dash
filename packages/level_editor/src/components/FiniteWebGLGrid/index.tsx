@@ -1,139 +1,118 @@
-"use client";
+'use client'
 
-import React, { useRef, useState, useCallback, useEffect } from "react";
+import React, { useRef, useState, useCallback, useEffect } from 'react'
+import { Color, GridDimensions, GridState, ProgramInfo } from './types'
+import { initShaderProgram } from './utils'
 
-const DEFAULT_BACKGROUND_COLOR: Color = { r: 0.01, g: 0.01, b: 0.01, a: 1 };
-const DEFAULT_GRID_COLOR: Color = { r: 1, g: 1, b: 1, a: 1 };
+const DEFAULT_BACKGROUND_COLOR: Color = { r: 0.01, g: 0.01, b: 0.01, a: 1 }
+const DEFAULT_GRID_COLOR: Color = { r: 1, g: 1, b: 1, a: 1 }
+const MIN_SCALE = 0.5
+const MAX_SCALE = 2
+const BASE_CELL_SIZE = 50
+const GRID_DIMENSIONS: GridDimensions = { width: 2000, height: 2000 }
+
+interface FiniteWebGLGridProps {
+  backgroundColor?: Color
+  gridColor?: Color
+}
 
 const FiniteWebGLGrid: React.FC<FiniteWebGLGridProps> = ({
   backgroundColor = DEFAULT_BACKGROUND_COLOR,
   gridColor = DEFAULT_GRID_COLOR,
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [gridState, setGridState] = useState<GridState>({ offsetX: 0, offsetY: 0, scale: 1 });
-  const isDraggingRef = useRef<boolean>(false);
-  const lastMousePosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const glRef = useRef<WebGLRenderingContext | null>(null);
-  const programInfoRef = useRef<ProgramInfo | null>(null);
-  const positionBufferRef = useRef<WebGLBuffer | null>(null);
-
-  const MIN_SCALE = 0.5;
-  const MAX_SCALE = 2;
-  const BASE_CELL_SIZE = 50;
-  const GRID_DIMENSIONS: GridDimensions = { width: 2000, height: 2000 };
-
-  const initShaderProgram = (gl: WebGLRenderingContext, vsSource: string, fsSource: string): WebGLProgram | null => {
-    const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
-    const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
-
-    if (!vertexShader || !fragmentShader) return null;
-
-    const shaderProgram = gl.createProgram();
-    if (!shaderProgram) return null;
-
-    gl.attachShader(shaderProgram, vertexShader);
-    gl.attachShader(shaderProgram, fragmentShader);
-    gl.linkProgram(shaderProgram);
-
-    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-      console.error("Unable to initialize the shader program: " + gl.getProgramInfoLog(shaderProgram));
-      return null;
-    }
-
-    return shaderProgram;
-  };
-
-  const loadShader = (gl: WebGLRenderingContext, type: number, source: string): WebGLShader | null => {
-    const shader = gl.createShader(type);
-    if (!shader) return null;
-
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      console.error("An error occurred compiling the shaders: " + gl.getShaderInfoLog(shader));
-      gl.deleteShader(shader);
-      return null;
-    }
-
-    return shader;
-  };
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const [gridState, setGridState] = useState<GridState>({ offsetX: 0, offsetY: 0, scale: 1 })
+  const isDraggingRef = useRef<boolean>(false)
+  const lastMousePosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
+  const glRef = useRef<WebGLRenderingContext | null>(null)
+  const programInfoRef = useRef<ProgramInfo | null>(null)
+  const positionBufferRef = useRef<WebGLBuffer | null>(null)
 
   const drawGrid = useCallback(() => {
-    const gl = glRef.current;
-    const programInfo = programInfoRef.current;
-    if (!gl || !programInfo) return;
+    const gl = glRef.current
+    const programInfo = programInfoRef.current
+    if (!gl || !programInfo) return
 
-    gl.clearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a)
+    gl.clear(gl.COLOR_BUFFER_BIT)
 
-    gl.useProgram(programInfo.program);
+    gl.useProgram(programInfo.program)
 
-    const canvasWidth = gl.canvas.width;
-    const canvasHeight = gl.canvas.height;
+    const canvasWidth = gl.canvas.width
+    const canvasHeight = gl.canvas.height
 
-    gl.uniform2f(programInfo.uniformLocations.resolution, canvasWidth, canvasHeight);
-    gl.uniform2f(programInfo.uniformLocations.offset, gridState.offsetX, gridState.offsetY);
-    gl.uniform1f(programInfo.uniformLocations.scale, gridState.scale);
-    gl.uniform4f(programInfo.uniformLocations.color, gridColor.r, gridColor.g, gridColor.b, gridColor.a);
+    gl.uniform2f(programInfo.uniformLocations.resolution, canvasWidth, canvasHeight)
+    gl.uniform2f(programInfo.uniformLocations.offset, gridState.offsetX, gridState.offsetY)
+    gl.uniform1f(programInfo.uniformLocations.scale, gridState.scale)
+    gl.uniform4f(
+      programInfo.uniformLocations.color,
+      gridColor.r,
+      gridColor.g,
+      gridColor.b,
+      gridColor.a,
+    )
 
-    const cellSize = BASE_CELL_SIZE * gridState.scale;
-    const visibleWidth = canvasWidth / gridState.scale;
-    const visibleHeight = canvasHeight / gridState.scale;
+    const cellSize = BASE_CELL_SIZE * gridState.scale
+    const visibleWidth = canvasWidth / gridState.scale
+    const visibleHeight = canvasHeight / gridState.scale
 
-    const startX = Math.max(0, Math.floor(gridState.offsetX / cellSize) * cellSize);
-    const startY = Math.max(0, Math.floor(gridState.offsetY / cellSize) * cellSize);
-    const endX = Math.min(GRID_DIMENSIONS.width, startX + visibleWidth + cellSize);
-    const endY = Math.min(GRID_DIMENSIONS.height, startY + visibleHeight + cellSize);
+    const startX = Math.max(0, Math.floor(gridState.offsetX / cellSize) * cellSize)
+    const startY = Math.max(0, Math.floor(gridState.offsetY / cellSize) * cellSize)
+    const endX = Math.min(GRID_DIMENSIONS.width, startX + visibleWidth + cellSize)
+    const endY = Math.min(GRID_DIMENSIONS.height, startY + visibleHeight + cellSize)
 
-    const positions: number[] = [];
+    const positions: number[] = []
 
     for (let x = startX; x <= endX; x += cellSize) {
-      positions.push(x, 0, x, GRID_DIMENSIONS.height);
+      positions.push(x, 0, x, GRID_DIMENSIONS.height)
     }
 
     for (let y = startY; y <= endY; y += cellSize) {
-      positions.push(0, y, GRID_DIMENSIONS.width, y);
+      positions.push(0, y, GRID_DIMENSIONS.width, y)
     }
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBufferRef.current);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBufferRef.current)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
 
-    gl.enableVertexAttribArray(programInfo.attribLocations.position);
-    gl.vertexAttribPointer(programInfo.attribLocations.position, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(programInfo.attribLocations.position)
+    gl.vertexAttribPointer(programInfo.attribLocations.position, 2, gl.FLOAT, false, 0, 0)
 
-    gl.drawArrays(gl.LINES, 0, positions.length / 2);
-  }, [gridState, backgroundColor, gridColor]);
+    gl.drawArrays(gl.LINES, 0, positions.length / 2)
+  }, [gridState, backgroundColor, gridColor])
 
   const getMinScale = useCallback((canvasWidth: number, canvasHeight: number): number => {
-    const scaleX = canvasWidth / GRID_DIMENSIONS.width;
-    const scaleY = canvasHeight / GRID_DIMENSIONS.height;
-    return Math.max(scaleX, scaleY);
-  }, []);
+    const scaleX = canvasWidth / GRID_DIMENSIONS.width
+    const scaleY = canvasHeight / GRID_DIMENSIONS.height
+    return Math.max(scaleX, scaleY)
+  }, [])
 
   const getMaxOffset = useCallback(
-    (scale: number, canvasWidth: number, canvasHeight: number): { maxOffsetX: number; maxOffsetY: number } => {
-      const visibleWidth = canvasWidth / scale;
-      const visibleHeight = canvasHeight / scale;
+    (
+      scale: number,
+      canvasWidth: number,
+      canvasHeight: number,
+    ): { maxOffsetX: number; maxOffsetY: number } => {
+      const visibleWidth = canvasWidth / scale
+      const visibleHeight = canvasHeight / scale
 
-      const maxOffsetX = Math.max(0, GRID_DIMENSIONS.width - visibleWidth);
-      const maxOffsetY = Math.max(0, GRID_DIMENSIONS.height - visibleHeight);
+      const maxOffsetX = Math.max(0, GRID_DIMENSIONS.width - visibleWidth)
+      const maxOffsetY = Math.max(0, GRID_DIMENSIONS.height - visibleHeight)
 
-      return { maxOffsetX, maxOffsetY };
+      return { maxOffsetX, maxOffsetY }
     },
-    []
-  );
+    [],
+  )
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-    const gl = canvas.getContext("webgl");
+    const gl = canvas.getContext('webgl')
     if (!gl) {
-      console.error("WebGL not supported");
-      return;
+      console.error('WebGL not supported')
+      return
     }
-    glRef.current = gl;
+    glRef.current = gl
 
     const vsSource = `
       attribute vec2 aPosition;
@@ -145,7 +124,7 @@ const FiniteWebGLGrid: React.FC<FiniteWebGLGridProps> = ({
         vec2 clipSpace = (scaledPosition / uResolution) * 2.0 - 1.0;
         gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
       }
-    `;
+    `
 
     const fsSource = `
       precision mediump float;
@@ -153,131 +132,135 @@ const FiniteWebGLGrid: React.FC<FiniteWebGLGridProps> = ({
       void main() {
         gl_FragColor = uColor;
       }
-    `;
+    `
 
-    const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
-    if (!shaderProgram) return;
+    const shaderProgram = initShaderProgram(gl, vsSource, fsSource)
+    if (!shaderProgram) return
 
     programInfoRef.current = {
       program: shaderProgram,
       attribLocations: {
-        position: gl.getAttribLocation(shaderProgram, "aPosition"),
+        position: gl.getAttribLocation(shaderProgram, 'aPosition'),
       },
       uniformLocations: {
-        resolution: gl.getUniformLocation(shaderProgram, "uResolution"),
-        offset: gl.getUniformLocation(shaderProgram, "uOffset"),
-        scale: gl.getUniformLocation(shaderProgram, "uScale"),
-        color: gl.getUniformLocation(shaderProgram, "uColor"),
+        resolution: gl.getUniformLocation(shaderProgram, 'uResolution'),
+        offset: gl.getUniformLocation(shaderProgram, 'uOffset'),
+        scale: gl.getUniformLocation(shaderProgram, 'uScale'),
+        color: gl.getUniformLocation(shaderProgram, 'uColor'),
       },
-    };
+    }
 
-    positionBufferRef.current = gl.createBuffer();
+    positionBufferRef.current = gl.createBuffer()
 
     const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const scaleFactor = e.deltaY > 0 ? 0.9 : 1.1;
+      e.preventDefault()
+      const scaleFactor = e.deltaY > 0 ? 0.9 : 1.1
       setGridState((prev) => {
-        const minScale = getMinScale(canvas.width, canvas.height);
-        const newScale = Math.max(minScale, Math.min(MAX_SCALE, prev.scale * scaleFactor));
-        const mouseX = e.clientX - canvas.width / 2;
-        const mouseY = e.clientY - canvas.height / 2;
-        const newOffsetX = prev.offsetX + (mouseX / prev.scale - mouseX / newScale);
-        const newOffsetY = prev.offsetY + (mouseY / prev.scale - mouseY / newScale);
-        const { maxOffsetX, maxOffsetY } = getMaxOffset(newScale, canvas.width, canvas.height);
+        const minScale = getMinScale(canvas.width, canvas.height)
+        const newScale = Math.max(minScale, Math.min(MAX_SCALE, prev.scale * scaleFactor))
+        const mouseX = e.clientX - canvas.width / 2
+        const mouseY = e.clientY - canvas.height / 2
+        const newOffsetX = prev.offsetX + (mouseX / prev.scale - mouseX / newScale)
+        const newOffsetY = prev.offsetY + (mouseY / prev.scale - mouseY / newScale)
+        const { maxOffsetX, maxOffsetY } = getMaxOffset(newScale, canvas.width, canvas.height)
         return {
           offsetX: Math.max(0, Math.min(maxOffsetX, newOffsetX)),
           offsetY: Math.max(0, Math.min(maxOffsetY, newOffsetY)),
           scale: newScale,
-        };
-      });
-    };
+        }
+      })
+    }
 
     const handleMouseDown = (e: MouseEvent) => {
-      isDraggingRef.current = true;
-      lastMousePosRef.current = { x: e.clientX, y: e.clientY };
-    };
+      isDraggingRef.current = true
+      lastMousePosRef.current = { x: e.clientX, y: e.clientY }
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       if (isDraggingRef.current) {
-        const dx = e.clientX - lastMousePosRef.current.x;
-        const dy = e.clientY - lastMousePosRef.current.y;
+        const dx = e.clientX - lastMousePosRef.current.x
+        const dy = e.clientY - lastMousePosRef.current.y
         setGridState((prev) => {
-          const newOffsetX = prev.offsetX - dx / prev.scale;
-          const newOffsetY = prev.offsetY - dy / prev.scale;
-          const { maxOffsetX, maxOffsetY } = getMaxOffset(prev.scale, canvas.width, canvas.height);
+          const newOffsetX = prev.offsetX - dx / prev.scale
+          const newOffsetY = prev.offsetY - dy / prev.scale
+          const { maxOffsetX, maxOffsetY } = getMaxOffset(prev.scale, canvas.width, canvas.height)
           return {
             ...prev,
             offsetX: Math.max(0, Math.min(maxOffsetX, newOffsetX)),
             offsetY: Math.max(0, Math.min(maxOffsetY, newOffsetY)),
-          };
-        });
-        lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+          }
+        })
+        lastMousePosRef.current = { x: e.clientX, y: e.clientY }
       }
-    };
+    }
 
     const handleMouseUp = () => {
-      isDraggingRef.current = false;
-    };
+      isDraggingRef.current = false
+    }
 
-    canvas.addEventListener("wheel", handleWheel);
-    canvas.addEventListener("mousedown", handleMouseDown);
-    canvas.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("mouseup", handleMouseUp);
-    canvas.addEventListener("mouseleave", handleMouseUp);
+    canvas.addEventListener('wheel', handleWheel)
+    canvas.addEventListener('mousedown', handleMouseDown)
+    canvas.addEventListener('mousemove', handleMouseMove)
+    canvas.addEventListener('mouseup', handleMouseUp)
+    canvas.addEventListener('mouseleave', handleMouseUp)
 
     const resizeCanvas = () => {
-      const displayWidth = canvas.clientWidth;
-      const displayHeight = canvas.clientHeight;
+      const displayWidth = canvas.clientWidth
+      const displayHeight = canvas.clientHeight
 
       if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
-        canvas.width = displayWidth;
-        canvas.height = displayHeight;
-        gl.viewport(0, 0, canvas.width, canvas.height);
+        canvas.width = displayWidth
+        canvas.height = displayHeight
+        gl.viewport(0, 0, canvas.width, canvas.height)
 
         setGridState((prev) => {
-          const minScale = getMinScale(canvas.width, canvas.height);
-          const newScale = Math.max(minScale, prev.scale);
-          const { maxOffsetX, maxOffsetY } = getMaxOffset(newScale, canvas.width, canvas.height);
+          const minScale = getMinScale(canvas.width, canvas.height)
+          const newScale = Math.max(minScale, prev.scale)
+          const { maxOffsetX, maxOffsetY } = getMaxOffset(newScale, canvas.width, canvas.height)
           return {
             offsetX: Math.min(prev.offsetX, maxOffsetX),
             offsetY: Math.min(prev.offsetY, maxOffsetY),
             scale: newScale,
-          };
-        });
+          }
+        })
       }
-    };
+    }
 
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas)
+    resizeCanvas()
 
     function animate() {
-      resizeCanvas();
-      drawGrid();
-      requestAnimationFrame(animate);
+      resizeCanvas()
+      drawGrid()
+      requestAnimationFrame(animate)
     }
-    animate();
+    animate()
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
-      canvas.removeEventListener("wheel", handleWheel);
-      canvas.removeEventListener("mousedown", handleMouseDown);
-      canvas.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("mouseup", handleMouseUp);
-      canvas.removeEventListener("mouseleave", handleMouseUp);
-    };
-  }, [drawGrid, getMaxOffset, getMinScale]);
+      window.removeEventListener('resize', resizeCanvas)
+      canvas.removeEventListener('wheel', handleWheel)
+      canvas.removeEventListener('mousedown', handleMouseDown)
+      canvas.removeEventListener('mousemove', handleMouseMove)
+      canvas.removeEventListener('mouseup', handleMouseUp)
+      canvas.removeEventListener('mouseleave', handleMouseUp)
+    }
+  }, [drawGrid, getMaxOffset, getMinScale])
 
   return (
-    <div className="w-full h-screen bg-gray-100 flex items-center justify-center">
-      <canvas ref={canvasRef} className="border border-gray-300 shadow-lg" style={{ width: "100%", height: "100%" }} />
-      <div className="absolute bottom-4 left-4 bg-white p-2 rounded shadow text-black">
+    <div className='w-full h-screen bg-gray-100 flex items-center justify-center'>
+      <canvas
+        ref={canvasRef}
+        className='border border-gray-300 shadow-lg'
+        style={{ width: '100%', height: '100%' }}
+      />
+      <div className='absolute bottom-4 left-4 bg-white p-2 rounded shadow text-black'>
         <p>Scale: {gridState.scale.toFixed(2)}</p>
         <p>Offset X: {gridState.offsetX.toFixed(2)}</p>
         <p>Offset Y: {gridState.offsetY.toFixed(2)}</p>
         <p>Cell Size: {(BASE_CELL_SIZE * gridState.scale).toFixed(2)}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FiniteWebGLGrid;
+export default FiniteWebGLGrid
