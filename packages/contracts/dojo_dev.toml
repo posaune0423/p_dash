@@ -7,9 +7,8 @@ seed = "pixelaw"
 default = "p_dash"
 mappings = {  }
 
-# Dev: http://localhost:3000
 [env]
-rpc_url = "http://127.0.0.1:5050/"
+rpc_url = "http://localhost:5050/"
 account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
 private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world_address = "0xd4136ca2b9f1b08c6d6857b0f19da3dc8d136105ec46459787a6de0fd92bf8"
+world_address = "0x29843b0e20802c0147b8c5cb51a7964aa4c0f0ccd14a1b329c73615ad510822"

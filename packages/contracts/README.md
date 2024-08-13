@@ -15,7 +15,7 @@ sozo migrate apply
 1. Create a new katana sequencer with slot
 
 ```zsh
-slot deployments create p-dash-dev katana --version v1.0.0-alpha.4
+slot deployments create p-dash-dev katana --version v1.0.0-alpha.5
 ```
 
 2. Migrate contracts
