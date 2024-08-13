@@ -1,7 +1,8 @@
 [package]
-cairo-version = "=2.7.0-rc.3"
+cairo-version = "=2.7.0"
 name = "p_dash"
 version = "0.0.1"
+edition = "2024_07"
 
 [cairo]
 sierra-replace-ids = true
@@ -32,46 +33,3 @@ build-external-contracts = [
     "pixelaw::core::actions::IActionsDispatcher",
     "pixelaw::core::actions::IActionsDispatcherTrait"
 ]
-
-[tool.dojo]
-initializer_class_hash = "0xbeef"
-
-[tool.dojo.world]
-description = "pixelaw world"
-name = "pixelaw"
-seed = "pixelaw"
-
-[tool.dojo.world.namespace]
-default = "p_dash"
-mappings = {  }
-
-[scripts]
-ready_for_deployment = "bash ./scripts/ready_for_deployment.sh"
-initialize = "bash ./scripts/default_auth.sh"
-upload_manifest = "bash ./scripts/upload_manifest.sh"
-# create_stage = "bash ./scripts/create_stage.sh"
-slot_deploy = "bash ./scripts/slot_deploy.sh"
-ready_for_deployment_zsh = "zsh ./scripts/ready_for_deployment.sh"
-initialize_zsh = "zsh ./scripts/default_auth.sh"
-upload_manifest_zsh = "zsh ./scripts/upload_manifest.sh"
-
-# Dev: http://localhost:3000
-[tool.dojo.env]
-rpc_url = "http://127.0.0.1:5050/"
-account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
-private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world_address = "0xd4136ca2b9f1b08c6d6857b0f19da3dc8d136105ec46459787a6de0fd92bf8"
-
-[profile.slot.tool.dojo.env]
-rpc_url = "https://api.cartridge.gg/x/p-dash/katana"
-account_address = "0x3f3f94d700f51cbb063b48658375e74090a3c278e63d5a46e78347b298dd29d"
-private_key = "0x3b86e072a44d5557b41fb4c64d8200fbde4dbf3a669285a0974e8eb326044c4"
-world_address = "0x319abdaf6875275701fc89fa3508a91448168dee90815bccf82ed4e72ca67b3"
-
-# demo.pixelaw.xyz
-[profile.demo.tool.dojo.env]
-rpc_url = "https://katana.demo.pixelaw.xyz/"
-account_address = "0x003c4dd268780ef738920c801edc3a75b6337bc17558c74795b530c0ff502486"
-private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world_address = "0x608cc3b3f4cf88e180bd3222dbf4af8afc1f0dbe93b2c30cd58f86ea6ccdbbf"
-manifest_url = "https://demo.pixelaw.xyz/manifests"

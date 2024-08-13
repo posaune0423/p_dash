@@ -1,5 +1,5 @@
 #[derive(Serde, Copy, Drop, Introspect)]
-enum BlockType {
+pub enum BlockType {
     Unknown: (),
     InitBlock: (),
     Block: (),
@@ -13,14 +13,14 @@ enum BlockType {
 // object?->hard for delete.
 #[derive(Copy, Drop, Serde)]
 #[dojo::model(namespace: "p_dash", nomapping: true)]
-struct Block {
+pub struct Block {
     // #[key]
     // id: usize
     #[key]
-    x: u32,
+    pub x: u32,
     #[key]
-    y: u32,
-    block: BlockType
+    pub y: u32,
+    pub block: BlockType
 }
 
 
