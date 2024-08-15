@@ -12,7 +12,7 @@ export class Game extends Scene {
   distanceText!: Phaser.GameObjects.Text
   playerInteractions: {
     action: 'jump' | 'touch'
-    timestamp: number
+    frame: number
   }[]
 
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
@@ -163,7 +163,7 @@ export class Game extends Scene {
         this.player.setVelocityY(-700)
         this.playerInteractions.push({
           action: 'jump',
-          timestamp: this.time.now,
+          frame: this.game.getFrame(),
         })
       }
     }
@@ -173,7 +173,7 @@ export class Game extends Scene {
         this.player.setVelocityY(-700)
         this.playerInteractions.push({
           action: 'jump',
-          timestamp: this.time.now,
+          frame: this.game.getFrame(),
         })
       }
     }
@@ -187,6 +187,7 @@ export class Game extends Scene {
       this.sound.play('clear')
       const playResult = {
         distance: Math.floor(this.player.x / 100),
+        interactions: this.playerInteractions,
       }
       setTimeout(() => {
         EventBus.emit('game-clear', playResult)
@@ -210,7 +211,7 @@ export class Game extends Scene {
       this.player.setVelocityY(-700)
       this.playerInteractions.push({
         action: 'jump',
-        timestamp: this.time.now,
+        frame: this.game.getFrame(),
       })
     }
 
@@ -225,7 +226,7 @@ export class Game extends Scene {
         this.player.setVelocityY(-700)
         this.playerInteractions.push({
           action: 'jump',
-          timestamp: this.time.now,
+          frame: this.game.getFrame(),
         })
       }
     }
@@ -238,7 +239,6 @@ export class Game extends Scene {
         distance: Math.floor(this.player.x / 100),
         interactions: this.playerInteractions,
       }
-      console.log(playResult)
       setTimeout(() => {
         EventBus.emit('game-clear', playResult)
       }, 1000)
