@@ -187,6 +187,7 @@ export class Game extends Scene {
       this.sound.play('clear')
       const playResult = {
         distance: Math.floor(this.player.x / 100),
+        interactions: this.playerInteractions,
       }
       setTimeout(() => {
         EventBus.emit('game-clear', playResult)
