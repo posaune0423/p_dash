@@ -17,6 +17,12 @@ type GameResult = {
   date: Date
   result: 'clear' | 'death'
   distance: number
+  interactions: PlayerInteraction[]
+}
+
+type PlayerInteraction = {
+  action: 'jump' | 'touch'
+  timestamp: number
 }
 
 type Obstacle = {

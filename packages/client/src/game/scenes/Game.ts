@@ -10,6 +10,10 @@ export class Game extends Scene {
   tiles: Phaser.Physics.Arcade.Sprite[]
   stage!: Obstacle[]
   distanceText!: Phaser.GameObjects.Text
+  playerInteractions: {
+    action: 'jump' | 'touch'
+    timestamp: number
+  }[]
 
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   jumpButton!: Phaser.Input.Keyboard.Key
@@ -21,6 +25,7 @@ export class Game extends Scene {
   constructor() {
     super('Game')
     this.tiles = []
+    this.playerInteractions = []
   }
 
   init(): void {
@@ -156,12 +161,20 @@ export class Game extends Scene {
     if (Input.Keyboard.JustDown(this.jumpButton)) {
       if (this.player.body?.touching.down) {
         this.player.setVelocityY(-700)
+        this.playerInteractions.push({
+          action: 'jump',
+          timestamp: this.time.now,
+        })
       }
     }
 
     if (this.input.pointer1.isDown) {
       if (this.player.body?.touching.down) {
         this.player.setVelocityY(-700)
+        this.playerInteractions.push({
+          action: 'jump',
+          timestamp: this.time.now,
+        })
       }
     }
 
@@ -195,6 +208,10 @@ export class Game extends Scene {
 
     if (Input.Keyboard.JustDown(this.jumpButton)) {
       this.player.setVelocityY(-700)
+      this.playerInteractions.push({
+        action: 'jump',
+        timestamp: this.time.now,
+      })
     }
 
     if (this.input.pointer1.isDown) {
@@ -206,6 +223,10 @@ export class Game extends Scene {
     if (this.input.pointer2.isDown) {
       if (this.input.activePointer.x > this.scale.width / 2) {
         this.player.setVelocityY(-700)
+        this.playerInteractions.push({
+          action: 'jump',
+          timestamp: this.time.now,
+        })
       }
     }
 
@@ -215,6 +236,7 @@ export class Game extends Scene {
       this.sound.play('clear')
       const playResult = {
         distance: Math.floor(this.player.x / 100),
+        interactions: this.playerInteractions,
       }
       setTimeout(() => {
         EventBus.emit('game-clear', playResult)
@@ -232,6 +254,7 @@ export class Game extends Scene {
 
     const playResult = {
       distance: Math.floor(this.player.x / 100),
+      interactions: this.playerInteractions,
     }
 
     setTimeout(() => {
