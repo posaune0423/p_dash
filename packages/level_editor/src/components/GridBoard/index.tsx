@@ -28,8 +28,20 @@ const GridBoard: React.FC<GridBoardProps> = ({
   } = useGridBoard(backgroundColor, gridColor)
 
   return (
-    <div className='flex h-screen w-full flex-col items-center justify-center bg-gray-100'>
-      <div className='flex h-[50px] space-x-2 py-2'>
+    <div className='relative h-screen w-full'>
+      <canvas
+        ref={canvasRef}
+        className='fixed inset-x-0 bottom-[50px] top-0'
+        style={{ width: '100%', height: 'calc(100% - 50px)' }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onWheel={handleWheel}
+      />
+      <div className='fixed inset-x-0 bottom-0 flex h-[50px] items-center justify-center space-x-2 bg-white shadow-md'>
         {COLOR_PALETTE.map((color, index) => (
           <button
             key={index}
@@ -41,17 +53,6 @@ const GridBoard: React.FC<GridBoardProps> = ({
           />
         ))}
       </div>
-      <canvas
-        ref={canvasRef}
-        style={{ width: '100%', height: 'calc(100% - 50px)' }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onWheel={handleWheel}
-      />
     </div>
   )
 }
