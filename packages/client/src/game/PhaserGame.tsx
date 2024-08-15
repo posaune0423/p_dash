@@ -69,33 +69,43 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
         ref.current = { game: game.current, scene: scene_instance }
       }
     })
-    EventBus.on('game-clear', (playResult: { distance: number }) => {
-      const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
-      gameResultQueue.enqueue({
-        id: uuidv4(),
-        stage: 'easy',
-        date: new Date(),
-        result: 'clear',
-        distance: playResult.distance,
-      })
-      setIsGameClear(true)
-      setIsDialogOpen(true)
-    })
-    EventBus.on('game-over', (playResult: { distance: number }) => {
-      const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
-      const previousDistance = gameResultQueue.getLatest()?.distance ?? 0
-      gameResultQueue.enqueue({
-        id: uuidv4(),
-        stage: 'easy',
-        date: new Date(),
-        result: 'death',
-        distance: playResult.distance,
-      })
-      setTotalDead((prev) => prev + 1)
-      setIsNewRecord(previousDistance < playResult.distance)
-      setDistance(playResult.distance)
-      setIsDialogOpen(true)
-    })
+    EventBus.on(
+      'game-clear',
+      (playResult: { distance: number; interactions: PlayerInteraction[] }) => {
+        const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
+        gameResultQueue.enqueue({
+          id: uuidv4(),
+          stage: 'easy',
+          date: new Date(),
+          result: 'clear',
+          distance: playResult.distance,
+          interactions: playResult.interactions,
+        })
+        console.log(playResult)
+        setIsGameClear(true)
+        setIsDialogOpen(true)
+      },
+    )
+    EventBus.on(
+      'game-over',
+      (playResult: { distance: number; interactions: PlayerInteraction[] }) => {
+        const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
+        const previousDistance = gameResultQueue.getLatest()?.distance ?? 0
+        gameResultQueue.enqueue({
+          id: uuidv4(),
+          stage: 'easy',
+          date: new Date(),
+          result: 'death',
+          distance: playResult.distance,
+          interactions: playResult.interactions,
+        })
+        console.log(playResult)
+        setTotalDead((prev) => prev + 1)
+        setIsNewRecord(previousDistance < playResult.distance)
+        setDistance(playResult.distance)
+        setIsDialogOpen(true)
+      },
+    )
 
     return () => {
       EventBus.removeListener('current-scene-ready')
