@@ -5,7 +5,9 @@ import {
   useAccount,
   useNetwork,
 } from '@starknet-react/core'
+import Link from 'next/link'
 import CopyButton from './CopyButton'
+import { Button } from './ui/button'
 import Avatar from '@/components/Avatar'
 import { truncateAddress } from '@/utils'
 
@@ -36,6 +38,12 @@ const UserInfo = () => {
           <p>Network: {chain?.name}</p>
         </div>
       )}
+
+      <div className='mx-auto mt-8 flex w-full max-w-md flex-col justify-center space-y-3'>
+        <Button className='mx-auto w-fit'>
+          <Link href='/level/test/create'>Create Level</Link>
+        </Button>
+      </div>
     </section>
   )
 }

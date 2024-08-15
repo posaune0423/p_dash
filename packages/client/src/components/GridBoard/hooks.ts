@@ -14,7 +14,7 @@ import {
   type GridState,
   type ProgramInfo,
 } from './types'
-import { initShaderProgram } from './utils'
+import { initShaderProgram } from './webgl'
 
 export const useGridBoard = (backgroundColor: Color, gridColor: Color) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
