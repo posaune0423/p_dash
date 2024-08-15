@@ -1,6 +1,8 @@
 'use client'
 
+import Link from 'next/link'
 import React from 'react'
+import { Button } from '../ui/button'
 import { COLOR_PALETTE, DEFAULT_BACKGROUND_COLOR, DEFAULT_GRID_COLOR } from './const'
 import { useStageEditor } from './hooks'
 import { type Color } from './types'
@@ -42,16 +44,21 @@ const StageEditor: React.FC<StageEditorProps> = ({
         onWheel={handleWheel}
       />
       <div className='fixed inset-x-0 bottom-0 flex h-[50px] items-center justify-center space-x-2 bg-white shadow-md'>
-        {COLOR_PALETTE.map((color, index) => (
-          <button
-            key={index}
-            className={`size-8 rounded-full ${selectedColor === color ? 'ring-2 ring-black ring-offset-2' : ''}`}
-            style={{
-              backgroundColor: `rgba(${color.r * 255}, ${color.g * 255}, ${color.b * 255}, ${color.a})`,
-            }}
-            onClick={() => setSelectedColor(color)}
-          />
-        ))}
+        <div className='flex items-center justify-center space-x-2'>
+          <Button>
+            <Link href='/'>Back</Link>
+          </Button>
+          {COLOR_PALETTE.map((color, index) => (
+            <button
+              key={index}
+              className={`size-8 rounded-full ${selectedColor === color ? 'ring-2 ring-black ring-offset-2' : ''}`}
+              style={{
+                backgroundColor: `rgba(${color.r * 255}, ${color.g * 255}, ${color.b * 255}, ${color.a})`,
+              }}
+              onClick={() => setSelectedColor(color)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

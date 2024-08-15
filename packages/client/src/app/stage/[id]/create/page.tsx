@@ -1,9 +1,9 @@
-import { GridBoard } from '@/components/StageEditor'
+import { StageEditor } from '@/components/StageEditor'
 
 const CreateStagePage = () => {
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
-      <GridBoard />
+      <StageEditor />
     </div>
   )
 }
