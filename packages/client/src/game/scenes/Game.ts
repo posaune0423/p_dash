@@ -238,6 +238,7 @@ export class Game extends Scene {
         distance: Math.floor(this.player.x / 100),
         interactions: this.playerInteractions,
       }
+      console.log(playResult)
       setTimeout(() => {
         EventBus.emit('game-clear', playResult)
       }, 1000)

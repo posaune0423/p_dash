@@ -35,6 +35,7 @@ export const notificationsSupported = () => {
 }
 
 export const isPWA = () => {
+  return true
   if (env.NEXT_PUBLIC_DEBUG) {
     return true
   }

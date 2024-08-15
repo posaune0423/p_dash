@@ -91,4 +91,7 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
     { x: 4840, y: 170, type: 'block' },
     { x: 4920, y: 240, type: 'block' },
   ],
+  'test-stage': [
+    { x: 200, y: 0, type: 'block' },
+  ]
 }

@@ -32,6 +32,12 @@ const stageList = [
     thumbnail: '/assets/stage/ocean/bg.png',
     enabled: false,
   },
+  {
+    id: 'test-stage',
+    name: 'Test Stage',
+    thumbnail: '/assets/stage/sci-fi/bg.png',
+    enabled: true,
+  }
 ]
 
 const StageCard = ({
