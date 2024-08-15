@@ -17,7 +17,13 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
-const LoginButton = () => {
+const LoginButton = ({
+  className,
+  size = 'lg',
+}: {
+  className?: string
+  size?: 'lg' | 'sm' | 'xl' | 'icon' | 'default' | null | undefined
+}) => {
   const [isOpen, setIsOpen] = useState(false)
   const { connectAsync, connectors } = useConnect()
   const [pending, setPending] = useState(connectors.map((connector) => ({ [connector.id]: false })))
@@ -54,7 +60,7 @@ const LoginButton = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <CustomButton className='w-56' size='lg' variant='outline' onClick={handleLogin}>
+        <CustomButton className={className} size={size} variant='outline' onClick={handleLogin}>
           Login
         </CustomButton>
       </DialogTrigger>

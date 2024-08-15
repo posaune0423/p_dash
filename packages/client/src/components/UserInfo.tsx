@@ -41,7 +41,7 @@ const UserInfo = () => {
 
       <div className='mx-auto mt-8 flex w-full max-w-md flex-col justify-center space-y-3'>
         <Button className='mx-auto w-fit'>
-          <Link href='/level/test/create'>Create Level</Link>
+          <Link href='/stage/test/create'>Create Stage</Link>
         </Button>
       </div>
     </section>

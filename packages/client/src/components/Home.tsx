@@ -19,7 +19,7 @@ const Home = () => {
       </h1>
 
       <GuestButton />
-      <LoginButton />
+      <LoginButton className='w-56' />
 
       <footer className='absolute bottom-4 text-white'>
         © {new Date().getFullYear()} {APP_NAME}

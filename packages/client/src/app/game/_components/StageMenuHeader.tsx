@@ -2,6 +2,7 @@
 
 import { useAccount } from '@starknet-react/core'
 import { History } from 'lucide-react'
+import LoginButton from '@/app/home/_components/LoginButton'
 import Avatar from '@/components/Avatar'
 import { SoundLink } from '@/components/SoundLink'
 
@@ -13,7 +14,7 @@ const StageMenuHeader = () => {
       <SoundLink href='/history'>
         <History color='white' size={36} />
       </SoundLink>
-      {address && (
+      {address ? (
         <SoundLink href='/my'>
           <Avatar
             address={address}
@@ -21,6 +22,8 @@ const StageMenuHeader = () => {
             size={36}
           />
         </SoundLink>
+      ) : (
+        <LoginButton size='sm' className='text-sm' />
       )}
     </header>
   )
