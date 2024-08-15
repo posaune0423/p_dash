@@ -1,7 +1,20 @@
+export interface Color {
+  r: number
+  g: number
+  b: number
+  a: number
+}
+
+export interface GridDimensions {
+  width: number
+  height: number
+}
+
 export interface GridState {
   offsetX: number
   offsetY: number
   scale: number
+  lastPinchDist?: number
 }
 
 export interface ProgramInfo {
@@ -17,14 +30,21 @@ export interface ProgramInfo {
   }
 }
 
-export interface GridDimensions {
-  width: number
-  height: number
+export interface ColoredCell {
+  x: number
+  y: number
+  color: Color
 }
 
-export interface Color {
-  r: number
-  g: number
-  b: number
-  a: number
+export type Mode = 'color' | 'drag'
+
+export interface GridAction {
+  type: 'add' | 'remove'
+  cell: ColoredCell
+}
+
+export interface GridHistory {
+  past: ColoredCell[][]
+  present: ColoredCell[]
+  future: ColoredCell[][]
 }
