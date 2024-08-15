@@ -16,7 +16,7 @@ import {
 } from './types'
 import { initShaderProgram } from './webgl'
 
-export const useGridBoard = (backgroundColor: Color, gridColor: Color) => {
+export const useStageEditor = (backgroundColor: Color, gridColor: Color) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const isDraggingRef = useRef<boolean>(false)
   const lastTouchPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })

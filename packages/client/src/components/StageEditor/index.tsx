@@ -2,15 +2,15 @@
 
 import React from 'react'
 import { COLOR_PALETTE, DEFAULT_BACKGROUND_COLOR, DEFAULT_GRID_COLOR } from './const'
-import { useGridBoard } from './hooks'
+import { useStageEditor } from './hooks'
 import { type Color } from './types'
 
-interface GridBoardProps {
+interface StageEditorProps {
   backgroundColor?: Color
   gridColor?: Color
 }
 
-const GridBoard: React.FC<GridBoardProps> = ({
+const StageEditor: React.FC<StageEditorProps> = ({
   backgroundColor = DEFAULT_BACKGROUND_COLOR,
   gridColor = DEFAULT_GRID_COLOR,
 }) => {
@@ -25,7 +25,7 @@ const GridBoard: React.FC<GridBoardProps> = ({
     handleMouseMove,
     handleMouseUp,
     handleWheel,
-  } = useGridBoard(backgroundColor, gridColor)
+  } = useStageEditor(backgroundColor, gridColor)
 
   return (
     <div className='relative h-screen w-full'>
@@ -57,4 +57,4 @@ const GridBoard: React.FC<GridBoardProps> = ({
   )
 }
 
-export { GridBoard }
+export { StageEditor }
