@@ -20,6 +20,7 @@ export const useGridBoard = (backgroundColor: Color, gridColor: Color) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const isDraggingRef = useRef<boolean>(false)
   const lastTouchPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
+  const mouseDownPosRef = useRef<{ x: number; y: number } | null>(null)
   const touchStartPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
   const glRef = useRef<WebGLRenderingContext | null>(null)
   const programInfoRef = useRef<ProgramInfo | null>(null)
@@ -137,7 +138,6 @@ export const useGridBoard = (backgroundColor: Color, gridColor: Color) => {
   )
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault()
     const touch = e.touches[0]
     const canvas = canvasRef.current
     if (!canvas) return
@@ -152,7 +152,6 @@ export const useGridBoard = (backgroundColor: Color, gridColor: Color) => {
 
   const handleTouchMove = useCallback(
     (e: React.TouchEvent<HTMLCanvasElement>) => {
-      e.preventDefault()
       const touch = e.touches[0]
       const canvas = canvasRef.current
       if (!canvas) return
@@ -216,9 +215,126 @@ export const useGridBoard = (backgroundColor: Color, gridColor: Color) => {
     [gridState, selectedColor],
   )
 
+  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    e.preventDefault()
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const rect = canvas.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    mouseDownPosRef.current = { x, y }
+    isDraggingRef.current = false
+  }, [])
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLCanvasElement>) => {
+      e.preventDefault()
+      const canvas = canvasRef.current
+      if (!canvas || !mouseDownPosRef.current) return
+
+      const rect = canvas.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+
+      const dx = x - mouseDownPosRef.current.x
+      const dy = y - mouseDownPosRef.current.y
+
+      if (
+        !isDraggingRef.current &&
+        (Math.abs(dx) > SWIPE_THRESHOLD / 2 || Math.abs(dy) > SWIPE_THRESHOLD / 2)
+      ) {
+        isDraggingRef.current = true
+      }
+
+      if (isDraggingRef.current) {
+        setGridState((prev) => {
+          const newOffsetX = prev.offsetX - dx / prev.scale
+          const newOffsetY = prev.offsetY - dy / prev.scale
+          const { maxOffsetX, maxOffsetY } = getMaxOffset(prev.scale, canvas.width, canvas.height)
+          return {
+            ...prev,
+            offsetX: Math.max(0, Math.min(maxOffsetX, newOffsetX)),
+            offsetY: Math.max(0, Math.min(maxOffsetY, newOffsetY)),
+          }
+        })
+
+        mouseDownPosRef.current = { x, y }
+      }
+    },
+    [getMaxOffset],
+  )
+
+  const handleMouseUp = useCallback(
+    (e: React.MouseEvent<HTMLCanvasElement>) => {
+      e.preventDefault()
+      const canvas = canvasRef.current
+      if (!canvas) return
+
+      if (!isDraggingRef.current && mouseDownPosRef.current) {
+        const rect = canvas.getBoundingClientRect()
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
+
+        const worldX = gridState.offsetX + x / gridState.scale
+        const worldY = gridState.offsetY + y / gridState.scale
+
+        const cellX = Math.floor(worldX / BASE_CELL_SIZE)
+        const cellY = Math.floor(worldY / BASE_CELL_SIZE)
+
+        setColoredCells((prev) => {
+          const existingCellIndex = prev.findIndex((cell) => cell.x === cellX && cell.y === cellY)
+          if (existingCellIndex !== -1) {
+            return prev.filter((_, index) => index !== existingCellIndex)
+          } else {
+            return [...prev, { x: cellX, y: cellY, color: selectedColor }]
+          }
+        })
+      }
+
+      mouseDownPosRef.current = null
+      isDraggingRef.current = false
+    },
+    [gridState, selectedColor],
+  )
+
+  const handleWheel = useCallback(
+    (e: React.WheelEvent<HTMLCanvasElement>) => {
+      const canvas = canvasRef.current
+      if (!canvas) return
+
+      const rect = canvas.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+
+      setGridState((prev) => {
+        const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1
+        const newScale = Math.max(
+          getMinScale(canvas.width, canvas.height),
+          Math.min(MAX_SCALE, prev.scale * zoomFactor),
+        )
+
+        const worldX = prev.offsetX + x / prev.scale
+        const worldY = prev.offsetY + y / prev.scale
+
+        const newOffsetX = worldX - x / newScale
+        const newOffsetY = worldY - y / newScale
+
+        const { maxOffsetX, maxOffsetY } = getMaxOffset(newScale, canvas.width, canvas.height)
+
+        return {
+          offsetX: Math.max(0, Math.min(maxOffsetX, newOffsetX)),
+          offsetY: Math.max(0, Math.min(maxOffsetY, newOffsetY)),
+          scale: newScale,
+        }
+      })
+    },
+    [getMaxOffset, getMinScale],
+  )
+
   const handlePinchZoom = useCallback(
     (e: TouchEvent) => {
-      e.preventDefault()
       if (e.touches.length !== 2) return
 
       const touch1 = e.touches[0]
@@ -316,11 +432,12 @@ export const useGridBoard = (backgroundColor: Color, gridColor: Color) => {
     window.addEventListener('resize', resizeCanvas)
     resizeCanvas()
 
-    function animate() {
+    const animate = () => {
       resizeCanvas()
       drawGrid()
       requestAnimationFrame(animate)
     }
+
     animate()
 
     return () => {
@@ -336,5 +453,9 @@ export const useGridBoard = (backgroundColor: Color, gridColor: Color) => {
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
+    handleWheel,
   }
 }

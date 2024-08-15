@@ -21,6 +21,10 @@ const GridBoard: React.FC<GridBoardProps> = ({
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
+    handleWheel,
   } = useGridBoard(backgroundColor, gridColor)
 
   return (
@@ -43,6 +47,10 @@ const GridBoard: React.FC<GridBoardProps> = ({
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onWheel={handleWheel}
       />
     </div>
   )
