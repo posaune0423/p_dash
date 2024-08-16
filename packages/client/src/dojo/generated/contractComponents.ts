@@ -6,90 +6,85 @@ export type ContractComponents = Awaited<ReturnType<typeof defineContractCompone
 
 export function defineContractComponents(world: World) {
   return {
+    App: (() => {
+      return defineComponent(
+        world,
+        {
+          system: RecsType.BigInt,
+          name: RecsType.BigInt,
+          manifest: RecsType.BigInt,
+          icon: RecsType.BigInt,
+          action: RecsType.BigInt,
+        },
+        {
+          metadata: {
+            name: 'pixelaw-App',
+            types: ['contractaddress', 'felt252', 'felt252', 'felt252', 'felt252'],
+            customTypes: [],
+          },
+        },
+      )
+    })(),
+    AppName: (() => {
+      return defineComponent(
+        world,
+        { name: RecsType.BigInt, system: RecsType.BigInt },
+        {
+          metadata: {
+            name: 'pixelaw-AppName',
+            types: ['felt252', 'contractaddress'],
+            customTypes: [],
+          },
+        },
+      )
+    })(),
+    AppUser: (() => {
+      return defineComponent(
+        world,
+        { system: RecsType.BigInt, player: RecsType.BigInt, action: RecsType.BigInt },
+        {
+          metadata: {
+            name: 'pixelaw-AppUser',
+            types: ['contractaddress', 'contractaddress', 'felt252'],
+            customTypes: [],
+          },
+        },
+      )
+    })(),
     Block: (() => {
       return defineComponent(
         world,
         { x: RecsType.Number, y: RecsType.Number, block: RecsType.Number },
         {
           metadata: {
-            name: 'Block',
+            name: 'pixelaw-Block',
             types: ['u32', 'u32', 'enum'],
             customTypes: ['BlockType'],
           },
         },
       )
     })(),
-    Stage: (() => {
+    CoreActionsAddress: (() => {
       return defineComponent(
         world,
-        {
-          id: RecsType.Number,
-          x: RecsType.Number,
-          y: RecsType.Number,
-          w: RecsType.Number,
-          h: RecsType.Number,
-        },
+        { key: RecsType.BigInt, value: RecsType.BigInt },
         {
           metadata: {
-            name: 'Stage',
-            types: ['usize', 'u32', 'u32', 'u32', 'u32'],
+            name: 'pixelaw-CoreActionsAddress',
+            types: ['felt252', 'contractaddress'],
             customTypes: [],
           },
         },
       )
     })(),
-    StageId: (() => {
+    Instruction: (() => {
       return defineComponent(
         world,
-        { x: RecsType.Number, y: RecsType.Number, value: RecsType.Number },
+        { system: RecsType.BigInt, selector: RecsType.BigInt, instruction: RecsType.BigInt },
         {
           metadata: {
-            name: 'StageId',
-            types: ['u32', 'u32', 'usize'],
-            customTypes: [],
-          },
-        },
-      )
-    })(),
-    Snake: (() => {
-      return defineComponent(
-        world,
-        {
-          owner: RecsType.BigInt,
-          length: RecsType.Number,
-          first_segment_id: RecsType.Number,
-          last_segment_id: RecsType.Number,
-          direction: RecsType.Number,
-          color: RecsType.Number,
-          text: RecsType.BigInt,
-          is_dying: RecsType.Boolean,
-        },
-        {
-          metadata: {
-            name: 'Snake',
-            types: ['contractaddress', 'u8', 'u32', 'u32', 'enum', 'u32', 'felt252', 'bool'],
-            customTypes: ['Direction'],
-          },
-        },
-      )
-    })(),
-    SnakeSegment: (() => {
-      return defineComponent(
-        world,
-        {
-          id: RecsType.Number,
-          previous_id: RecsType.Number,
-          next_id: RecsType.Number,
-          x: RecsType.Number,
-          y: RecsType.Number,
-          pixel_original_color: RecsType.Number,
-          pixel_original_text: RecsType.BigInt,
-          pixel_original_app: RecsType.BigInt,
-        },
-        {
-          metadata: {
-            name: 'SnakeSegment',
-            types: ['u32', 'u32', 'u32', 'u32', 'u32', 'u32', 'felt252', 'contractaddress'],
+            name: 'pixelaw-Instruction',
+            types: ['contractaddress', 'felt252', 'felt252'],
             customTypes: [],
           },
         },
@@ -112,7 +107,7 @@ export function defineContractComponents(world: World) {
         },
         {
           metadata: {
-            name: 'Permissions',
+            name: 'pixelaw-Permissions',
             types: [
               'contractaddress',
               'contractaddress',
@@ -134,28 +129,28 @@ export function defineContractComponents(world: World) {
         {
           x: RecsType.Number,
           y: RecsType.Number,
-          created_at: RecsType.BigInt,
-          updated_at: RecsType.BigInt,
           app: RecsType.BigInt,
           color: RecsType.Number,
+          created_at: RecsType.BigInt,
+          updated_at: RecsType.BigInt,
+          timestamp: RecsType.BigInt,
           owner: RecsType.BigInt,
           text: RecsType.BigInt,
-          timestamp: RecsType.BigInt,
           action: RecsType.BigInt,
         },
         {
           metadata: {
-            name: 'Pixel',
+            name: 'pixelaw-Pixel',
             types: [
               'u32',
               'u32',
-              'u64',
-              'u64',
               'contractaddress',
               'u32',
+              'u64',
+              'u64',
+              'u64',
               'contractaddress',
               'felt252',
-              'u64',
               'felt252',
             ],
             customTypes: [],
@@ -169,79 +164,84 @@ export function defineContractComponents(world: World) {
         { id: RecsType.BigInt, valid: RecsType.Boolean },
         {
           metadata: {
-            name: 'QueueItem',
+            name: 'pixelaw-QueueItem',
             types: ['felt252', 'bool'],
             customTypes: [],
           },
         },
       )
     })(),
-    App: (() => {
+    Snake: (() => {
       return defineComponent(
         world,
         {
-          system: RecsType.BigInt,
-          name: RecsType.BigInt,
-          manifest: RecsType.BigInt,
-          icon: RecsType.BigInt,
-          action: RecsType.BigInt,
+          owner: RecsType.BigInt,
+          length: RecsType.Number,
+          first_segment_id: RecsType.Number,
+          last_segment_id: RecsType.Number,
+          direction: RecsType.Number,
+          color: RecsType.Number,
+          text: RecsType.BigInt,
+          is_dying: RecsType.Boolean,
         },
         {
           metadata: {
-            name: 'App',
-            types: ['contractaddress', 'felt252', 'felt252', 'felt252', 'felt252'],
+            name: 'pixelaw-Snake',
+            types: ['contractaddress', 'u8', 'u32', 'u32', 'enum', 'u32', 'felt252', 'bool'],
+            customTypes: ['Direction'],
+          },
+        },
+      )
+    })(),
+    SnakeSegment: (() => {
+      return defineComponent(
+        world,
+        {
+          id: RecsType.Number,
+          previous_id: RecsType.Number,
+          next_id: RecsType.Number,
+          x: RecsType.Number,
+          y: RecsType.Number,
+          pixel_original_color: RecsType.Number,
+          pixel_original_text: RecsType.BigInt,
+          pixel_original_app: RecsType.BigInt,
+        },
+        {
+          metadata: {
+            name: 'pixelaw-SnakeSegment',
+            types: ['u32', 'u32', 'u32', 'u32', 'u32', 'u32', 'felt252', 'contractaddress'],
             customTypes: [],
           },
         },
       )
     })(),
-    AppName: (() => {
+    Stage: (() => {
       return defineComponent(
         world,
-        { name: RecsType.BigInt, system: RecsType.BigInt },
+        {
+          id: RecsType.Number,
+          x: RecsType.Number,
+          y: RecsType.Number,
+          w: RecsType.Number,
+          h: RecsType.Number,
+        },
         {
           metadata: {
-            name: 'AppName',
-            types: ['felt252', 'contractaddress'],
+            name: 'pixelaw-Stage',
+            types: ['u32', 'u32', 'u32', 'u32', 'u32'],
             customTypes: [],
           },
         },
       )
     })(),
-    AppUser: (() => {
+    StageId: (() => {
       return defineComponent(
         world,
-        { system: RecsType.BigInt, player: RecsType.BigInt, action: RecsType.BigInt },
+        { x: RecsType.Number, y: RecsType.Number, value: RecsType.Number },
         {
           metadata: {
-            name: 'AppUser',
-            types: ['contractaddress', 'contractaddress', 'felt252'],
-            customTypes: [],
-          },
-        },
-      )
-    })(),
-    CoreActionsAddress: (() => {
-      return defineComponent(
-        world,
-        { key: RecsType.BigInt, value: RecsType.BigInt },
-        {
-          metadata: {
-            name: 'CoreActionsAddress',
-            types: ['felt252', 'contractaddress'],
-            customTypes: [],
-          },
-        },
-      )
-    })(),
-    Instruction: (() => {
-      return defineComponent(
-        world,
-        { system: RecsType.BigInt, selector: RecsType.BigInt, instruction: RecsType.BigInt },
-        {
-          metadata: {
-            name: 'Instruction',
-            types: ['contractaddress', 'felt252', 'felt252'],
+            name: 'pixelaw-StageId',
+            types: ['u32', 'u32', 'u32'],
             customTypes: [],
           },
         },

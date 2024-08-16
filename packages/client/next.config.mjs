@@ -14,7 +14,7 @@ export default withSerwist({
   reactStrictMode: true,
   optimizeFonts: true,
   cleanDistDir: true,
-  swcMinify: true,
+  // swcMinify: true,
   experimental: {
     // typedRoutes: true,
     scrollRestoration: true,
