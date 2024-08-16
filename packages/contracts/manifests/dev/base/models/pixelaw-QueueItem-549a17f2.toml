@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x6955a5481bde098ffbf3745a76030ae37aa5843ae37362581f0c1ad467535a0"
-original_class_hash = "0x6955a5481bde098ffbf3745a76030ae37aa5843ae37362581f0c1ad467535a0"
+class_hash = "0x672114a91934388e6a4950f164dc151894579281f4eab56fe439108fd4fca70"
+original_class_hash = "0x672114a91934388e6a4950f164dc151894579281f4eab56fe439108fd4fca70"
 abi = "manifests/dev/base/abis/models/pixelaw-QueueItem-549a17f2.json"
 tag = "pixelaw-QueueItem"
 manifest_name = "pixelaw-QueueItem-549a17f2"

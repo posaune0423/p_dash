@@ -11,8 +11,8 @@ mod tests {
     use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
     use pixelaw::core::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
 
-    use p_dash::models::stage::{Stage, StageId};
-    use p_dash::models::blocktype::{Block, BlockType};
+    use p_dash::models::stage::{stage, stage_id, Stage, StageId};
+    use p_dash::models::blocktype::{block, Block, BlockType};
 
     use dojo::utils::{selector_from_names};
     use dojo::utils::test::{spawn_test_world, deploy_contract};
@@ -29,9 +29,13 @@ mod tests {
             pixel::TEST_CLASS_HASH,
             app::TEST_CLASS_HASH,
             app_name::TEST_CLASS_HASH,
-            permissions::TEST_CLASS_HASH
+            core_actions_address::TEST_CLASS_HASH,
+            permissions::TEST_CLASS_HASH,
+            stage::TEST_CLASS_HASH,
+            stage_id::TEST_CLASS_HASH,
+            block::TEST_CLASS_HASH,
         ];
-        let world = spawn_test_world("pixelaw", models);
+        let world = spawn_test_world(["pixelaw"].span(), models.span());
 
         // Deploy Core actions
         let core_actions_address = world
@@ -43,11 +47,17 @@ mod tests {
             .deploy_contract('salt2', p_dash_actions::TEST_CLASS_HASH.try_into().unwrap());
         let actions = IPDashActionsDispatcher { contract_address: actions_address };
 
+        // Grant writer permissions to core actions models
         world.grant_writer(selector_from_tag!("pixelaw-Pixel"), core_actions_address);
         world.grant_writer(selector_from_tag!("pixelaw-App"), core_actions_address);
         world.grant_writer(selector_from_tag!("pixelaw-AppName"), core_actions_address);
-        world.grant_writer(selector_from_tag!("pixelaw-CoreActions"), core_actions_address);
         world.grant_writer(selector_from_tag!("pixelaw-Permissions"), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-CoreActionsAddress"), core_actions_address);
+
+        // Grant writer permissions to p_dash actions models
+        world.grant_writer(selector_from_tag!("pixelaw-Stage"), actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-StageId"), actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-Block"), actions_address);
 
         (world, core_actions, actions)
     }
@@ -58,11 +68,16 @@ mod tests {
         // Deploy everything
         let (world, core_actions, actions) = deploy_world();
 
+        println!("Passed deploy_world");
         core_actions.init();
         actions.init();
 
+        println!("Passed init");
+
         let player1 = contract_address_const::<0x1337>();
         set_account_contract_address(player1);
+
+        println!("Passed set_account_contract_address");
 
         let color = encode_color(1, 1, 1);
 

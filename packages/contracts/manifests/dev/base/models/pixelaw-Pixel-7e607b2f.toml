@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x379b4f97b2fad046187bf6fa4243494c56af27be1a34e5030979fc82a03cf09"
-original_class_hash = "0x379b4f97b2fad046187bf6fa4243494c56af27be1a34e5030979fc82a03cf09"
+class_hash = "0x71570f33b7f66331952b84691bb5794ee6b19f43ad729cc654c3930f47c5f0d"
+original_class_hash = "0x71570f33b7f66331952b84691bb5794ee6b19f43ad729cc654c3930f47c5f0d"
 abi = "manifests/dev/base/abis/models/pixelaw-Pixel-7e607b2f.json"
 tag = "pixelaw-Pixel"
 manifest_name = "pixelaw-Pixel-7e607b2f"

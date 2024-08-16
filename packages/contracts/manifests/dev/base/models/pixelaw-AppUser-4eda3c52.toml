@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x8f2440e890643c2014f4829d82257d63ead4fa1ebf2bbe0753155e0dd83a92"
-original_class_hash = "0x8f2440e890643c2014f4829d82257d63ead4fa1ebf2bbe0753155e0dd83a92"
+class_hash = "0x3d55e23acf8df5ef0c25b76d5a6b7765c241c494af075c7ce3858568bec45f1"
+original_class_hash = "0x3d55e23acf8df5ef0c25b76d5a6b7765c241c494af075c7ce3858568bec45f1"
 abi = "manifests/dev/base/abis/models/pixelaw-AppUser-4eda3c52.json"
 tag = "pixelaw-AppUser"
 manifest_name = "pixelaw-AppUser-4eda3c52"

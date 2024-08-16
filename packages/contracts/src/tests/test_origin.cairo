@@ -27,7 +27,7 @@ mod tests {
             core_actions_address::TEST_CLASS_HASH,
             permissions::TEST_CLASS_HASH,
         ];
-        let world = spawn_test_world("pixelaw", models);
+        let world = spawn_test_world(["pixelaw"].span(), models.span());
 
         // Deploy Core actions
         let core_actions_address = world
@@ -40,6 +40,10 @@ mod tests {
         let p_dash_actions = IPDashActionsDispatcher { contract_address: p_dash_actions_address };
 
         world.grant_writer(selector_from_tag!("pixelaw-Pixel"), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-App"), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-AppName"), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-CoreActionsAddress"), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-Permissions"), core_actions_address);
 
         (world, core_actions, p_dash_actions)
     }

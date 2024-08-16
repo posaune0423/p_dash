@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x7b920dc810b70883da634a6463d9e3dd9bc21ebb3ebd2f720dba46a5b6121a2"
-original_class_hash = "0x7b920dc810b70883da634a6463d9e3dd9bc21ebb3ebd2f720dba46a5b6121a2"
+class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
+original_class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
 abi = "manifests/dev/base/abis/models/pixelaw-Stage-549fb0e1.json"
 tag = "pixelaw-Stage"
 manifest_name = "pixelaw-Stage-549fb0e1"
