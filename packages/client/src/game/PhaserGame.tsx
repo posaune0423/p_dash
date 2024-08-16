@@ -84,6 +84,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
         console.log(game!.current!.config)
         console.log(playResult)
         console.log(playResult.interactions)
+        console.log(stageData)
         setIsGameClear(true)
         setIsDialogOpen(true)
       },

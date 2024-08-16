@@ -1,6 +1,6 @@
 import { Input, Scene } from 'phaser'
 import { EventBus } from '../EventBus'
-import { GROUND_HEIGHT, BASIC_PIXEL, GRAVITY } from '@/constants'
+import { GROUND_HEIGHT, BASIC_PIXEL, GRAVITY, SPEED_X, JUMP_SPEED_Y, PREPARATION_WIDTH, BUFFER_HEIGHT} from '@/constants'
 import { env } from '@/env'
 
 export class Game extends Scene {
@@ -12,20 +12,40 @@ export class Game extends Scene {
   distanceText!: Phaser.GameObjects.Text
   playerInteractions: {
     action: 'jump' | 'touch'
-    frame: number
+    // frame: number
+    x: number
+    y: number
   }[]
+  playerHistory: {
+    frame: number
+    x: number
+    y: number
+    vx: number
+    vy: number
+  }[]
+  jumpStartX!: number | null
+  isLanding!: boolean
 
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   jumpButton!: Phaser.Input.Keyboard.Key
 
   goalX!: number
   STAGE_WIDTH!: number
-  preparationWidth = 1200
+
+  config_for_noir!: {
+    height: number // height of the game screen
+    bufferHeight: number
+    preparationWidth: number
+    gravity: number
+    speedX: number
+    jump_speed_y: number
+  }
 
   constructor() {
     super('Game')
     this.tiles = []
     this.playerInteractions = []
+    this.playerHistory = []
   }
 
   init(): void {
@@ -43,7 +63,7 @@ export class Game extends Scene {
     const { obstacles } = this.cache.json.get('obstacles')
     this.stage = obstacles
 
-    this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + this.preparationWidth * 2
+    this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + PREPARATION_WIDTH * 2
 
     this.goalX = this.STAGE_WIDTH - 200
     this.camera.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
@@ -79,6 +99,21 @@ export class Game extends Scene {
     } else {
       this.setupGameLogic()
     }
+
+    this.playerHistory.push({
+      frame: this.game.getFrame(),
+      x: this.player.x,
+      y: this.player.y,
+      vx: this!.player!.body!.velocity.x,
+      vy: this!.player!.body!.velocity.y,
+    })
+
+    // console.log("Player info");
+    // console.log("frame: " + this.game.getFrame());
+    // console.log("x: " + this.player.x);
+    // console.log("y: " + this.player.y);
+    // console.log(this.player.data);
+    // console.log(this.player.body);
   }
 
   setBg(): void {
@@ -123,10 +158,10 @@ export class Game extends Scene {
   }
 
   setupStage() {
-    const bufferHeight = 70
+    // const bufferHeight = 70
     this.stage.forEach((ele) => {
       // 助走期間
-      const x = ele.x + this.preparationWidth
+      const x = ele.x + PREPARATION_WIDTH
 
       if (ele.type === 'null') {
         this.tiles.forEach((tile) => {
@@ -136,7 +171,9 @@ export class Game extends Scene {
         })
         return
       }
-      const asset = this.generateAsset(x, this.scale.height - ele.y - bufferHeight, ele.type)
+      const asset = this.generateAsset(x, this.scale.height - ele.y - BUFFER_HEIGHT, ele.type)
+      console.log("Asset info: x->"+ ele.x + " y->" + ele.y + " scale_h->" + this.scale.height + " buf_h->" + BUFFER_HEIGHT);
+      console.log("asset info: w->" + asset.width + " h->" + asset.height);
       if (ele.type === 'spike') {
         asset.setBodySize(asset.width * 0.8, asset.height * 0.8)
 
@@ -154,26 +191,32 @@ export class Game extends Scene {
   }
 
   setupGameLogic() {
-    const speed = 340
-    this.player.setVelocityX(speed)
+    // const speed = SPEED_X
+    this.player.setVelocityX(SPEED_X)
     this.background.tilePositionX += 5
 
     if (Input.Keyboard.JustDown(this.jumpButton)) {
       if (this.player.body?.touching.down) {
-        this.player.setVelocityY(-700)
+        this.player.setVelocityY(JUMP_SPEED_Y)
+        this.jumpStartX = this.player.x;  // Store the start position of the jump
         this.playerInteractions.push({
           action: 'jump',
-          frame: this.game.getFrame(),
+          // frame: this.game.getFrame(),
+          x: this.player.x,
+          y: this.player.y,
         })
       }
     }
 
     if (this.input.pointer1.isDown) {
       if (this.player.body?.touching.down) {
-        this.player.setVelocityY(-700)
+        this.player.setVelocityY(JUMP_SPEED_Y)
+        this.jumpStartX = this.player.x;  // Store the start position of the jump
         this.playerInteractions.push({
           action: 'jump',
-          frame: this.game.getFrame(),
+          // frame: this.game.getFrame(),
+          x: this.player.x,
+          y: this.player.y,
         })
       }
     }
@@ -189,44 +232,68 @@ export class Game extends Scene {
         distance: Math.floor(this.player.x / 100),
         interactions: this.playerInteractions,
       }
+      console.log("Player History");
+      console.log(this.playerHistory);
+      console.log("this.scale.height: " + this.scale.height);
+      console.log("Buffer Height: " + BUFFER_HEIGHT);
+      console.log("Gravity: " + GRAVITY);
+      console.log("SpeedX: " + SPEED_X);
+      console.log("SpeedY: " + JUMP_SPEED_Y);
       setTimeout(() => {
         EventBus.emit('game-clear', playResult)
       }, 1000)
     }
+
+    if (this.jumpStartX !== null && this.player.body?.touching.down) {
+      if (this.isLanding == false) {
+        this.isLanding = true;
+      } else {
+        const jumpDistance = this.player.x - this.jumpStartX;
+        console.log(`Jump Distance: ${jumpDistance} pixels (${Math.floor(jumpDistance / 100)} meters)`);
+        this.jumpStartX = null;  // Reset jumpStartX after landing
+        this.isLanding = false;
+      }
+    }
   }
 
   setupDebug() {
-    const speed = 340
+    // const speed = 340
     this.background.tilePositionX += 5
 
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-340)
+      this.player.setVelocityX(-1 * SPEED_X)
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(340)
+      this.player.setVelocityX(SPEED_X)
     } else {
       this.player.setVelocityX(0)
     }
 
     if (Input.Keyboard.JustDown(this.jumpButton)) {
-      this.player.setVelocityY(-700)
+      this.player.setVelocityY(JUMP_SPEED_Y)
+      this.jumpStartX = this.player.x;  // Store the start position of the jump
       this.playerInteractions.push({
         action: 'jump',
-        frame: this.game.getFrame(),
+        // frame: this.game.getFrame(),
+        x: this.player.x,
+        y: this.player.y,
       })
     }
 
     if (this.input.pointer1.isDown) {
       if (this.input.activePointer.x < this.scale.width / 2) {
-        this.player.setVelocityX(speed)
+        this.player.setVelocityX(SPEED_X)
       }
     }
 
     if (this.input.pointer2.isDown) {
       if (this.input.activePointer.x > this.scale.width / 2) {
-        this.player.setVelocityY(-700)
+        this.player.setVelocityY(JUMP_SPEED_Y)
+        this.jumpStartX = this.player.x;  // Store the start position of the jump
         this.playerInteractions.push({
           action: 'jump',
-          frame: this.game.getFrame(),
+          // frame: this.game.getFrame(),
+          x: this.player.x,
+          y: this.player.y,
         })
       }
     }
