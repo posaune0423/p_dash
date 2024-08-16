@@ -2,45 +2,68 @@
 
 import { type DojoProvider } from '@dojoengine/core'
 import { type Account, type AccountInterface } from 'starknet'
-import { type Direction } from '../utils'
+
+const NAMESPACE = 'pixelaw'
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>
 
-export interface MoveProps {
+export type PixelUpdate = {
+  x: number
+  y: number
+  color?: number
+  owner?: `0x${string}`
+  app?: `0x${string}`
+  text?: string
+  timestamp?: number
+  action?: `0x${string}`
+}
+
+export interface UpdatePixelProps {
   account: Account | AccountInterface
-  direction: Direction
+  forPlayer: `0x${string}`
+  forSystem: `0x${string}`
+  pixelUpdate: PixelUpdate
+}
+
+const handleError = (action: string, error: unknown) => {
+  console.error(`Error executing ${action}:`, error)
+  throw error
 }
 
 export async function setupWorld(provider: DojoProvider) {
-  function actions() {
-    const spawn = async ({ account }: { account: AccountInterface }) => {
+  const actions = () => ({
+    init: async ({ account }: { account: AccountInterface }) => {
       try {
-        return await provider.execute(account, {
-          contractName: 'actions',
-          entrypoint: 'spawn',
-          calldata: [],
-        })
+        return await provider.execute(
+          account,
+          {
+            contractName: 'actions',
+            entrypoint: 'init',
+            calldata: [],
+          },
+          NAMESPACE,
+        )
       } catch (error) {
-        console.error('Error executing spawn:', error)
-        throw error
+        handleError('init', error)
       }
-    }
+    },
 
-    const move = async ({ account, direction }: MoveProps) => {
+    updatePixel: async ({ account, forPlayer }: UpdatePixelProps) => {
       try {
-        return await provider.execute(account, {
-          contractName: 'actions',
-          entrypoint: 'move',
-          calldata: [direction],
-        })
+        return await provider.execute(
+          account,
+          {
+            contractName: 'actions',
+            entrypoint: 'update_pixel',
+            calldata: [forPlayer],
+          },
+          NAMESPACE,
+        )
       } catch (error) {
-        console.error('Error executing move:', error)
-        throw error
+        handleError('move', error)
       }
-    }
-    return { spawn, move }
-  }
-  return {
-    actions: actions(),
-  }
+    },
+  })
+
+  return { actions: actions() }
 }

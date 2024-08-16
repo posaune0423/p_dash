@@ -11,4 +11,4 @@ mappings = {  }
 rpc_url = "http://localhost:5050/"
 account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
 private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world_address = "0x29843b0e20802c0147b8c5cb51a7964aa4c0f0ccd14a1b329c73615ad510822"
+world_address = "0x5cb56865911cf7329f62323a0721c2731f55db9e82c8f41cd0ce81bcdd7317"
