@@ -1,0 +1,21 @@
+kind = "DojoModel"
+class_hash = "0x20fa6d6f08426bd6a804d9aa8346f21456e2974d5f6a5aec23ecbba5afa52a"
+original_class_hash = "0x20fa6d6f08426bd6a804d9aa8346f21456e2974d5f6a5aec23ecbba5afa52a"
+abi = "manifests/dev/base/abis/models/pixelaw-StageId-6b09362b.json"
+tag = "pixelaw-StageId"
+manifest_name = "pixelaw-StageId-6b09362b"
+
+[[members]]
+name = "x"
+type = "u32"
+key = true
+
+[[members]]
+name = "y"
+type = "u32"
+key = true
+
+[[members]]
+name = "value"
+type = "usize"
+key = false

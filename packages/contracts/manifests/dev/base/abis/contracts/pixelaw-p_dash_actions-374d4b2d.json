@@ -249,11 +249,11 @@
   {
     "type": "impl",
     "name": "IDojoInitImpl",
-    "interface_name": "p_dash::systems::app::actions::IDojoInit"
+    "interface_name": "p_dash::systems::app::p_dash_actions::IDojoInit"
   },
   {
     "type": "interface",
-    "name": "p_dash::systems::app::actions::IDojoInit",
+    "name": "p_dash::systems::app::p_dash_actions::IDojoInit",
     "items": [
       {
         "type": "function",
@@ -313,7 +313,7 @@
   },
   {
     "type": "event",
-    "name": "p_dash::systems::app::actions::Event",
+    "name": "p_dash::systems::app::p_dash_actions::Event",
     "kind": "enum",
     "variants": [
       {
