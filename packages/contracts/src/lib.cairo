@@ -1,13 +1,13 @@
-mod models {
-    mod stage;
-    mod blocktype;
+pub mod models {
+    pub mod stage;
+    pub mod blocktype;
 }
 
-mod systems {
-    mod app;
+pub mod systems {
+    pub mod app;
 }
 
 mod tests {
     mod test_origin;
-    // mod test_p_dash;
+    mod test_p_dash;
 }

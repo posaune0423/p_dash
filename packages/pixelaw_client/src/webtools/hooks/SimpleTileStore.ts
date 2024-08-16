@@ -86,10 +86,6 @@ export function useSimpleTileStore(baseUrl: string): TileStore {
     };
 
     const refresh = (): void => {
-        // if (fetchCounter.current > 0) {
-        //     console.log("skipRender")
-        //     return
-        // }
         if (isLoading || !actualBounds.current) return;
 
         const [[leftTileCoord, topTileCoord], [rightTileCoord, bottomTileCoord]] = actualBounds.current;

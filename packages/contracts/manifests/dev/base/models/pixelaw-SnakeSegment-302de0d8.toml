@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x10880cb541815617b59f0e6bbbfb5172e865fb2ab0b56130f899b26b0ce4f3f"
-original_class_hash = "0x10880cb541815617b59f0e6bbbfb5172e865fb2ab0b56130f899b26b0ce4f3f"
+class_hash = "0x19a1ae61a4fb0ac303e15a4ca4befa5ae3962625eb37f379b941815e321191f"
+original_class_hash = "0x19a1ae61a4fb0ac303e15a4ca4befa5ae3962625eb37f379b941815e321191f"
 abi = "manifests/dev/base/abis/models/pixelaw-SnakeSegment-302de0d8.json"
 tag = "pixelaw-SnakeSegment"
 manifest_name = "pixelaw-SnakeSegment-302de0d8"

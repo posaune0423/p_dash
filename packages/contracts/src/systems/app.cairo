@@ -1,11 +1,14 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use pixelaw::core::models::pixel::{Pixel, PixelUpdate};
 use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
-use starknet::{get_caller_address, get_contract_address, get_execution_info, ContractAddress};
+use starknet::{
+    get_caller_address, get_contract_address, get_execution_info, ContractAddress,
+    contract_address_const
+};
 use p_dash::models::blocktype::{BlockType, Block};
 
 #[dojo::interface]
-trait IPDashActions<TContractState> {
+pub trait IPDashActions<TContractState> {
     fn init(ref world: IWorldDispatcher);
     fn interact(ref world: IWorldDispatcher, default_params: DefaultParameters); // deprecated
     fn initialize_stage(
@@ -26,10 +29,11 @@ const APP_ICON: felt252 = 'U+1F3AE';
 const APP_MANIFEST: felt252 = 'BASE/manifests/p_dash';
 
 /// contracts must be named as such (APP_KEY + underscore + "actions")
-#[dojo::contract]
-mod p_dash_actions {
+#[dojo::contract(namespace: "pixelaw", nomapping: true)]
+pub mod p_dash_actions {
     use starknet::{
-        get_tx_info, get_caller_address, get_contract_address, get_execution_info, ContractAddress
+        get_tx_info, get_caller_address, get_contract_address, get_execution_info, ContractAddress,
+        contract_address_const
     };
 
     use super::IPDashActions;
@@ -46,30 +50,28 @@ mod p_dash_actions {
     use p_dash::models::blocktype::{BlockType, Block};
     use p_dash::models::stage::{Stage, StageId};
 
-    use debug::PrintTrait;
 
     // impl: implement functions specified in trait
     #[abi(embed_v0)]
-    impl ActionsImpl of IPDashActions<ContractState> {
-        /// Initialize the PDash App (TODO I think, do we need this??)
+    impl PDashActionsImpl of IPDashActions<ContractState> {
         fn init(ref world: IWorldDispatcher) {
             let core_actions = pixelaw::core::utils::get_core_actions(world);
 
             core_actions.update_app(APP_KEY, APP_ICON, APP_MANIFEST);
             ///Grant permission to the snake App
 
-            // core_actions
-        //     .update_permission(
-        //         'snake',
-        //         Permission {
-        //             app: false,
-        //             color: true,
-        //             owner: false,
-        //             text: true,
-        //             timestamp: false,
-        //             action: true
-        //         }
-        //     );
+            core_actions
+                .update_permission(
+                    APP_KEY,
+                    Permission {
+                        app: false,
+                        color: true,
+                        owner: false,
+                        text: true,
+                        timestamp: true,
+                        action: true
+                    }
+                );
         }
 
 
@@ -80,7 +82,7 @@ mod p_dash_actions {
         /// * `position` - Position of the pixel.
         /// * `new_color` - Color to set the pixel to.
         fn interact(ref world: IWorldDispatcher, default_params: DefaultParameters) {
-            'put_color'.print();
+            println!("put_color");
 
             // Load important variables
             let core_actions = get_core_actions(world);
@@ -97,7 +99,9 @@ mod p_dash_actions {
 
             // Check if 5 seconds have passed or if the sender is the owner
             assert(
-                pixel.owner.is_zero() || (pixel.owner) == player || starknet::get_block_timestamp()
+                pixel.owner == contract_address_const::<0>()
+                    || (pixel.owner) == player
+                    || starknet::get_block_timestamp()
                     - pixel.timestamp < COOLDOWN_SECS,
                 'Cooldown not over'
             );
@@ -119,7 +123,7 @@ mod p_dash_actions {
                     }
                 );
 
-            'put_color DONE'.print();
+            println!("interact DONE");
         }
 
         /// Initialize stage for p/dash
@@ -130,7 +134,7 @@ mod p_dash_actions {
         /// * `new_color` - Color to set the pixel to.
 
         fn initialize_stage(ref world: IWorldDispatcher, default_params: DefaultParameters) {
-            'Initialize the stage for p/dash'.print();
+            println!("Initialize the stage for p/dash");
 
             // width and height should be set by the frontend in the future.
             let mut width: u32 = 200;
@@ -153,7 +157,7 @@ mod p_dash_actions {
             let mut pixel = get!(world, (position.x, position.y), (Pixel));
 
             // Check if the pixel is free.
-            assert(pixel.owner.is_zero(), 'Please select free pixel');
+            assert(pixel.owner == contract_address_const::<0>(), 'Please select free pixel');
 
             // set the head block's to the id.
             set!(world, (StageId { x: position.x, y: position.y, value: id }));
@@ -181,13 +185,13 @@ mod p_dash_actions {
                     }
                 );
 
-            'p/dash set up done'.print();
+            println!("p/dash set up done");
         }
 
         fn put_block(
             ref world: IWorldDispatcher, default_params: DefaultParameters, blocktype: BlockType
         ) {
-            'Put block'.print();
+            println!("Put block");
 
             // Load important variables
             let core_actions = get_core_actions(world);
@@ -199,7 +203,7 @@ mod p_dash_actions {
             let mut pixel = get!(world, (position.x, position.y), (Pixel));
 
             // Check if the pixel is free.
-            assert(pixel.owner.is_zero(), 'Please select free pixel');
+            assert(pixel.owner == contract_address_const::<0>(), 'Please select free pixel');
 
             core_actions
                 .update_pixel(
@@ -220,7 +224,7 @@ mod p_dash_actions {
             // set the block types for init block.
             set!(world, (Block { x: position.x, y: position.y, block: BlockType::Block(()) }));
 
-            'Block set'.print();
+            println!("Block set");
         }
     }
 }

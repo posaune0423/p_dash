@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x392e6a537f53883754b40ef3bfebb72683941cb92e22611368a7a2927e24a3c"
-original_class_hash = "0x392e6a537f53883754b40ef3bfebb72683941cb92e22611368a7a2927e24a3c"
+class_hash = "0x296cfe5fb82a8b03b4aa78e35955bc70971babeb414d70a6a8acc52a4eacab2"
+original_class_hash = "0x296cfe5fb82a8b03b4aa78e35955bc70971babeb414d70a6a8acc52a4eacab2"
 abi = "manifests/dev/base/abis/models/pixelaw-CoreActionsAddress-5379e1ce.json"
 tag = "pixelaw-CoreActionsAddress"
 manifest_name = "pixelaw-CoreActionsAddress-5379e1ce"

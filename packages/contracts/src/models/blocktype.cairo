@@ -1,5 +1,5 @@
 #[derive(Serde, Copy, Drop, Introspect)]
-enum BlockType {
+pub enum BlockType {
     Unknown: (),
     InitBlock: (),
     Block: (),
@@ -12,15 +12,15 @@ enum BlockType {
 // how can we get all all blocks in the area? → excute loop in the whole area? / set the index for
 // object?->hard for delete.
 #[derive(Copy, Drop, Serde)]
-#[dojo::model]
-struct Block {
+#[dojo::model(namespace: "pixelaw", nomapping: true)]
+pub struct Block {
     // #[key]
     // id: usize
     #[key]
-    x: u32,
+    pub x: u32,
     #[key]
-    y: u32,
-    block: BlockType
+    pub y: u32,
+    pub block: BlockType
 }
 
 

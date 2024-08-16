@@ -1,7 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use starknet::class_hash::Felt252TryIntoClassHash;
-    use debug::PrintTrait;
+    use starknet::{contract_address_const, testing::set_account_contract_address};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     use pixelaw::core::models::registry::{app, app_name, core_actions_address};
@@ -12,45 +11,53 @@ mod tests {
     use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
     use pixelaw::core::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
 
-    use p_dash::models::stage::{Stage, StageId};
-    use p_dash::models::blocktype::{Block, BlockType};
+    use p_dash::models::stage::{stage, stage_id, Stage, StageId};
+    use p_dash::models::blocktype::{block, Block, BlockType};
 
     use dojo::utils::{selector_from_names};
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
-    use p_dash::systems::app::{actions, IActionsDispatcher, IActionsDispatcherTrait};
+    use p_dash::systems::app::{
+        p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
+    };
 
-    use zeroable::Zeroable;
 
     // Helper function: deploys world and actions
-    fn deploy_world() -> (IWorldDispatcher, IActionsDispatcher, IActionsDispatcher) {
+    fn deploy_world() -> (IWorldDispatcher, IActionsDispatcher, IPDashActionsDispatcher) {
         // Deploy World and models
         let mut models = array![
             pixel::TEST_CLASS_HASH,
             app::TEST_CLASS_HASH,
             app_name::TEST_CLASS_HASH,
-            permissions::TEST_CLASS_HASH
+            core_actions_address::TEST_CLASS_HASH,
+            permissions::TEST_CLASS_HASH,
+            stage::TEST_CLASS_HASH,
+            stage_id::TEST_CLASS_HASH,
+            block::TEST_CLASS_HASH,
         ];
-        let world = spawn_test_world("pixelaw", models);
+        let world = spawn_test_world(["pixelaw"].span(), models.span());
 
         // Deploy Core actions
         let core_actions_address = world
-            .deploy_contract(
-                'salt1', actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span()
-            );
+            .deploy_contract('salt1', actions::TEST_CLASS_HASH.try_into().unwrap());
         let core_actions = IActionsDispatcher { contract_address: core_actions_address };
 
         // Deploy  actions
         let actions_address = world
-            .deploy_contract(
-                'salt2', actions::TEST_CLASS_HASH.try_into().unwrap(), array![].span()
-            );
-        let actions = IActionsDispatcher { contract_address: actions_address };
+            .deploy_contract('salt2', p_dash_actions::TEST_CLASS_HASH.try_into().unwrap());
+        let actions = IPDashActionsDispatcher { contract_address: actions_address };
 
-        let namespace: ByteArray = "pixelaw";
-        let pixel_model_name: ByteArray = "Pixel";
-        world
-            .grant_writer(selector_from_names(@namespace, @pixel_model_name), core_actions_address);
+        // Grant writer permissions to core actions models
+        world.grant_writer(selector_from_tag!("pixelaw-Pixel"), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-App"), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-AppName"), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-Permissions"), core_actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-CoreActionsAddress"), core_actions_address);
+
+        // Grant writer permissions to p_dash actions models
+        world.grant_writer(selector_from_tag!("pixelaw-Stage"), actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-StageId"), actions_address);
+        world.grant_writer(selector_from_tag!("pixelaw-Block"), actions_address);
 
         (world, core_actions, actions)
     }
@@ -61,19 +68,24 @@ mod tests {
         // Deploy everything
         let (world, core_actions, actions) = deploy_world();
 
+        println!("Passed deploy_world");
         core_actions.init();
         actions.init();
 
-        let player1 = starknet::contract_address_const::<0x1337>();
-        starknet::testing::set_account_contract_address(player1);
+        println!("Passed init");
+
+        let player1 = contract_address_const::<0x1337>();
+        set_account_contract_address(player1);
+
+        println!("Passed set_account_contract_address");
 
         let color = encode_color(1, 1, 1);
 
         actions
             .initialize_stage(
                 DefaultParameters {
-                    for_player: Zeroable::zero(),
-                    for_system: Zeroable::zero(),
+                    for_player: contract_address_const::<0x1337>(),
+                    for_system: contract_address_const::<0x1337>(),
                     position: Position { x: 1, y: 1 },
                     color: color
                 },
@@ -85,12 +97,11 @@ mod tests {
         let stage_id = get!(world, (1, 1), (StageId));
         let stage = get!(world, stage_id, (Stage));
 
-        stage.x.print();
-        stage.y.print();
-        stage
-            .w
-            .print(); // cannot set the width now... have to fix it later. output-> [DEBUG]	0x0 ('')
-        stage.h.print(); // same. output-> [DEBUG]	0x0 ('')
+        println!("stage.x: {}", stage.x);
+        println!("stage.y: {}", stage.y);
+        println!("stage.w: {}", stage.w);
+        println!("stage.h: {}", stage.h);
+
         assert(stage.x == 1 && stage.y == 1, 'config setting error');
         // assert(stage.w == 200 && stage.h == 16, 'config setting error(stage)');
 
@@ -100,15 +111,15 @@ mod tests {
         actions
             .put_block(
                 DefaultParameters {
-                    for_player: Zeroable::zero(),
-                    for_system: Zeroable::zero(),
+                    for_player: contract_address_const::<0x1337>(),
+                    for_system: contract_address_const::<0x1337>(),
                     position: Position { x: 2, y: 2 },
                     color: color
                 },
                 blocktype: BlockType::Block,
             );
 
-        'Passed test'.print();
+        println!("Passed test");
     }
 
     fn encode_color(r: u8, g: u8, b: u8) -> u32 {

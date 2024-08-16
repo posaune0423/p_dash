@@ -11,7 +11,8 @@
         "preview": "vite preview",
         "test": "vitest",
         "coverage": "vitest run --coverage",
-        "components": "npx @dojoengine/core ../contracts/manifests/dev/deployment/manifest.json src/dojo/contractComponents.ts http://localhost:5050 0x3b31a7f08bb1b2028b195f634cac796bbe8bbbf81e7ac287456f394ff867897",
+        "graphql-codegen": "graphql-codegen --config graphql-codegen.ts",
+        "components": "npx @dojoengine/core ../contracts/manifests/dev/deployment/manifest.json src/dojo/contractComponents.ts http://localhost:5050 0xd4136ca2b9f1b08c6d6857b0f19da3dc8d136105ec46459787a6de0fd92bf8",
         "components:slot": "npx @dojoengine/core ../contracts/manifests/slot/deployment/manifest.json src/dojo/contractComponents.ts https://api.cartridge.gg/x/p-dash/katana 0x319abdaf6875275701fc89fa3508a91448168dee90815bccf82ed4e72ca67b3"
     },
     "dependencies": {
@@ -50,6 +51,8 @@
         "zustand": "^4.5.4"
     },
     "devDependencies": {
+        "@graphql-codegen/cli": "^5.0.2",
+        "@graphql-codegen/typescript-graphql-request": "^6.2.0",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@typescript-eslint/eslint-plugin": "^7.18.0",

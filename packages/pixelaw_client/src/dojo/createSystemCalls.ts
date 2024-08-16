@@ -1,7 +1,7 @@
 import { AccountInterface, num } from "starknet";
 import { ZERO_ADDRESS } from "@/global/constants";
 import { IWorld } from "@/dojo/generated";
-import { ProposalArgs, ProposalType } from "@/global/types.js";
+import { ProposalArgs, ProposalType } from "@/global/types";
 
 const FAILURE_REASON_REGEX = /Failure reason: ".+"/;
 

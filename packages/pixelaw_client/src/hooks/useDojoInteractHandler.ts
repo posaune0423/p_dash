@@ -1,17 +1,16 @@
-import { useEffect } from "react";
-import { useViewStateStore } from "@/stores/ViewStateStore.ts";
-import { PixelStore } from "@/webtools/types.ts";
-import { IPixelawGameData } from "@/dojo/setupPixelaw.ts";
-import getParamsDef from "@/dojo/utils/paramsDef.ts";
-import { coordinateToPosition, hexRGBtoNumber } from "@/global/utils.ts";
-import { DojoCall } from "@dojoengine/core";
-import { generateDojoCall } from "@/dojo/utils/call.ts";
-import { NAMESPACE } from "@/global/constants";
+import type { IPixelawGameData } from "@/dojo/setupPixelaw";
+import { generateDojoCall } from "@/dojo/utils/call";
+import getParamsDef from "@/dojo/utils/paramsDef";
+// import { NAMESPACE } from "@/global/constants";
+import { coordinateToPosition, hexRGBtoNumber } from "@/global/utils";
+import { useViewStateStore } from "@/stores/ViewStateStore";
+import type { PixelStore } from "@/webtools/types";
+import type { DojoCall } from "@dojoengine/core";
+import { useEffect, useState } from "react";
 
-// TODO maybe cleaner to directly use the Dojo hook here, but its not working.
-// For now passing the pixelStore
 export const useDojoInteractHandler = (pixelStore: PixelStore, gameData: IPixelawGameData) => {
     const { setClickedCell, clickedCell, selectedApp, color } = useViewStateStore();
+    const [paramData, setParamData] = useState(null);
 
     useEffect(() => {
         if (!clickedCell || !selectedApp) return;
@@ -24,15 +23,10 @@ export const useDojoInteractHandler = (pixelStore: PixelStore, gameData: IPixela
         // If the pixel is not set, or the action is not overridden, use the default "interact"
         const action = pixel && pixel.action !== "0" ? pixel.action : "interact";
 
-        const contractName = `${selectedApp}_actions`;
+        const contractName = "actions";
         const position = coordinateToPosition(clickedCell);
 
         const params = getParamsDef(gameData.setup.manifest, contractName, action, position, false);
-
-        if (params.length) {
-            // User needs to choose parameters first
-            // TODO lets first make the scenario without params work (paint)
-        }
 
         // Generate the DojoCall
         const dojoCall: DojoCall = generateDojoCall(
@@ -45,12 +39,18 @@ export const useDojoInteractHandler = (pixelStore: PixelStore, gameData: IPixela
         );
 
         // Execute the call
-        gameData.dojoProvider.execute(gameData.masterAccount, dojoCall, 'p_dash').then((res) => {
-            console.log("dojocall", res);
-            // Do something with the UI?
-        }).catch((e) => {
-            console.error(e);
-        });
+        gameData.dojoProvider
+            .execute(gameData.account.account!, dojoCall, "p_dash")
+            .then((res) => {
+                console.log("dojocall", res);
+
+                // Reset paramData after execution
+                setParamData(null);
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+
         setClickedCell(undefined);
-    }, [setClickedCell, clickedCell]);
+    }, [setClickedCell, clickedCell, paramData]);
 };

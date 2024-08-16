@@ -1,0 +1,14 @@
+[world]
+description = "pixelaw world"
+name = "pixelaw"
+seed = "pixelaw"
+
+[namespace]
+default = "p_dash"
+mappings = {  }
+
+[env]
+rpc_url = "https://api.cartridge.gg/x/p-dash/katana"
+account_address = "0x3f3f94d700f51cbb063b48658375e74090a3c278e63d5a46e78347b298dd29d"
+private_key = "0x3b86e072a44d5557b41fb4c64d8200fbde4dbf3a669285a0974e8eb326044c4"
+world_address = "0x319abdaf6875275701fc89fa3508a91448168dee90815bccf82ed4e72ca67b3"
