@@ -12,7 +12,7 @@ mod tests {
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
     use p_dash::systems::app::{
-        actions as p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
+        p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
 
     use starknet::{contract_address_const, testing::set_account_contract_address};

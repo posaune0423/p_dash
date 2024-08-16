@@ -8,8 +8,10 @@
     "dojoengine",
     "Embla",
     "pixelaw",
+    "Serwist",
     "starknet",
     "tailwindcss",
     "tileset"
-  ]
+  ],
+  "rust-analyzer.checkOnSave": false
 }

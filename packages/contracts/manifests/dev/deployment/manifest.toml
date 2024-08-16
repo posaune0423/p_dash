@@ -4,6 +4,8 @@ class_hash = "0x76ced5a15cb43c7be7176cff4779cd57c56638a46ddf2c9da709d22298c5e5a"
 original_class_hash = "0x76ced5a15cb43c7be7176cff4779cd57c56638a46ddf2c9da709d22298c5e5a"
 abi = "manifests/dev/deployment/abis/dojo-world.json"
 address = "0x29843b0e20802c0147b8c5cb51a7964aa4c0f0ccd14a1b329c73615ad510822"
+transaction_hash = "0x649851e91f6a2c46cf8b3a8546f98533c42a218bec9abfeee12ab1d9899b4bf"
+block_number = 3
 seed = ""
 manifest_name = "dojo-world"
 
@@ -21,9 +23,10 @@ manifest_name = "dojo-base"
 
 [[contracts]]
 kind = "DojoContract"
+address = "0x687a3846f6bab9d70dc9c9bb050d09756b1f31eaf51c84d0113ebe09cb60322"
 class_hash = "0x206aec9aa6320cfc5ad332f1863f10a257f168038097c8b571bf63fb2750e56"
 original_class_hash = "0x206aec9aa6320cfc5ad332f1863f10a257f168038097c8b571bf63fb2750e56"
-base_class_hash = "0x0"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/-actions-3c2ef21d.json"
 reads = []
 writes = []
@@ -31,84 +34,18 @@ init_calldata = []
 tag = "-actions"
 manifest_name = "-actions-3c2ef21d"
 
-[[models]]
-kind = "DojoModel"
-class_hash = "0x5e8ceb6aae8d965b76e0e629e0a12c9cd08803ae5b7846d915c11a71b250802"
-original_class_hash = "0x5e8ceb6aae8d965b76e0e629e0a12c9cd08803ae5b7846d915c11a71b250802"
-abi = "manifests/dev/deployment/abis/models/p_dash-Block-63c3c136.json"
-tag = "p_dash-Block"
-manifest_name = "p_dash-Block-63c3c136"
-
-[[models.members]]
-name = "x"
-type = "u32"
-key = true
-
-[[models.members]]
-name = "y"
-type = "u32"
-key = true
-
-[[models.members]]
-name = "block"
-type = "BlockType"
-key = false
-
-[[models]]
-kind = "DojoModel"
-class_hash = "0xe388ce3a843f84050025b74ecf8cb1330d0074c6d93c8e52b2152c3ecab873"
-original_class_hash = "0xe388ce3a843f84050025b74ecf8cb1330d0074c6d93c8e52b2152c3ecab873"
-abi = "manifests/dev/deployment/abis/models/p_dash-Stage-93715983.json"
-tag = "p_dash-Stage"
-manifest_name = "p_dash-Stage-93715983"
-
-[[models.members]]
-name = "id"
-type = "usize"
-key = true
-
-[[models.members]]
-name = "x"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "y"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "w"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "h"
-type = "u32"
-key = false
-
-[[models]]
-kind = "DojoModel"
-class_hash = "0x298c3ac0db82f0a3983bd2199c57b314d4b54085b281f93320cd44061678de5"
-original_class_hash = "0x298c3ac0db82f0a3983bd2199c57b314d4b54085b281f93320cd44061678de5"
-abi = "manifests/dev/deployment/abis/models/p_dash-StageId-76d39641.json"
-tag = "p_dash-StageId"
-manifest_name = "p_dash-StageId-76d39641"
-
-[[models.members]]
-name = "x"
-type = "u32"
-key = true
-
-[[models.members]]
-name = "y"
-type = "u32"
-key = true
-
-[[models.members]]
-name = "value"
-type = "usize"
-key = false
+[[contracts]]
+kind = "DojoContract"
+address = "0x4e894aadba264557a22c223fc076c3492343a91fdd4c05a5295f0c6cb4c7807"
+class_hash = "0x1cb0ae99c1813bb5cb6204e306d6b6e1df4b846405d46d648bacc9102afc611"
+original_class_hash = "0x1cb0ae99c1813bb5cb6204e306d6b6e1df4b846405d46d648bacc9102afc611"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/dev/deployment/abis/contracts/-p_dash_actions-2d5fa33a.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "-p_dash_actions"
+manifest_name = "-p_dash_actions-2d5fa33a"
 
 [[models]]
 kind = "DojoModel"
@@ -182,6 +119,29 @@ key = true
 [[models.members]]
 name = "action"
 type = "felt252"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x76f9cd1817f7802e3c9dbe1993251597832ce23f85a7142a891c1162748541e"
+original_class_hash = "0x76f9cd1817f7802e3c9dbe1993251597832ce23f85a7142a891c1162748541e"
+abi = "manifests/dev/deployment/abis/models/pixelaw-Block-656ed65c.json"
+tag = "pixelaw-Block"
+manifest_name = "pixelaw-Block-656ed65c"
+
+[[models.members]]
+name = "x"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "y"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "block"
+type = "BlockType"
 key = false
 
 [[models]]
@@ -418,4 +378,60 @@ key = false
 [[models.members]]
 name = "pixel_original_app"
 type = "ContractAddress"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x7b920dc810b70883da634a6463d9e3dd9bc21ebb3ebd2f720dba46a5b6121a2"
+original_class_hash = "0x7b920dc810b70883da634a6463d9e3dd9bc21ebb3ebd2f720dba46a5b6121a2"
+abi = "manifests/dev/deployment/abis/models/pixelaw-Stage-549fb0e1.json"
+tag = "pixelaw-Stage"
+manifest_name = "pixelaw-Stage-549fb0e1"
+
+[[models.members]]
+name = "id"
+type = "usize"
+key = true
+
+[[models.members]]
+name = "x"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "y"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "w"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "h"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x684199a1a04041225c0cdff2e145b0c0b610c829fac4e3aa4deaa01141d8230"
+original_class_hash = "0x684199a1a04041225c0cdff2e145b0c0b610c829fac4e3aa4deaa01141d8230"
+abi = "manifests/dev/deployment/abis/models/pixelaw-StageId-6b09362b.json"
+tag = "pixelaw-StageId"
+manifest_name = "pixelaw-StageId-6b09362b"
+
+[[models.members]]
+name = "x"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "y"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "value"
+type = "usize"
 key = false

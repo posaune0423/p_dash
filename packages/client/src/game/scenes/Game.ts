@@ -163,7 +163,7 @@ export class Game extends Scene {
         this.player.setVelocityY(-700)
         this.playerInteractions.push({
           action: 'jump',
-          timestamp: this.time.now,
+          timestamp: this.game.getFrame(),
         })
       }
     }
@@ -173,7 +173,7 @@ export class Game extends Scene {
         this.player.setVelocityY(-700)
         this.playerInteractions.push({
           action: 'jump',
-          timestamp: this.time.now,
+          timestamp: this.game.getFrame(),
         })
       }
     }
@@ -211,7 +211,7 @@ export class Game extends Scene {
       this.player.setVelocityY(-700)
       this.playerInteractions.push({
         action: 'jump',
-        timestamp: this.time.now,
+        timestamp: this.game.getFrame(),
       })
     }
 
@@ -226,7 +226,7 @@ export class Game extends Scene {
         this.player.setVelocityY(-700)
         this.playerInteractions.push({
           action: 'jump',
-          timestamp: this.time.now,
+          timestamp: this.game.getFrame(),
         })
       }
     }

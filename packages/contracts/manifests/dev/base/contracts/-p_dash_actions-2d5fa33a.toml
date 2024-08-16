@@ -1,0 +1,10 @@
+kind = "DojoContract"
+class_hash = "0x1cb0ae99c1813bb5cb6204e306d6b6e1df4b846405d46d648bacc9102afc611"
+original_class_hash = "0x1cb0ae99c1813bb5cb6204e306d6b6e1df4b846405d46d648bacc9102afc611"
+base_class_hash = "0x0"
+abi = "manifests/dev/base/abis/contracts/-p_dash_actions-2d5fa33a.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "-p_dash_actions"
+manifest_name = "-p_dash_actions-2d5fa33a"

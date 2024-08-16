@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import React from 'react'
-import { Button } from '../ui/button'
+import CustomButton from '../CustomButton'
 import { COLOR_PALETTE, DEFAULT_BACKGROUND_COLOR, DEFAULT_GRID_COLOR } from './const'
 import { useStageEditor } from './hooks'
 import { type Color } from './types'
@@ -43,11 +43,11 @@ const StageEditor: React.FC<StageEditorProps> = ({
         onMouseUp={handleMouseUp}
         onWheel={handleWheel}
       />
-      <div className='fixed inset-x-0 bottom-0 flex h-[50px] items-center justify-center space-x-2 bg-white shadow-md'>
-        <div className='flex items-center justify-center space-x-2'>
-          <Button>
-            <Link href='/'>Back</Link>
-          </Button>
+      <div className='bg-primary fixed inset-x-0 bottom-0 flex h-[50px] items-center justify-center space-x-8 shadow-md'>
+        <CustomButton size='sm' className='text-sm'>
+          <Link href='/my'>Back</Link>
+        </CustomButton>
+        <div className='flex items-center space-x-2'>
           {COLOR_PALETTE.map((color, index) => (
             <button
               key={index}

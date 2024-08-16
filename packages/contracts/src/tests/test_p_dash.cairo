@@ -18,7 +18,7 @@ mod tests {
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
     use p_dash::systems::app::{
-        actions as p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
+        p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
 
 

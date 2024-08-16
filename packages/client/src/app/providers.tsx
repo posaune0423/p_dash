@@ -1,20 +1,36 @@
 'use client'
 
 import { mainnet, sepolia } from '@starknet-react/chains'
-import {
-  StarknetConfig,
-  publicProvider,
-  argent,
-  braavos,
-  voyager,
-} from '@starknet-react/core'
+import { StarknetConfig, publicProvider, argent, braavos, voyager } from '@starknet-react/core'
+import { useEffect, useState } from 'react'
 import { ArgentMobileConnector } from 'starknetkit/argentMobile'
 import { WebWalletConnector } from 'starknetkit/webwallet'
+import { dojoConfig } from '../../dojoConfig'
 import { Toaster } from '@/components/ui/sonner'
 import { APP_DESCRIPTION, APP_NAME } from '@/constants'
+// import { DojoProvider } from '@/dojo/DojoContext'
+import { setup, type SetupResult } from '@/dojo/generated/setup'
 import { detectMobile } from '@/utils/devices'
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
+  const [dojo, setDojo] = useState<SetupResult | null>(null)
+
+  useEffect(() => {
+    const setupDojo = async () => {
+      const setupResult = await setup(dojoConfig)
+      setDojo(setupResult)
+    }
+
+    setupDojo()
+  }, [])
+
+  if (!dojo)
+    return (
+      <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
+        Loading...
+      </div>
+    )
+
   const chains = [mainnet, sepolia]
   const connectors = detectMobile()
     ? [
@@ -34,8 +50,10 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       explorer={voyager}
       autoConnect={true}
     >
-      <Toaster richColors position="top-center" />
-      {children}
+      {/* <DojoProvider value={dojo}> */}
+        <Toaster richColors position='top-center' />
+        {children}
+      {/* </DojoProvider> */}
     </StarknetConfig>
   )
 }

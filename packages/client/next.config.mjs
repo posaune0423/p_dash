@@ -19,12 +19,18 @@ export default withSerwist({
     // typedRoutes: true,
     scrollRestoration: true,
   },
-  webpack: (config) => {
+  webpack: (config, { isServer, dev }) => {
     config.module.rules.push({
       test: /\.(graphql|gql)/,
       exclude: /node_modules/,
       loader: 'graphql-tag/loader',
     })
+
+    config.output.webassemblyModuleFilename =
+      isServer && !dev ? '../static/pkg/[modulehash].wasm' : 'static/pkg/[modulehash].wasm'
+
+    // Since Webpack 5 doesn't enable WebAssembly by default, we should do it manually
+    config.experiments = { ...config.experiments, asyncWebAssembly: true, topLevelAwait: true }
 
     return config
   },

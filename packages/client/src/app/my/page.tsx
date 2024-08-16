@@ -4,7 +4,7 @@ import UserInfo from '@/components/UserInfo'
 
 const MyPage = () => {
   return (
-    <main className='relative w-full bg-gray-800 p-4'>
+    <main className='fixed w-full bg-gray-800 p-4'>
       <SoundLink href='/game'>
         <ArrowLeft className='absolute left-4 top-4' size={36} color='white' />
       </SoundLink>

@@ -115,7 +115,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
   }, [ref])
 
   return (
-    <main>
+    <main className='fixed'>
       {isGameClear && <ConfettiEffect />}
       <div className='bg-slate-800' id='game-container' />
       <Dialog open={isDialogOpen}>

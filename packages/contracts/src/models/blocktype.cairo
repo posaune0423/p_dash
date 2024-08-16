@@ -12,7 +12,7 @@ pub enum BlockType {
 // how can we get all all blocks in the area? → excute loop in the whole area? / set the index for
 // object?->hard for delete.
 #[derive(Copy, Drop, Serde)]
-#[dojo::model(namespace: "p_dash", nomapping: true)]
+#[dojo::model(namespace: "pixelaw", nomapping: true)]
 pub struct Block {
     // #[key]
     // id: usize
