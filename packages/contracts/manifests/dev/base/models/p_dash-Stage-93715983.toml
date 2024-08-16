@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0xe388ce3a843f84050025b74ecf8cb1330d0074c6d93c8e52b2152c3ecab873"
-original_class_hash = "0xe388ce3a843f84050025b74ecf8cb1330d0074c6d93c8e52b2152c3ecab873"
+class_hash = "0x610c1a3088d01df068f03832b36d0a3989a356a9ff5de2b7c3a399ceb7c84ee"
+original_class_hash = "0x610c1a3088d01df068f03832b36d0a3989a356a9ff5de2b7c3a399ceb7c84ee"
 abi = "manifests/dev/base/abis/models/p_dash-Stage-93715983.json"
 tag = "p_dash-Stage"
 manifest_name = "p_dash-Stage-93715983"
