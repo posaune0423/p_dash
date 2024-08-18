@@ -35,19 +35,17 @@ export function createSystemCalls(
     }
   }
 
-  const updatePixel = async (
-    account: AccountInterface,
-    forPlayer: `0x${string}`,
-    forSystem: `0x${string}`,
-    pixelUpdate: PixelUpdate,
-  ) => {
+  const updatePixel = async (account: AccountInterface, pixelUpdate: PixelUpdate) => {
     try {
-      await client.actions.updatePixel({
-        account,
-        forPlayer,
-        forSystem,
-        pixelUpdate,
-      })
+      await client.actions.updatePixel(account, pixelUpdate)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const interact = async (account: AccountInterface, pixelUpdate: PixelUpdate) => {
+    try {
+      await client.actions.interact(account, pixelUpdate)
     } catch (e) {
       console.error(e)
     }
@@ -56,5 +54,6 @@ export function createSystemCalls(
   return {
     init,
     updatePixel,
+    interact,
   }
 }

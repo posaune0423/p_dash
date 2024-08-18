@@ -2,15 +2,14 @@
 
 import { type DojoProvider } from '@dojoengine/core'
 import { type Account, type AccountInterface } from 'starknet'
-
-const NAMESPACE = 'pixelaw'
+import { ZERO_ADDRESS, NAMESPACE } from '@/constants'
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>
 
 export type PixelUpdate = {
   x: number
   y: number
-  color?: number
+  color: number
   owner?: `0x${string}`
   app?: `0x${string}`
   text?: string
@@ -48,19 +47,57 @@ export async function setupWorld(provider: DojoProvider) {
       }
     },
 
-    updatePixel: async ({ account, forPlayer }: UpdatePixelProps) => {
+    updatePixel: async (account: Account | AccountInterface, pixelUpdate: PixelUpdate) => {
+      console.log(account)
       try {
         return await provider.execute(
           account,
           {
             contractName: 'actions',
             entrypoint: 'update_pixel',
-            calldata: [forPlayer],
+            calldata: [
+              ZERO_ADDRESS, // NOTE: Why can we pass ZERO_ADDRESS for both player and system?
+              ZERO_ADDRESS,
+              { x: pixelUpdate.x, y: pixelUpdate.y },
+              pixelUpdate?.color,
+              // pixelUpdate?.owner,
+              // pixelUpdate?.app,
+              // pixelUpdate?.text,
+              // pixelUpdate?.timestamp,
+              // pixelUpdate?.action,
+            ],
           },
           NAMESPACE,
         )
       } catch (error) {
-        handleError('move', error)
+        handleError('updatePixel', error)
+      }
+    },
+
+    interact: async (account: Account | AccountInterface, pixelUpdate: PixelUpdate) => {
+      console.log(account)
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: 'p_dash_actions',
+            entrypoint: 'interact',
+            calldata: [
+              ZERO_ADDRESS, // NOTE: Why can we pass ZERO_ADDRESS for both player and system?
+              ZERO_ADDRESS,
+              { x: pixelUpdate.x, y: pixelUpdate.y },
+              pixelUpdate?.color,
+              // pixelUpdate?.owner,
+              // pixelUpdate?.app,
+              // pixelUpdate?.text,
+              // pixelUpdate?.timestamp,
+              // pixelUpdate?.action,
+            ],
+          },
+          NAMESPACE,
+        )
+      } catch (error) {
+        handleError('interact', error)
       }
     },
   })

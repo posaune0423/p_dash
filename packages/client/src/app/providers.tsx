@@ -5,31 +5,59 @@ import { StarknetConfig, publicProvider, argent, braavos, voyager } from '@stark
 import { useEffect, useState } from 'react'
 import { ArgentMobileConnector } from 'starknetkit/argentMobile'
 import { WebWalletConnector } from 'starknetkit/webwallet'
-import { dojoConfig } from '../../dojoConfig'
+import { dojoConfig } from '@/../dojoConfig'
 import { Toaster } from '@/components/ui/sonner'
 import { APP_DESCRIPTION, APP_NAME } from '@/constants'
-// import { DojoProvider } from '@/dojo/DojoContext'
+import { DojoProvider } from '@/dojo/DojoContext'
 import { setup, type SetupResult } from '@/dojo/generated/setup'
 import { detectMobile } from '@/utils/devices'
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const [dojo, setDojo] = useState<SetupResult | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
     const setupDojo = async () => {
-      const setupResult = await setup(dojoConfig)
-      setDojo(setupResult)
+      try {
+        setIsLoading(true)
+        const setupResult = await setup(dojoConfig)
+        setDojo(setupResult)
+        console.log(setupResult)
+      } catch (err) {
+        console.error('Error setting up Dojo:', err)
+        setError(err instanceof Error ? err : new Error('Unknown error occurred'))
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     setupDojo()
   }, [])
 
-  if (!dojo)
+  if (isLoading) {
     return (
       <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
         Loading...
       </div>
     )
+  }
+
+  if (error) {
+    return (
+      <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
+        Error: {error.message}
+      </div>
+    )
+  }
+
+  if (!dojo) {
+    return (
+      <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
+        Dojo setup failed
+      </div>
+    )
+  }
 
   const chains = [mainnet, sepolia]
   const connectors = detectMobile()
@@ -50,10 +78,10 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       explorer={voyager}
       autoConnect={true}
     >
-      {/* <DojoProvider value={dojo}> */}
+      <DojoProvider value={dojo}>
         <Toaster richColors position='top-center' />
         {children}
-      {/* </DojoProvider> */}
+      </DojoProvider>
     </StarknetConfig>
   )
 }

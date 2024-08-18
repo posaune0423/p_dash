@@ -62,3 +62,6 @@ export const viewportConfig: Viewport = {
   maximumScale: 1,
   userScalable: false,
 }
+
+export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000000000000000000000000000'
+export const NAMESPACE = 'pixelaw'

@@ -1,18 +1,19 @@
 import { type DojoConfig, DojoProvider } from '@dojoengine/core'
 import { BurnerManager } from '@dojoengine/create-burner'
-import * as torii from '@dojoengine/torii-client'
-import { Account, type WeierstrassSignatureType } from 'starknet'
+import { Account, type ArraySignatureType } from 'starknet'
 import { createClientComponents } from '../createClientComponents'
 import { createSystemCalls } from '../createSystemCalls'
 import { defineContractComponents } from './contractComponents'
 import { setupWorld } from './generated'
 import { world } from './world'
+import init, { createClient } from '@/lib/torii-wasm/pkg'
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>
 
 export async function setup({ ...config }: DojoConfig) {
+  await init()
   // torii client
-  const toriiClient = await torii.createClient({
+  const toriiClient = await createClient({
     rpcUrl: config.rpcUrl,
     toriiUrl: config.toriiUrl,
     relayUrl: '',
@@ -61,11 +62,8 @@ export async function setup({ ...config }: DojoConfig) {
     clientComponents,
     contractComponents,
     systemCalls: createSystemCalls({ client }, contractComponents, clientComponents),
-    publish: (typedData: string, signature: WeierstrassSignatureType) => {
-      toriiClient.publishMessage(typedData, {
-        r: signature.r.toString(),
-        s: signature.s.toString(),
-      })
+    publish: (typedData: string, signature: ArraySignatureType) => {
+      toriiClient.publishMessage(typedData, signature)
     },
     config,
     dojoProvider,

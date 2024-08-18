@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useComponentValue, useQuerySync } from '@dojoengine/react'
+import { type Entity } from '@dojoengine/recs'
+import { getEntityIdFromKeys } from '@dojoengine/utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   BASE_CELL_SIZE,
@@ -15,6 +19,8 @@ import {
   type ProgramInfo,
 } from './types'
 import { initShaderProgram } from './webgl'
+import { useDojo } from '@/dojo/useDojo'
+import { rgbaToHex } from '@/utils'
 
 export const useStageEditor = (backgroundColor: Color, gridColor: Color) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -30,6 +36,27 @@ export const useStageEditor = (backgroundColor: Color, gridColor: Color) => {
   const [gridDimensions] = useState<GridDimensions>(DEFAULT_GRID_DIMENSIONS)
   const [coloredCells, setColoredCells] = useState<ColoredCell[]>([])
   const [selectedColor, setSelectedColor] = useState<Color>(COLOR_PALETTE[0])
+
+  const {
+    setup: {
+      systemCalls: { interact },
+      burnerManager: { account: burnerAccount },
+      clientComponents: { Stage, StageId, Pixel },
+      contractComponents,
+      toriiClient,
+    },
+  } = useDojo()
+
+  useQuerySync(toriiClient, contractComponents as any, [])
+
+  const entityId = getEntityIdFromKeys([BigInt(burnerAccount!.address)]) as Entity
+
+  // get current component values
+  const stageId = useComponentValue(StageId, entityId)
+  const stage = useComponentValue(Stage, entityId)
+  const pixel = useComponentValue(Pixel, entityId)
+
+  console.log(stage, pixel, stageId)
 
   const drawGrid = useCallback(() => {
     const gl = glRef.current
@@ -185,7 +212,7 @@ export const useStageEditor = (backgroundColor: Color, gridColor: Color) => {
   )
 
   const handleTouchEnd = useCallback(
-    (e: React.TouchEvent<HTMLCanvasElement>) => {
+    async (e: React.TouchEvent<HTMLCanvasElement>) => {
       e.preventDefault()
       const canvas = canvasRef.current
       if (!canvas) return
@@ -208,11 +235,18 @@ export const useStageEditor = (backgroundColor: Color, gridColor: Color) => {
             return [...prev, { x: cellX, y: cellY, color: selectedColor }]
           }
         })
+
+        console.log(burnerAccount)
+        await interact(burnerAccount!, {
+          x: cellX,
+          y: cellY,
+          color: rgbaToHex(selectedColor),
+        })
       }
 
       isDraggingRef.current = false
     },
-    [gridState, selectedColor],
+    [gridState, selectedColor, interact, burnerAccount],
   )
 
   const handleMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -267,7 +301,7 @@ export const useStageEditor = (backgroundColor: Color, gridColor: Color) => {
   )
 
   const handleMouseUp = useCallback(
-    (e: React.MouseEvent<HTMLCanvasElement>) => {
+    async (e: React.MouseEvent<HTMLCanvasElement>) => {
       e.preventDefault()
       const canvas = canvasRef.current
       if (!canvas) return
@@ -291,12 +325,19 @@ export const useStageEditor = (backgroundColor: Color, gridColor: Color) => {
             return [...prev, { x: cellX, y: cellY, color: selectedColor }]
           }
         })
+
+        console.log(burnerAccount)
+        await interact(burnerAccount!, {
+          x: cellX,
+          y: cellY,
+          color: rgbaToHex(selectedColor),
+        })
       }
 
       mouseDownPosRef.current = null
       isDraggingRef.current = false
     },
-    [gridState, selectedColor],
+    [gridState, selectedColor, interact, burnerAccount],
   )
 
   const handleWheel = useCallback(
