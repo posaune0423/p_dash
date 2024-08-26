@@ -37,6 +37,12 @@ const stageList = [
     name: 'Test Stage',
     thumbnail: '/assets/stage/sci-fi/bg.png',
     enabled: true,
+  },
+  {
+    id: 'test-stage-needle',
+    name: 'Test Stage Needle',
+    thumbnail: '/assets/stage/sci-fi/bg.png',
+    enabled: true,
   }
 ]
 

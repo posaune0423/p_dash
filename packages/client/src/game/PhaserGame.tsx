@@ -81,8 +81,8 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
           distance: playResult.distance,
           interactions: playResult.interactions,
         })
-        console.log(game!.current!.config)
-        console.log(playResult)
+        // console.log(game!.current!.config)
+        // console.log(playResult)
         console.log(playResult.interactions)
         console.log(stageData)
         setIsGameClear(true)

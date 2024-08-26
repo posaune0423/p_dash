@@ -93,5 +93,8 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
   ],
   'test-stage': [
     { x: 200, y: 0, type: 'block' },
-  ]
+  ],
+  'test-stage-needle': [
+    { x: 200, y: 0, type: 'spike' },
+  ],
 }

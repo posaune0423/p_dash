@@ -31,6 +31,10 @@ const bounds = {
     [14, 19],
     [80, 28],
   ],
+  'test-stage-needle': [
+    [14, 19],
+    [80, 28],
+  ],
 }
 
 export const generateViewport = () => {
@@ -43,7 +47,7 @@ const GamePage = async ({ params }: Props) => {
   const [[left, top], [right, bottom]] = bounds[params.id]
   let obstacles: Obstacle[] = []
 
-  if (params.id === 'sci-fi' || params.id === 'test-stage') {
+  if (params.id === 'sci-fi' || params.id === 'test-stage' || params.id === 'test-stage-needle') {
     obstacles = mockStageData[params.id]
   } else {
     const gqlClient = new GraphQLClient(`${dojoConfig.toriiUrl}/graphql`)

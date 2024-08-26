@@ -14,7 +14,7 @@ export const BASIC_PIXEL = 50
 export const GRAVITY = 2000
 
 // added
-export const SPEED_X = 200
+export const SPEED_X = 340
 export const JUMP_SPEED_Y = -700 // for jump
 
 export const PREPARATION_WIDTH = 1200;

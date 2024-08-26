@@ -39,6 +39,12 @@ export class Game extends Scene {
     gravity: number
     speedX: number
     jump_speed_y: number
+    player_width_half: number | undefined
+    player_height_half: number | undefined
+    block_width_half: number | undefined
+    block_height_half: number | undefined
+    needle_width_half: number | undefined
+    needle_height_half: number | undefined
   }
 
   constructor() {
@@ -46,11 +52,26 @@ export class Game extends Scene {
     this.tiles = []
     this.playerInteractions = []
     this.playerHistory = []
+    this.config_for_noir = {
+      height: 0,
+      bufferHeight: BUFFER_HEIGHT,
+      preparationWidth: PREPARATION_WIDTH,
+      gravity: GRAVITY,
+      speedX: SPEED_X,
+      jump_speed_y: -1 * JUMP_SPEED_Y,
+      player_width_half: 0,
+      player_height_half: 0,
+      block_width_half: 0,
+      block_height_half: 0,
+      needle_width_half: 0,
+      needle_height_half: 0,
+    }
   }
 
   init(): void {
     env.NEXT_PUBLIC_DEBUG && this.physics.world.createDebugGraphic()
     this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height)
+    this.config_for_noir.height = this.scale.height;
     this.camera = this.cameras.main
 
     // configure keyboard input
@@ -80,6 +101,8 @@ export class Game extends Scene {
     this.setupStage()
 
     this.input.addPointer(2)
+    // this.physics.world.createDebugGraphic(); // debug graphic mode
+
 
     this.distanceText = this.add
       .text(28, 28, '0M', {
@@ -159,6 +182,8 @@ export class Game extends Scene {
 
   setupStage() {
     // const bufferHeight = 70
+
+    console.log("stage info: height->" + this.scale.height + "buf_h->" + BUFFER_HEIGHT);
     this.stage.forEach((ele) => {
       // 助走期間
       const x = ele.x + PREPARATION_WIDTH
@@ -172,13 +197,29 @@ export class Game extends Scene {
         return
       }
       const asset = this.generateAsset(x, this.scale.height - ele.y - BUFFER_HEIGHT, ele.type)
-      console.log("Asset info: x->"+ ele.x + " y->" + ele.y + " scale_h->" + this.scale.height + " buf_h->" + BUFFER_HEIGHT);
-      console.log("asset info: w->" + asset.width + " h->" + asset.height);
+      console.log("Asset info:");
+      console.log("x->"+ ele.x + " y->" + ele.y);
+      // console.log("w->" + asset.width + " h->" + asset.height);
+      console.log("x->" + asset.x + " y->" + asset.y);
+      console.log("topleft.x: " + asset.getTopLeft().x + " topleft.y: " + asset.getTopLeft().y + " bottomright.x: " + asset.getBottomRight().x + " bottomright.y: " + asset.getBottomRight().y);
+      // console.log("body_width: " + asset.body.width + " body_height: " + asset.body.height);
+      // console.log("body_top: " + asset.body.top + " body_bottom: " + asset.body.bottom);
+      console.log("display_w->" + asset.displayWidth + " display_h->" + asset.displayHeight);
+      // console.log("display_x->" + asset.displayOriginX + " display_y->" + asset.displayOriginY);
+      // console.log("body_bottom: " + asset.body.bottom + " body_top: " + asset.body.top + " body_left: " + asset.body.left + " body_right: " + asset.body.right);
+      // console.log("body_width: " + asset.body.width + " body_height: " + asset.body.height);
+      // console.log("body_x: " + asset.body.x + " body_y: " + asset.body.y);
+      
       if (ele.type === 'spike') {
         asset.setBodySize(asset.width * 0.8, asset.height * 0.8)
+        this.config_for_noir.needle_width_half = asset.displayWidth / 2;
+        this.config_for_noir.needle_height_half = asset.displayHeight / 2;
 
         this.physics.add.collider(this.player, asset, () => this.gameOver())
       } else if (ele.type === 'block') {
+        this.config_for_noir.block_width_half = asset.displayWidth  / 2;
+        this.config_for_noir.block_height_half = asset.displayHeight / 2;
+
         this.physics.add.collider(this.player, asset, () => {
           if (this.player.body?.touching.right && asset.body.touching.left) {
             this.gameOver()
@@ -194,6 +235,8 @@ export class Game extends Scene {
     // const speed = SPEED_X
     this.player.setVelocityX(SPEED_X)
     this.background.tilePositionX += 5
+    this.config_for_noir.player_height_half = this.player.body?.height ? this.player.body.height / 2 : 0;
+    this.config_for_noir.player_width_half = this.player.body?.width ? this.player.body.width / 2 : 0;
 
     if (Input.Keyboard.JustDown(this.jumpButton)) {
       if (this.player.body?.touching.down) {
@@ -232,13 +275,17 @@ export class Game extends Scene {
         distance: Math.floor(this.player.x / 100),
         interactions: this.playerInteractions,
       }
-      console.log("Player History");
-      console.log(this.playerHistory);
-      console.log("this.scale.height: " + this.scale.height);
-      console.log("Buffer Height: " + BUFFER_HEIGHT);
-      console.log("Gravity: " + GRAVITY);
-      console.log("SpeedX: " + SPEED_X);
-      console.log("SpeedY: " + JUMP_SPEED_Y);
+      console.log("config_for_noir:");
+      console.log(this.config_for_noir);
+      // console.log("Player History");
+      // console.log(this.playerHistory);
+      // console.log("this.scale.height: " + this.scale.height);
+      // console.log("Buffer Height: " + BUFFER_HEIGHT);
+      // console.log("Gravity: " + GRAVITY);
+      // console.log("SpeedX: " + SPEED_X);
+      // console.log("SpeedY: " + JUMP_SPEED_Y);
+      // console.log("player_body_height: " + this.player.body?.height);
+      // console.log("player_body_width: " + this.player.body?.width);
       setTimeout(() => {
         EventBus.emit('game-clear', playResult)
       }, 1000)
@@ -251,6 +298,8 @@ export class Game extends Scene {
         const jumpDistance = this.player.x - this.jumpStartX;
         console.log(`Jump Distance: ${jumpDistance} pixels (${Math.floor(jumpDistance / 100)} meters)`);
         this.jumpStartX = null;  // Reset jumpStartX after landing
+        
+
         this.isLanding = false;
       }
     }
@@ -319,6 +368,14 @@ export class Game extends Scene {
     this.scene.pause() // pause scene
     this.sound.stopByKey('main-bgm')
     this.sound.play('dead')
+
+    console.log("game over");
+    console.log("config_for_noir:");
+    console.log(this.config_for_noir);
+    // console.log("player info: x->" + this.player.x + " y->" + this.player.y);
+    // console.log("player body: x->" + this.player.body?.x + " " + this.player.body?.y);
+    // console.log("player body: w->" + this.player.body?.width + " h->" + this.player.body?.height);
+    // console.log("player body: bottom->" + this.player.body?.bottom + " top->" + this.player.body?.top + " left->" + this.player.body?.left + " right->" + this.player.body?.right);
 
     const playResult = {
       distance: Math.floor(this.player.x / 100),

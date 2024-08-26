@@ -34,7 +34,7 @@ export class Preloader extends Scene {
   }
 
   preload() {
-    if (this.stage === 'test-stage') {
+    if (this.stage === 'test-stage' || this.stage === 'test-stage-needle') {
       this.load.setPath(`/assets/stage/sci-fi`)
     } else {
       this.load.setPath(`/assets/stage/${this.stage}`)
