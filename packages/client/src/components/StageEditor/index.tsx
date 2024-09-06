@@ -1,10 +1,6 @@
-'use client'
-
-import Link from 'next/link'
 import React from 'react'
-import CustomButton from '../CustomButton'
 import { COLOR_PALETTE, DEFAULT_BACKGROUND_COLOR, DEFAULT_GRID_COLOR } from './const'
-import { useStageEditor } from './hooks'
+import { usePixelViewer } from './hooks'
 import { type Color } from './types'
 
 interface StageEditorProps {
@@ -27,13 +23,13 @@ const StageEditor: React.FC<StageEditorProps> = ({
     handleMouseMove,
     handleMouseUp,
     handleWheel,
-  } = useStageEditor(backgroundColor, gridColor)
+  } = usePixelViewer(backgroundColor, gridColor)
 
   return (
-    <div className='relative h-screen w-full'>
+    <div className='relative size-full'>
       <canvas
         ref={canvasRef}
-        className='fixed inset-x-0 bottom-[50px] top-0'
+        className='bottom fixed inset-x-0 top-[50px]'
         style={{ width: '100%', height: 'calc(100% - 50px)' }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -43,17 +39,18 @@ const StageEditor: React.FC<StageEditorProps> = ({
         onMouseUp={handleMouseUp}
         onWheel={handleWheel}
       />
-      <div className='bg-primary fixed inset-x-0 bottom-0 flex h-[50px] items-center justify-center space-x-8 shadow-md'>
-        <CustomButton size='sm' className='text-sm'>
-          <Link href='/my'>Back</Link>
-        </CustomButton>
+      <div className='bg-primary fixed inset-x-0 bottom-1 mx-auto flex h-[50px] max-w-fit items-center justify-center space-x-8 rounded-md px-4 shadow-md'>
         <div className='flex items-center space-x-2'>
           {COLOR_PALETTE.map((color, index) => (
             <button
               key={index}
-              className={`size-8 rounded-full ${selectedColor === color ? 'ring-2 ring-black ring-offset-2' : ''}`}
+              className={`size-8 rounded-full ${
+                selectedColor === color ? 'ring-2 ring-black ring-offset-2' : ''
+              }`}
               style={{
-                backgroundColor: `rgba(${color.r * 255}, ${color.g * 255}, ${color.b * 255}, ${color.a})`,
+                backgroundColor: `rgba(${color.r * 255}, ${color.g * 255}, ${color.b * 255}, ${
+                  color.a
+                })`,
               }}
               onClick={() => setSelectedColor(color)}
             />

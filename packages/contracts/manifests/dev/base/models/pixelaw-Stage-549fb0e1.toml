@@ -3,6 +3,7 @@ class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
 original_class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
 abi = "manifests/dev/base/abis/models/pixelaw-Stage-549fb0e1.json"
 tag = "pixelaw-Stage"
+qualified_path = "p_dash::models::stage::stage"
 manifest_name = "pixelaw-Stage-549fb0e1"
 
 [[members]]

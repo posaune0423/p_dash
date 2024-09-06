@@ -3,6 +3,7 @@ class_hash = "0x71570f33b7f66331952b84691bb5794ee6b19f43ad729cc654c3930f47c5f0d"
 original_class_hash = "0x71570f33b7f66331952b84691bb5794ee6b19f43ad729cc654c3930f47c5f0d"
 abi = "manifests/dev/base/abis/models/pixelaw-Pixel-7e607b2f.json"
 tag = "pixelaw-Pixel"
+qualified_path = "pixelaw::core::models::pixel::pixel"
 manifest_name = "pixelaw-Pixel-7e607b2f"
 
 [[members]]

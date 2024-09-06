@@ -11,8 +11,8 @@ import init, { createClient } from '@/lib/torii-wasm/pkg'
 export type SetupResult = Awaited<ReturnType<typeof setup>>
 
 export async function setup({ ...config }: DojoConfig) {
-  await init()
   // torii client
+  await init()
   const toriiClient = await createClient({
     rpcUrl: config.rpcUrl,
     toriiUrl: config.toriiUrl,

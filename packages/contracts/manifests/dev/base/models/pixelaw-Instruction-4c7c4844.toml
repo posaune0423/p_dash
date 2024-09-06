@@ -3,6 +3,7 @@ class_hash = "0x710dc73b9f03542890421c368ca53fe61416010f69709337bc7b40b9c3115af"
 original_class_hash = "0x710dc73b9f03542890421c368ca53fe61416010f69709337bc7b40b9c3115af"
 abi = "manifests/dev/base/abis/models/pixelaw-Instruction-4c7c4844.json"
 tag = "pixelaw-Instruction"
+qualified_path = "pixelaw::core::models::registry::instruction"
 manifest_name = "pixelaw-Instruction-4c7c4844"
 
 [[members]]

@@ -3,6 +3,7 @@ class_hash = "0x76f9cd1817f7802e3c9dbe1993251597832ce23f85a7142a891c1162748541e"
 original_class_hash = "0x76f9cd1817f7802e3c9dbe1993251597832ce23f85a7142a891c1162748541e"
 abi = "manifests/dev/base/abis/models/pixelaw-Block-656ed65c.json"
 tag = "pixelaw-Block"
+qualified_path = "p_dash::models::blocktype::block"
 manifest_name = "pixelaw-Block-656ed65c"
 
 [[members]]

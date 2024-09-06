@@ -43,3 +43,23 @@ export const hexToRgba = (hex: number): Color => {
 
   return { r, g, b, a }
 }
+
+export const handleTransactionError = (error: unknown) => {
+  console.error('Transaction error:', error)
+
+  let errorMessage = 'An unexpected error occurred. Please try again.'
+
+  if (error instanceof Error) {
+    if (error.message.includes('Cooldown not over')) {
+      errorMessage = 'Cooldown period is not over. Please wait and try again later.'
+    } else if (error.message.includes('transaction reverted')) {
+      errorMessage = 'Transaction was reverted.'
+    } else if (error.message.includes('Error in the called contract')) {
+      errorMessage = 'An error occurred while calling the contract.'
+    } else if (error.message.includes('execution_error')) {
+      errorMessage = 'An error occurred during the transaction execution.'
+    }
+  }
+
+  return errorMessage
+}
