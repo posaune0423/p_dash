@@ -12,8 +12,6 @@ import {
 import {
   BASE_CELL_SIZE,
   COLOR_PALETTE,
-  INERTIA_DAMPING,
-  INERTIA_STOP_THRESHOLD,
   MAX_SCALE,
   MIN_SCALE,
   SWIPE_THRESHOLD,
@@ -39,17 +37,6 @@ export const usePixelViewer = () => {
     isGesture: false,
     gestureType: null as string | null,
     gestureStartTime: null as number | null,
-  })
-  const inertiaRef = useRef<{
-    speedX: number
-    speedY: number
-    lastTime: number
-    animationFrame: number | null
-  }>({
-    speedX: 0,
-    speedY: 0,
-    lastTime: 0,
-    animationFrame: null,
   })
 
   // States
@@ -205,54 +192,6 @@ export const usePixelViewer = () => {
     [updateCurrentMousePos, setGridState],
   )
 
-  const animateJumpToCell = useCallback(
-    (x: number, y: number, duration: number = 500) => {
-      const canvas = canvasRef.current
-      if (!canvas) return
-
-      const canvasWidth = canvas.width
-      const canvasHeight = canvas.height
-
-      const startTime = performance.now()
-      const startOffsetX = gridState.offsetX
-      const startOffsetY = gridState.offsetY
-
-      const targetOffsetX = Math.max(
-        0,
-        x * BASE_CELL_SIZE + BASE_CELL_SIZE / 2 - canvasWidth / (2 * gridState.scale),
-      )
-      const targetOffsetY = Math.max(
-        0,
-        y * BASE_CELL_SIZE + BASE_CELL_SIZE / 2 - canvasHeight / (2 * gridState.scale),
-      )
-
-      const animateFrame = () => {
-        const elapsedTime = performance.now() - startTime
-        const progress = Math.min(elapsedTime / duration, 1)
-
-        // easing function (optional: smooth movement)
-        const easeProgress = 1 - Math.pow(1 - progress, 3)
-
-        setGridState((prev) => ({
-          ...prev,
-          offsetX: startOffsetX + (targetOffsetX - startOffsetX) * easeProgress,
-          offsetY: startOffsetY + (targetOffsetY - startOffsetY) * easeProgress,
-        }))
-
-        if (progress < 1) {
-          requestAnimationFrame(animateFrame)
-        } else {
-          startTransition(() => {
-            setCurrentMousePos({ x, y })
-          })
-        }
-      }
-
-      requestAnimationFrame(animateFrame)
-    },
-    [gridState, setGridState, setCurrentMousePos],
-  )
-
   const handleTouchStart = useCallback(
     (e: React.TouchEvent<HTMLCanvasElement>) => {
       if (e.touches.length === 2) {
@@ -277,10 +216,6 @@ export const usePixelViewer = () => {
 
         // Add a timestamp for the touch start
         gestureRef.current.gestureStartTime = performance.now()
-
-        if (inertiaRef.current.animationFrame) {
-          cancelAnimationFrame(inertiaRef.current.animationFrame)
-        }
       }
     },
     [updateCurrentMousePos],
@@ -352,12 +287,6 @@ export const usePixelViewer = () => {
         }
 
         if (isDraggingRef.current) {
-          const currentTime = performance.now()
-          const deltaTime = currentTime - inertiaRef.current.lastTime
-          inertiaRef.current.speedX = (dx / deltaTime) * 15 // 係数を増やして慣性を強く
-          inertiaRef.current.speedY = (dy / deltaTime) * 15
-          inertiaRef.current.lastTime = currentTime
-
           setGridState((prev) => ({
             ...prev,
             offsetX: Math.max(0, prev.offsetX - dx / prev.scale),
@@ -370,52 +299,21 @@ export const usePixelViewer = () => {
     [updateCurrentMousePos, setGridState],
   )
 
-  const handleInertia = useCallback(() => {
-    const { speedX, speedY, animationFrame } = inertiaRef.current
+  const handleTouchEnd = useCallback(async (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault()
+    const wasPinchGesture = gestureRef.current.isGesture
+    gestureRef.current.isGesture = false
+    gestureRef.current.gestureType = null
 
-    if (Math.abs(speedX) > INERTIA_STOP_THRESHOLD || Math.abs(speedY) > INERTIA_STOP_THRESHOLD) {
-      setGridState((prev) => ({
-        ...prev,
-        offsetX: Math.max(0, prev.offsetX - speedX / prev.scale),
-        offsetY: Math.max(0, prev.offsetY - speedY / prev.scale),
-      }))
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-      inertiaRef.current.speedX *= INERTIA_DAMPING
-      inertiaRef.current.speedY *= INERTIA_DAMPING
-
-      inertiaRef.current.animationFrame = requestAnimationFrame(handleInertia)
-    } else {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame)
-        inertiaRef.current.animationFrame = null
-      }
+    if (wasPinchGesture) {
       // fetchPixels();
     }
-  }, [setGridState])
 
-  const handleTouchEnd = useCallback(
-    async (e: React.TouchEvent<HTMLCanvasElement>) => {
-      e.preventDefault()
-      const wasPinchGesture = gestureRef.current.isGesture
-      gestureRef.current.isGesture = false
-      gestureRef.current.gestureType = null
-
-      const canvas = canvasRef.current
-      if (!canvas) return
-
-      if (isDraggingRef.current) {
-        if (inertiaRef.current.animationFrame) {
-          cancelAnimationFrame(inertiaRef.current.animationFrame)
-        }
-        inertiaRef.current.animationFrame = requestAnimationFrame(handleInertia)
-      } else if (wasPinchGesture) {
-        // fetchPixels();
-      }
-
-      isDraggingRef.current = false
-    },
-    [handleInertia],
-  )
+    isDraggingRef.current = false
+  }, [])
 
   const handlePinchZoom = useCallback(
     (e: TouchEvent) => {
@@ -504,6 +402,5 @@ export const usePixelViewer = () => {
     handleTouchMove,
     handleTouchEnd,
     handlePinchZoom,
-    animateJumpToCell,
   }
 }

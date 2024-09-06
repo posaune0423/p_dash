@@ -1,6 +1,7 @@
 import { WEBGL, Game } from 'phaser'
 import { Game as MainGame } from '@/game/scenes/Game'
 import { Preloader } from '@/game/scenes/Preloader'
+import { type Obstacle } from '@/types'
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig

@@ -1,3 +1,5 @@
+'use client'
+
 import { type BurnerAccount, useBurnerManager } from '@dojoengine/create-burner'
 import { useAccount } from '@starknet-react/core'
 import { type ReactNode, createContext, useContext, useMemo } from 'react'
