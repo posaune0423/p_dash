@@ -1,11 +1,9 @@
 [world]
 kind = "WorldContract"
-class_hash = "0x458d0ce5b14a4844092bdb62050f462d53362304a13febbac6d973691d61be2"
-original_class_hash = "0x458d0ce5b14a4844092bdb62050f462d53362304a13febbac6d973691d61be2"
+class_hash = "0xa349b743d361ce4567361475a89b84a386bb383448c6926954e5fe0b525597"
+original_class_hash = "0xa349b743d361ce4567361475a89b84a386bb383448c6926954e5fe0b525597"
 abi = "manifests/dev/deployment/abis/dojo-world.json"
-address = "0x5cb56865911cf7329f62323a0721c2731f55db9e82c8f41cd0ce81bcdd7317"
-transaction_hash = "0x7c81d487215a052b0eda600fc6761ba80b1ecb3f6fb572ead64b6d40792f894"
-block_number = 3
+address = "0x655a66b808c6b8519627a90b3a92a847bfde0c8447bb6d099ce4db708540b56"
 seed = ""
 manifest_name = "dojo-world"
 
@@ -23,10 +21,9 @@ manifest_name = "dojo-base"
 
 [[contracts]]
 kind = "DojoContract"
-address = "0x2644b3b291aa0a3e813bb750f960d3efac87c76aeec9bad2ddb7bce576413a1"
-class_hash = "0x680cb51f2ba01608b7ea6b2c1f7d3f4927e1f34601266c44adf3e66ebb7586f"
-original_class_hash = "0x680cb51f2ba01608b7ea6b2c1f7d3f4927e1f34601266c44adf3e66ebb7586f"
-base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+class_hash = "0x31ad47b55f3d18e932dd541e5686084703b0f7d123558c0a9bec6d6e09720b0"
+original_class_hash = "0x31ad47b55f3d18e932dd541e5686084703b0f7d123558c0a9bec6d6e09720b0"
+base_class_hash = "0x0"
 abi = "manifests/dev/deployment/abis/contracts/pixelaw-actions-16928a49.json"
 reads = []
 writes = []
@@ -46,10 +43,9 @@ manifest_name = "pixelaw-actions-16928a49"
 
 [[contracts]]
 kind = "DojoContract"
-address = "0x630d49e77e471d8a2708efb53a23b615777d3dcfe44b89579659333a032add7"
-class_hash = "0x70d4cf856e1e43a8b7b539e393eea08cfd5ca8dc7b35cc91602413d707bca28"
-original_class_hash = "0x70d4cf856e1e43a8b7b539e393eea08cfd5ca8dc7b35cc91602413d707bca28"
-base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+class_hash = "0x25ef6619aecd89cc45ad10c70f2588ccebd6254ed418353b815f26733005b7a"
+original_class_hash = "0x25ef6619aecd89cc45ad10c70f2588ccebd6254ed418353b815f26733005b7a"
+base_class_hash = "0x0"
 abi = "manifests/dev/deployment/abis/contracts/pixelaw-p_dash_actions-374d4b2d.json"
 reads = []
 writes = []
@@ -69,6 +65,7 @@ class_hash = "0x34204d56b9f6a93b305e54a27b5e8e593f159f87212fcf39c770020b03bfce5"
 original_class_hash = "0x34204d56b9f6a93b305e54a27b5e8e593f159f87212fcf39c770020b03bfce5"
 abi = "manifests/dev/deployment/abis/models/pixelaw-App-36504565.json"
 tag = "pixelaw-App"
+qualified_path = "pixelaw::core::models::registry::app"
 manifest_name = "pixelaw-App-36504565"
 
 [[models.members]]
@@ -102,6 +99,7 @@ class_hash = "0x7d54c34e9b4215ceaada6950e0b521ef3892de01fbaea2c8323e8c2cf3329c8"
 original_class_hash = "0x7d54c34e9b4215ceaada6950e0b521ef3892de01fbaea2c8323e8c2cf3329c8"
 abi = "manifests/dev/deployment/abis/models/pixelaw-AppName-3b816829.json"
 tag = "pixelaw-AppName"
+qualified_path = "pixelaw::core::models::registry::app_name"
 manifest_name = "pixelaw-AppName-3b816829"
 
 [[models.members]]
@@ -120,6 +118,7 @@ class_hash = "0x3d55e23acf8df5ef0c25b76d5a6b7765c241c494af075c7ce3858568bec45f1"
 original_class_hash = "0x3d55e23acf8df5ef0c25b76d5a6b7765c241c494af075c7ce3858568bec45f1"
 abi = "manifests/dev/deployment/abis/models/pixelaw-AppUser-4eda3c52.json"
 tag = "pixelaw-AppUser"
+qualified_path = "pixelaw::core::models::registry::app_user"
 manifest_name = "pixelaw-AppUser-4eda3c52"
 
 [[models.members]]
@@ -143,6 +142,7 @@ class_hash = "0x76f9cd1817f7802e3c9dbe1993251597832ce23f85a7142a891c1162748541e"
 original_class_hash = "0x76f9cd1817f7802e3c9dbe1993251597832ce23f85a7142a891c1162748541e"
 abi = "manifests/dev/deployment/abis/models/pixelaw-Block-656ed65c.json"
 tag = "pixelaw-Block"
+qualified_path = "p_dash::models::blocktype::block"
 manifest_name = "pixelaw-Block-656ed65c"
 
 [[models.members]]
@@ -166,6 +166,7 @@ class_hash = "0x296cfe5fb82a8b03b4aa78e35955bc70971babeb414d70a6a8acc52a4eacab2"
 original_class_hash = "0x296cfe5fb82a8b03b4aa78e35955bc70971babeb414d70a6a8acc52a4eacab2"
 abi = "manifests/dev/deployment/abis/models/pixelaw-CoreActionsAddress-5379e1ce.json"
 tag = "pixelaw-CoreActionsAddress"
+qualified_path = "pixelaw::core::models::registry::core_actions_address"
 manifest_name = "pixelaw-CoreActionsAddress-5379e1ce"
 
 [[models.members]]
@@ -184,6 +185,7 @@ class_hash = "0x710dc73b9f03542890421c368ca53fe61416010f69709337bc7b40b9c3115af"
 original_class_hash = "0x710dc73b9f03542890421c368ca53fe61416010f69709337bc7b40b9c3115af"
 abi = "manifests/dev/deployment/abis/models/pixelaw-Instruction-4c7c4844.json"
 tag = "pixelaw-Instruction"
+qualified_path = "pixelaw::core::models::registry::instruction"
 manifest_name = "pixelaw-Instruction-4c7c4844"
 
 [[models.members]]
@@ -207,6 +209,7 @@ class_hash = "0x7083f333ceabd1e174c4f5b129b7d5cfeaccd7b4fcc5ea2e5a264cce7dc302"
 original_class_hash = "0x7083f333ceabd1e174c4f5b129b7d5cfeaccd7b4fcc5ea2e5a264cce7dc302"
 abi = "manifests/dev/deployment/abis/models/pixelaw-Permissions-72b77307.json"
 tag = "pixelaw-Permissions"
+qualified_path = "pixelaw::core::models::permissions::permissions"
 manifest_name = "pixelaw-Permissions-72b77307"
 
 [[models.members]]
@@ -230,6 +233,7 @@ class_hash = "0x71570f33b7f66331952b84691bb5794ee6b19f43ad729cc654c3930f47c5f0d"
 original_class_hash = "0x71570f33b7f66331952b84691bb5794ee6b19f43ad729cc654c3930f47c5f0d"
 abi = "manifests/dev/deployment/abis/models/pixelaw-Pixel-7e607b2f.json"
 tag = "pixelaw-Pixel"
+qualified_path = "pixelaw::core::models::pixel::pixel"
 manifest_name = "pixelaw-Pixel-7e607b2f"
 
 [[models.members]]
@@ -288,6 +292,7 @@ class_hash = "0x672114a91934388e6a4950f164dc151894579281f4eab56fe439108fd4fca70"
 original_class_hash = "0x672114a91934388e6a4950f164dc151894579281f4eab56fe439108fd4fca70"
 abi = "manifests/dev/deployment/abis/models/pixelaw-QueueItem-549a17f2.json"
 tag = "pixelaw-QueueItem"
+qualified_path = "pixelaw::core::models::queue::queue_item"
 manifest_name = "pixelaw-QueueItem-549a17f2"
 
 [[models.members]]
@@ -306,6 +311,7 @@ class_hash = "0x5a3afeed7a51a51cab27a99c9d99064fc467ecdb9a8cc606c4d4899dffb7f6c"
 original_class_hash = "0x5a3afeed7a51a51cab27a99c9d99064fc467ecdb9a8cc606c4d4899dffb7f6c"
 abi = "manifests/dev/deployment/abis/models/pixelaw-Snake-62b876d4.json"
 tag = "pixelaw-Snake"
+qualified_path = "pixelaw::apps::snake::app::snake"
 manifest_name = "pixelaw-Snake-62b876d4"
 
 [[models.members]]
@@ -354,6 +360,7 @@ class_hash = "0x19a1ae61a4fb0ac303e15a4ca4befa5ae3962625eb37f379b941815e321191f"
 original_class_hash = "0x19a1ae61a4fb0ac303e15a4ca4befa5ae3962625eb37f379b941815e321191f"
 abi = "manifests/dev/deployment/abis/models/pixelaw-SnakeSegment-302de0d8.json"
 tag = "pixelaw-SnakeSegment"
+qualified_path = "pixelaw::apps::snake::app::snake_segment"
 manifest_name = "pixelaw-SnakeSegment-302de0d8"
 
 [[models.members]]
@@ -402,6 +409,7 @@ class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
 original_class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
 abi = "manifests/dev/deployment/abis/models/pixelaw-Stage-549fb0e1.json"
 tag = "pixelaw-Stage"
+qualified_path = "p_dash::models::stage::stage"
 manifest_name = "pixelaw-Stage-549fb0e1"
 
 [[models.members]]
@@ -435,6 +443,7 @@ class_hash = "0x20fa6d6f08426bd6a804d9aa8346f21456e2974d5f6a5aec23ecbba5afa52a"
 original_class_hash = "0x20fa6d6f08426bd6a804d9aa8346f21456e2974d5f6a5aec23ecbba5afa52a"
 abi = "manifests/dev/deployment/abis/models/pixelaw-StageId-6b09362b.json"
 tag = "pixelaw-StageId"
+qualified_path = "p_dash::models::stage::stage_id"
 manifest_name = "pixelaw-StageId-6b09362b"
 
 [[models.members]]

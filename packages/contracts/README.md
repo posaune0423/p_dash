@@ -15,7 +15,7 @@ sozo migrate apply
 1. Create a new katana sequencer with slot
 
 ```zsh
-slot deployments create p-dash-dev katana --version v1.0.0-alpha.5
+slot deployments create p-dash-dev katana --version v1.0.0-alpha.9
 ```
 
 2. Migrate contracts
@@ -30,5 +30,5 @@ sozo --profile slot migrate apply
 3. Create a new torii indexer with slot
 
 ```zsh
-slot deployments create p-dash-dev torii --world YOUR_WORLD_ADDRESS --rpc YOUR_NEW_RPC_URL --version v1.0.0-alpha.4
+slot deployments create p-dash-dev torii --world YOUR_WORLD_ADDRESS --rpc YOUR_NEW_RPC_URL --version v1.0.0-alpha.9
 ```

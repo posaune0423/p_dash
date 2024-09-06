@@ -18,7 +18,8 @@ export function defineContractComponents(world: World) {
         },
         {
           metadata: {
-            name: 'pixelaw-App',
+            namespace: 'pixelaw',
+            name: 'App',
             types: ['contractaddress', 'felt252', 'felt252', 'felt252', 'felt252'],
             customTypes: [],
           },
@@ -31,7 +32,8 @@ export function defineContractComponents(world: World) {
         { name: RecsType.BigInt, system: RecsType.BigInt },
         {
           metadata: {
-            name: 'pixelaw-AppName',
+            namespace: 'pixelaw',
+            name: 'AppName',
             types: ['felt252', 'contractaddress'],
             customTypes: [],
           },
@@ -44,7 +46,8 @@ export function defineContractComponents(world: World) {
         { system: RecsType.BigInt, player: RecsType.BigInt, action: RecsType.BigInt },
         {
           metadata: {
-            name: 'pixelaw-AppUser',
+            namespace: 'pixelaw',
+            name: 'AppUser',
             types: ['contractaddress', 'contractaddress', 'felt252'],
             customTypes: [],
           },
@@ -57,7 +60,8 @@ export function defineContractComponents(world: World) {
         { x: RecsType.Number, y: RecsType.Number, block: RecsType.Number },
         {
           metadata: {
-            name: 'pixelaw-Block',
+            namespace: 'pixelaw',
+            name: 'Block',
             types: ['u32', 'u32', 'enum'],
             customTypes: ['BlockType'],
           },
@@ -70,7 +74,8 @@ export function defineContractComponents(world: World) {
         { key: RecsType.BigInt, value: RecsType.BigInt },
         {
           metadata: {
-            name: 'pixelaw-CoreActionsAddress',
+            namespace: 'pixelaw',
+            name: 'CoreActionsAddress',
             types: ['felt252', 'contractaddress'],
             customTypes: [],
           },
@@ -83,7 +88,8 @@ export function defineContractComponents(world: World) {
         { system: RecsType.BigInt, selector: RecsType.BigInt, instruction: RecsType.BigInt },
         {
           metadata: {
-            name: 'pixelaw-Instruction',
+            namespace: 'pixelaw',
+            name: 'Instruction',
             types: ['contractaddress', 'felt252', 'felt252'],
             customTypes: [],
           },
@@ -107,7 +113,8 @@ export function defineContractComponents(world: World) {
         },
         {
           metadata: {
-            name: 'pixelaw-Permissions',
+            namespace: 'pixelaw',
+            name: 'Permissions',
             types: [
               'contractaddress',
               'contractaddress',
@@ -140,7 +147,8 @@ export function defineContractComponents(world: World) {
         },
         {
           metadata: {
-            name: 'pixelaw-Pixel',
+            namespace: 'pixelaw',
+            name: 'Pixel',
             types: [
               'u32',
               'u32',
@@ -164,7 +172,8 @@ export function defineContractComponents(world: World) {
         { id: RecsType.BigInt, valid: RecsType.Boolean },
         {
           metadata: {
-            name: 'pixelaw-QueueItem',
+            namespace: 'pixelaw',
+            name: 'QueueItem',
             types: ['felt252', 'bool'],
             customTypes: [],
           },
@@ -186,7 +195,8 @@ export function defineContractComponents(world: World) {
         },
         {
           metadata: {
-            name: 'pixelaw-Snake',
+            namespace: 'pixelaw',
+            name: 'Snake',
             types: ['contractaddress', 'u8', 'u32', 'u32', 'enum', 'u32', 'felt252', 'bool'],
             customTypes: ['Direction'],
           },
@@ -208,7 +218,8 @@ export function defineContractComponents(world: World) {
         },
         {
           metadata: {
-            name: 'pixelaw-SnakeSegment',
+            namespace: 'pixelaw',
+            name: 'SnakeSegment',
             types: ['u32', 'u32', 'u32', 'u32', 'u32', 'u32', 'felt252', 'contractaddress'],
             customTypes: [],
           },
@@ -227,7 +238,8 @@ export function defineContractComponents(world: World) {
         },
         {
           metadata: {
-            name: 'pixelaw-Stage',
+            namespace: 'pixelaw',
+            name: 'Stage',
             types: ['u32', 'u32', 'u32', 'u32', 'u32'],
             customTypes: [],
           },
@@ -240,7 +252,8 @@ export function defineContractComponents(world: World) {
         { x: RecsType.Number, y: RecsType.Number, value: RecsType.Number },
         {
           metadata: {
-            name: 'pixelaw-StageId',
+            namespace: 'pixelaw',
+            name: 'StageId',
             types: ['u32', 'u32', 'u32'],
             customTypes: [],
           },

@@ -1,12 +1,12 @@
-import { overridableComponent } from "@dojoengine/recs";
-import { type ContractComponents } from "./generated/contractComponents";
+import { overridableComponent } from '@dojoengine/recs'
+import { type ContractComponents } from './generated/components'
 
-export type ClientComponents = ReturnType<typeof createClientComponents>;
+export type ClientComponents = ReturnType<typeof createClientComponents>
 
 export function createClientComponents({
   contractComponents,
 }: {
-  contractComponents: ContractComponents;
+  contractComponents: ContractComponents
 }) {
   return {
     ...contractComponents,
@@ -16,5 +16,5 @@ export function createClientComponents({
     Permissions: overridableComponent(contractComponents.Permissions),
     Instruction: overridableComponent(contractComponents.Instruction),
     CoreActionsAddress: overridableComponent(contractComponents.CoreActionsAddress),
-  };
+  }
 }

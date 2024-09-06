@@ -13,13 +13,13 @@
     "format": "prettier --write 'src/**/*.ts' && eslint --fix --ext .ts src"
   },
   "dependencies": {
-    "@dojoengine/core": "1.0.0-alpha.5",
-    "@dojoengine/create-burner": "1.0.0-alpha.5",
-    "@dojoengine/react": "1.0.0-alpha.5",
+    "@dojoengine/core": "1.0.0-alpha.12",
+    "@dojoengine/create-burner": "1.0.0-alpha.12",
+    "@dojoengine/react": "1.0.0-alpha.12",
     "@dojoengine/recs": "^2.0.13",
-    "@dojoengine/state": "1.0.0-alpha.5",
-    "@dojoengine/torii-client": "1.0.0-alpha.5",
-    "@dojoengine/utils": "1.0.0-alpha.5",
+    "@dojoengine/state": "1.0.0-alpha.12",
+    "@dojoengine/torii-client": "1.0.0-alpha.12",
+    "@dojoengine/utils": "1.0.0-alpha.12",
     "@latticexyz/utils": "^2.1.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
@@ -34,6 +34,7 @@
     "embla-carousel-react": "^8.1.8",
     "graphql": "^16.9.0",
     "graphql-request": "^7.1.0",
+    "idle-task": "^4.3.0",
     "lucide-react": "^0.396.0",
     "next": "14.2.4",
     "next-themes": "^0.3.0",
@@ -46,6 +47,7 @@
     "starknetkit": "^1.1.9",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "twgl.js": "^5.5.4",
     "use-sound": "^4.0.3",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
@@ -63,6 +65,7 @@
     "graphql-tag": "^2.12.6",
     "postcss": "^8.4.41",
     "prettier": "^3.3.3",
+    "raw-loader": "^4.0.2",
     "serwist": "^9.0.5",
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4"

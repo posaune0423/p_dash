@@ -9,7 +9,8 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { EventBus } from '@/game/EventBus'
 import { StartGame } from '@/game/main'
 import { useDimension } from '@/hooks/useDimension'
-import { FixedLengthQueueStorage } from '@/lib/queueStorage'
+import { FixedLengthQueueStorage } from '@/libs/queueStorage'
+import { type GameResult, type PlayerInteraction, type Obstacle } from '@/types'
 
 export interface IRefPhaserGame {
   game: Phaser.Game | null

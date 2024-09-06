@@ -8,8 +8,8 @@ import { WebWalletConnector } from 'starknetkit/webwallet'
 import { dojoConfig } from '@/../dojoConfig'
 import { Toaster } from '@/components/ui/sonner'
 import { APP_DESCRIPTION, APP_NAME } from '@/constants'
-import { DojoProvider } from '@/lib/dojo/DojoContext'
-import { setup, type SetupResult } from '@/lib/dojo/generated/setup'
+import { DojoProvider } from '@/libs/dojo/DojoContext'
+import { setup, type SetupResult } from '@/libs/dojo/setup'
 import { detectMobile } from '@/utils/devices'
 
 const Providers = ({ children }: { children: React.ReactNode }) => {

@@ -1,17 +1,18 @@
 import { type DojoConfig, DojoProvider } from '@dojoengine/core'
 import { BurnerManager } from '@dojoengine/create-burner'
 import { Account, type ArraySignatureType } from 'starknet'
-import { createClientComponents } from '../createClientComponents'
-import { createSystemCalls } from '../createSystemCalls'
-import { defineContractComponents } from './contractComponents'
-import { setupWorld } from './generated'
-import { world } from './world'
-import init, { createClient } from '@/lib/torii-wasm/pkg'
+import { createSystemCalls } from './createSystemCalls'
+import { createClientComponents } from '@/libs/dojo/createClientComponents'
+import { defineContractComponents } from '@/libs/dojo/generated/components'
+import { setupWorld } from '@/libs/dojo/generated/systems'
+import { world } from '@/libs/dojo/world'
+import init, { createClient } from '@/libs/dojo.c/pkg'
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>
 
 export async function setup({ ...config }: DojoConfig) {
   // torii client
+  // NOTE: should wait for wasm initialization
   await init()
   const toriiClient = await createClient({
     rpcUrl: config.rpcUrl,

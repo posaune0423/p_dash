@@ -6,6 +6,5 @@ import { env } from '@/env'
 export const dojoConfig = createDojoConfig({
   toriiUrl: env.NEXT_PUBLIC_TORII,
   rpcUrl: env.NEXT_PUBLIC_NODE_URL,
-  relayUrl: env.NEXT_PUBLIC_TORII,
   manifest: manifestDev,
 })

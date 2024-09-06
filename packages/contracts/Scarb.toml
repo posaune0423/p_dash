@@ -13,6 +13,8 @@ pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.47" }
 
 [[target.dojo]]
 build-external-contracts = [
+    "pixelaw::apps::snake::app::snake",
+    "pixelaw::apps::snake::app::snake_segment",
     "pixelaw::core::models::pixel::pixel",
     "pixelaw::core::models::pixel::Pixel",
     "pixelaw::core::models::pixel::PixelUpdate",
