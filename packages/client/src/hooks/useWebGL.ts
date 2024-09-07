@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react'
-
 import {
-  createProgramInfo,
   createBufferInfoFromArrays,
+  createProgramInfo,
+  createTexture,
+  drawBufferInfo,
+  type ProgramInfo,
+  resizeCanvasToDisplaySize,
   setBuffersAndAttributes,
   setUniforms,
-  drawBufferInfo,
-  resizeCanvasToDisplaySize,
-  type ProgramInfo,
 } from 'twgl.js'
 import {
   BASE_CELL_SIZE,
@@ -20,8 +20,7 @@ import gridFsSource from '@/libs/webgl/shaders/grid.fs'
 import gridVsSource from '@/libs/webgl/shaders/grid.vs'
 import pixelFsSource from '@/libs/webgl/shaders/pixel.fs'
 import pixelVsSource from '@/libs/webgl/shaders/pixel.vs'
-
-import { type Pixel, type GridState } from '@/types'
+import { type GridState, type Block } from '@/types'
 import { getVisibleArea } from '@/utils/canvas'
 
 export const useWebGL = (
@@ -107,16 +106,16 @@ export const useWebGL = (
     drawBufferInfo(gl, gridBufferInfo, gl.LINES, gridPositions.length / 2)
   }, [gridState])
 
-  const drawPixels = useCallback(
-    (pixels: Pixel[]) => {
+  const drawBlocks = useCallback(
+    (blocks: Block[]) => {
       const gl = glRef.current
       if (!gl) {
         console.error('WebGL not supported')
         return
       }
 
-      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
       resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement)
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
       const pixelProgramInfo = pixelProgramInfoRef.current
       if (!pixelProgramInfo) {
@@ -124,61 +123,42 @@ export const useWebGL = (
         return
       }
 
-      // ピクセルの描画
-      const pixelPositions: number[] = []
-      const pixelColors: number[] = []
+      blocks.forEach((block) => {
+        const texture = createTexture(gl, {
+          src: block.image,
+          mag: gl.NEAREST,
+        })
 
-      const pixelSize = BASE_CELL_SIZE * 0.98 // Reduce the size slightly to leave space for grid lines
-      const offset = (BASE_CELL_SIZE - pixelSize) / 2 // Center the smaller pixel within the grid cell
+        const x = block.x * BASE_CELL_SIZE
+        const y = block.y * BASE_CELL_SIZE
+        const width = BASE_CELL_SIZE
+        const height = BASE_CELL_SIZE
 
-      pixels.forEach((pixel) => {
-        const x = pixel.x * BASE_CELL_SIZE + offset
-        const y = pixel.y * BASE_CELL_SIZE + offset
-
-        // Define two triangles for each rectangle (tile)
-        const positions = [
-          x,
-          y,
-          x + pixelSize,
-          y,
-          x,
-          y + pixelSize,
-          x,
-          y + pixelSize,
-          x + pixelSize,
-          y,
-          x + pixelSize,
-          y + pixelSize,
-        ]
-        pixelPositions.push(...positions)
-        for (let i = 0; i < 6; i++) {
-          pixelColors.push(pixel.color.r, pixel.color.g, pixel.color.b, pixel.color.a)
+        const arrays = {
+          aPosition: {
+            numComponents: 2,
+            data: [x, y, x + width, y, x, y + height, x + width, y + height],
+          },
+          aTexCoord: { numComponents: 2, data: [0, 0, 1, 0, 0, 1, 1, 1] },
         }
+
+        const bufferInfo = createBufferInfoFromArrays(gl, arrays)
+
+        const uniforms = {
+          uResolution: [gl.canvas.width, gl.canvas.height],
+          uOffset: [gridState.offsetX, gridState.offsetY],
+          uScale: gridState.scale,
+          uTexture: texture,
+        }
+
+        gl.useProgram(pixelProgramInfo.program)
+        setBuffersAndAttributes(gl, pixelProgramInfo, bufferInfo)
+        setUniforms(pixelProgramInfo, uniforms)
+        drawBufferInfo(gl, bufferInfo, gl.TRIANGLE_STRIP)
       })
-
-      const pixelBufferInfo = createBufferInfoFromArrays(gl, {
-        aPosition: { numComponents: 2, data: pixelPositions },
-        aColor: { numComponents: 4, data: pixelColors },
-      })
-
-      const pixelUniforms = {
-        uResolution: [gl.canvas.width, gl.canvas.height],
-        uOffset: [gridState.offsetX, gridState.offsetY],
-        uScale: gridState.scale,
-      }
-
-      gl.useProgram(pixelProgramInfo.program)
-      setBuffersAndAttributes(gl, pixelProgramInfo, pixelBufferInfo)
-      setUniforms(pixelProgramInfo, pixelUniforms)
-      drawBufferInfo(gl, pixelBufferInfo, gl.TRIANGLES, pixelPositions.length / 2)
-
-      const error = gl.getError()
-      if (error) {
-        console.error('WebGL error', error)
-      }
     },
     [gridState],
   )
 
-  return { glRef, drawGrid, drawPixels }
+  return { glRef, drawGrid, drawBlocks }
 }

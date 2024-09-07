@@ -17,7 +17,7 @@ export async function setup({ ...config }: DojoConfig) {
   const toriiClient = await createClient({
     rpcUrl: config.rpcUrl,
     toriiUrl: config.toriiUrl,
-    relayUrl: '',
+    relayUrl: config.relayUrl,
     worldAddress: config.manifest.world.address || '',
   })
 

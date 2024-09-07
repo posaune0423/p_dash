@@ -1,42 +1,29 @@
 'use client'
 
 import React from 'react'
-import { usePixelViewer } from './usePixelViewer'
-import { type Color } from '@/types'
+import { StageElements } from '../StageElements'
+import { useStageEditor } from './useStageEditor'
 
-interface StageEditorProps {
-  backgroundColor?: Color
-  gridColor?: Color
-}
-
-export const StageEditor: React.FC<StageEditorProps> = () => {
+export const StageEditor = () => {
   const {
     canvasRef,
-    handleMouseDown,
-    handleMouseMove,
-    handleMouseUp,
-    handleWheel,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
-  } = usePixelViewer()
+    selectedElement,
+    handleSelectElement,
+  } = useStageEditor()
 
   return (
     <section className='relative size-full'>
       <canvas
         ref={canvasRef}
-        className='bottom fixed inset-x-0 top-0 h-screen w-full bg-black/80'
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onWheel={handleWheel}
+        className='fixed inset-0 h-[calc(100%-50px)] w-full bg-black/80'
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        onScroll={(e) => {
-          console.log('scroll', e)
-        }}
       />
+      <StageElements selectedElement={selectedElement} handleSelectElement={handleSelectElement} />
     </section>
   )
 }

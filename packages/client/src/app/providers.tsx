@@ -13,7 +13,7 @@ import { setup, type SetupResult } from '@/libs/dojo/setup'
 import { detectMobile } from '@/utils/devices'
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
-  const [dojo, setDojo] = useState<SetupResult | null>(null)
+  const [setupResult, setSetupResult] = useState<SetupResult | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
 
@@ -22,8 +22,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       try {
         setIsLoading(true)
         const setupResult = await setup(dojoConfig)
-        setDojo(setupResult)
-        console.log(setupResult)
+        setSetupResult(setupResult)
       } catch (err) {
         console.error('Error setting up Dojo:', err)
         setError(err instanceof Error ? err : new Error('Unknown error occurred'))
@@ -37,7 +36,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
+      <div className='flex h-screen items-center justify-center bg-primary text-xl text-white'>
         Loading...
       </div>
     )
@@ -45,15 +44,15 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 
   if (error) {
     return (
-      <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
+      <div className='flex h-screen items-center justify-center bg-primary text-xl text-white'>
         Error: {error.message}
       </div>
     )
   }
 
-  if (!dojo) {
+  if (!setupResult) {
     return (
-      <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
+      <div className='flex h-screen items-center justify-center bg-primary text-xl text-white'>
         Dojo setup failed
       </div>
     )
@@ -78,7 +77,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       explorer={voyager}
       autoConnect={true}
     >
-      <DojoProvider value={dojo}>
+      <DojoProvider value={setupResult}>
         <Toaster richColors position='top-center' />
         {children}
       </DojoProvider>

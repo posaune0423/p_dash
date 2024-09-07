@@ -12,6 +12,13 @@ export type PlayerInteraction = {
   timestamp: number
 }
 
+export type Block = {
+  x: number
+  y: number
+  image: string
+  type: 'block' | 'spike' | 'tiles' | 'null'
+}
+
 export type Obstacle = {
   x: number
   y: number
