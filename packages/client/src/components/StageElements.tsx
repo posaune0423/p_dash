@@ -10,7 +10,7 @@ export const StageElements = ({
   selectedElement,
   handleSelectElement,
 }: {
-  selectedElement: string
+  selectedElement: string | null
   handleSelectElement: (element: string) => void
 }) => {
   return (

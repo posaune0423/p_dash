@@ -4,7 +4,6 @@ import { startTransition, useCallback, useEffect, useMemo, useRef, useState } fr
 import { BASE_CELL_SIZE, MAX_SCALE, MIN_SCALE, SWIPE_THRESHOLD } from '@/constants/webgl'
 import { useDojo } from '@/hooks/useDojo'
 import { useGridState } from '@/hooks/useGridState'
-import { useWebGL } from '@/hooks/useWebGL'
 import { type GridState, type Block } from '@/types'
 
 import { convertClientPosToCanvasPos } from '@/utils/canvas'
@@ -16,6 +15,7 @@ const GRID_HEIGHT = 30
 export const useStageEditor = () => {
   // Refs
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
 
   const isDraggingRef = useRef<boolean>(false)
   const lastTouchPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
@@ -33,7 +33,7 @@ export const useStageEditor = () => {
     setSelectedElement(element)
   }
 
-  //Other Hooks
+  // Other Hooks
   const {
     setup: {
       account: { account },
@@ -41,17 +41,84 @@ export const useStageEditor = () => {
     },
   } = useDojo()
   const { gridState, setGridState } = useGridState()
-  const { glRef, drawGrid, drawBlocks } = useWebGL(canvasRef, gridState)
   const activeAccount = useMemo(() => connectedAccount || account, [connectedAccount, account])
 
-  const [currentBlocks, setCurrentBlocks] = useState<Block[]>([
-    {
-      x: 0,
-      y: 0,
-      type: 'block',
-      image: '/assets/stage/sci-fi/block.png',
-    } as Block,
-  ])
+  const [currentBlocks, setCurrentBlocks] = useState<Block[]>([])
+  const imageCache = useRef<Map<string, HTMLImageElement>>(new Map())
+
+  const loadImage = useCallback((src: string): Promise<HTMLImageElement> => {
+    return new Promise((resolve, reject) => {
+      if (imageCache.current.has(src)) {
+        resolve(imageCache.current.get(src)!)
+      } else {
+        const img = new Image()
+        img.onload = () => {
+          imageCache.current.set(src, img)
+          resolve(img)
+        }
+        img.onerror = reject
+        img.src = src
+      }
+    })
+  }, [])
+
+  const drawGrid = useCallback(() => {
+    const ctx = ctxRef.current
+    const canvas = canvasRef.current
+    if (!ctx || !canvas) return
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const startX = Math.floor(gridState.offsetX / BASE_CELL_SIZE)
+    const startY = Math.floor(gridState.offsetY / BASE_CELL_SIZE)
+    const endX = Math.ceil((gridState.offsetX + canvas.width / gridState.scale) / BASE_CELL_SIZE)
+    const endY = Math.ceil((gridState.offsetY + canvas.height / gridState.scale) / BASE_CELL_SIZE)
+
+    ctx.beginPath()
+    ctx.strokeStyle = 'rgba(200, 200, 200, 0.5)'
+    ctx.lineWidth = 1 / gridState.scale
+
+    for (let x = startX; x <= endX; x++) {
+      const screenX = (x * BASE_CELL_SIZE - gridState.offsetX) * gridState.scale
+      ctx.moveTo(screenX, 0)
+      ctx.lineTo(screenX, canvas.height)
+    }
+
+    for (let y = startY; y <= endY; y++) {
+      const screenY = (y * BASE_CELL_SIZE - gridState.offsetY) * gridState.scale
+      ctx.moveTo(0, screenY)
+      ctx.lineTo(canvas.width, screenY)
+    }
+
+    ctx.stroke()
+  }, [gridState])
+
+  const drawBlock = useCallback(
+    (block: Block) => {
+      const ctx = ctxRef.current
+      const canvas = canvasRef.current
+      if (!ctx || !canvas) return
+
+      const screenX = (block.x * BASE_CELL_SIZE - gridState.offsetX) * gridState.scale
+      const screenY = (block.y * BASE_CELL_SIZE - gridState.offsetY) * gridState.scale
+      const size = BASE_CELL_SIZE * gridState.scale
+
+      loadImage(block.image).then((img) => {
+        ctx.drawImage(img, screenX, screenY, size, size)
+      })
+    },
+    [gridState, loadImage],
+  )
+
+  const animate = useCallback(() => {
+    const ctx = ctxRef.current
+    const canvas = canvasRef.current
+    if (!ctx || !canvas) return
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    drawGrid()
+    currentBlocks.forEach(drawBlock)
+  }, [drawGrid, drawBlock, currentBlocks])
 
   const setLimitedGridState = useCallback(
     (updater: (prev: GridState) => GridState) => {
@@ -179,7 +246,7 @@ export const useStageEditor = () => {
       gestureRef.current.isGesture = false
       gestureRef.current.gestureType = null
 
-      if (!isDraggingRef.current) {
+      if (!isDraggingRef.current && selectedElement) {
         const canvas = canvasRef.current
         if (!canvas) return
 
@@ -199,16 +266,17 @@ export const useStageEditor = () => {
           type: selectedElement,
           image: `/assets/stage/sci-fi/${selectedElement}.png`,
         } as Block
+
         startTransition(async () => {
           setCurrentBlocks((prev) => [...prev, block])
-          console.log(block)
-          // await interact(activeAccount, { x: cellX, y: cellY, color: rgbaToHex(selectedColor) })
+          await loadImage(block.image)
+          animate()
         })
       }
 
       isDraggingRef.current = false
     },
-    [gridState, selectedElement],
+    [gridState, selectedElement, loadImage, animate],
   )
 
   const handlePinchZoom = useCallback(
@@ -248,28 +316,26 @@ export const useStageEditor = () => {
     [setLimitedGridState],
   )
 
-  const animate = useCallback(() => {
-    drawGrid()
-    drawBlocks(currentBlocks)
-  }, [drawGrid, drawBlocks, currentBlocks])
-
   // Effects
   useEffect(() => {
+    const canvas = canvasRef.current
+    if (canvas) {
+      ctxRef.current = canvas.getContext('2d')
+    }
+  }, [])
+
+  useEffect(() => {
     animate()
-  }, [animate])
+  }, [animate, gridState])
 
   // resize observer
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const gl = glRef.current
-    if (!gl) return
-
     const resizeObserver = new ResizeObserver(() => {
       canvas.width = canvas.clientWidth
       canvas.height = canvas.clientHeight
-      gl.viewport(0, 0, canvas.width, canvas.height)
       animate()
     })
 
@@ -278,7 +344,7 @@ export const useStageEditor = () => {
     return () => {
       resizeObserver.disconnect()
     }
-  }, [glRef, animate])
+  }, [animate])
 
   return {
     canvasRef,

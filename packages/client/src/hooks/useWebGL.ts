@@ -4,7 +4,6 @@ import {
   createProgramInfo,
   createTexture,
   drawBufferInfo,
-  m4,
   type ProgramInfo,
   resizeCanvasToDisplaySize,
   setBuffersAndAttributes,

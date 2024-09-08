@@ -18,7 +18,7 @@ export const StageEditor = () => {
     <section className='relative size-full'>
       <canvas
         ref={canvasRef}
-        className='fixed inset-0 h-[calc(100%-50px)] w-full bg-black/80'
+        className='fixed inset-0 h-[calc(100%-50px)] w-full bg-black/90'
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
