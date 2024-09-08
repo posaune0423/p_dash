@@ -4,6 +4,7 @@ import {
   createProgramInfo,
   createTexture,
   drawBufferInfo,
+  m4,
   type ProgramInfo,
   resizeCanvasToDisplaySize,
   setBuffersAndAttributes,
@@ -46,6 +47,10 @@ export const useWebGL = (
     resizeCanvasToDisplaySize(canvas)
     gridProgramInfoRef.current = createProgramInfo(gl, [gridVsSource, gridFsSource])
     pixelProgramInfoRef.current = createProgramInfo(gl, [pixelVsSource, pixelFsSource])
+
+    // Enable alpha blending
+    gl.enable(gl.BLEND)
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
   }, [canvasRef])
 
   useEffect(() => {
@@ -109,25 +114,30 @@ export const useWebGL = (
   const drawBlocks = useCallback(
     (blocks: Block[]) => {
       const gl = glRef.current
-      if (!gl) {
-        console.error('WebGL not supported')
-        return
-      }
+      const pixelProgramInfo = pixelProgramInfoRef.current
+      if (!gl || !pixelProgramInfo) return
 
       resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement)
       gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
-      const pixelProgramInfo = pixelProgramInfoRef.current
-      if (!pixelProgramInfo) {
-        console.error('ProgramInfo not initialized')
-        return
-      }
-
       blocks.forEach((block) => {
-        const texture = createTexture(gl, {
-          src: block.image,
-          mag: gl.NEAREST,
-        })
+        const texture = createTexture(
+          gl,
+          {
+            src: block.image,
+            min: gl.LINEAR_MIPMAP_LINEAR,
+            mag: gl.LINEAR,
+            wrap: gl.CLAMP_TO_EDGE,
+          },
+          (err, tex) => {
+            if (err) {
+              console.error('Failed to load texture', err)
+            } else {
+              gl.bindTexture(gl.TEXTURE_2D, tex)
+              gl.generateMipmap(gl.TEXTURE_2D)
+            }
+          },
+        )
 
         const x = block.x * BASE_CELL_SIZE
         const y = block.y * BASE_CELL_SIZE
@@ -139,7 +149,7 @@ export const useWebGL = (
             numComponents: 2,
             data: [x, y, x + width, y, x, y + height, x + width, y + height],
           },
-          aTexCoord: { numComponents: 2, data: [0, 0, 1, 0, 0, 1, 1, 1] },
+          aTextCoord: { numComponents: 2, data: [0, 0, 1, 0, 0, 1, 1, 1] },
         }
 
         const bufferInfo = createBufferInfoFromArrays(gl, arrays)
