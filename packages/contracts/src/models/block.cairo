@@ -1,8 +1,9 @@
 #[derive(Serde, Copy, Drop, Introspect)]
 pub enum BlockType {
-    Unknown: (),
+    Empty: (),
     InitBlock: (),
     Block: (),
+    Tile: (),
     Spike: (),
     Hole: ()
 }
@@ -14,24 +15,25 @@ pub enum BlockType {
 #[derive(Copy, Drop, Serde)]
 #[dojo::model(namespace: "pixelaw", nomapping: true)]
 pub struct Block {
-    // #[key]
-    // id: usize
+    #[key]
+    pub stage_id: usize,
     #[key]
     pub x: u32,
     #[key]
     pub y: u32,
-    pub block: BlockType
+    pub blocktype: BlockType
 }
 
 
 impl BlockTypeIntoFelt252 of Into<BlockType, felt252> {
     fn into(self: BlockType) -> felt252 {
         match self {
-            BlockType::Unknown(()) => 0,
+            BlockType::Empty(()) => 0,
             BlockType::InitBlock(()) => 1,
             BlockType::Block(()) => 2,
             BlockType::Spike(()) => 3,
             BlockType::Hole(()) => 4,
+            BlockType::Tile(()) => 5,
         }
     }
 }

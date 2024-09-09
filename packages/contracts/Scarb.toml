@@ -8,8 +8,8 @@ edition = "2024_07"
 sierra-replace-ids = true
 
 [dependencies]
-# pixelaw = { path = "/Users/asumayamada/Private/pixelaw/core/contracts" }
-pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.47" }
+# pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.47" }
+pixelaw = { git = "https://github.com/pixelaw/core", rev = "a9dc5532d5ca26b301f6ba00cc87cfbbcc656ee6" }
 
 [[target.dojo]]
 build-external-contracts = [
@@ -36,3 +36,4 @@ build-external-contracts = [
 
 [scripts]
 init_auth = "./scripts/init_auth.sh"
+stage_test = "./scripts/stage_test.sh"

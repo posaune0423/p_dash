@@ -11,13 +11,13 @@ mod tests {
     use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
     use pixelaw::core::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
 
-    use p_dash::models::stage::{stage, stage_id, Stage, StageId};
-    use p_dash::models::blocktype::{block, Block, BlockType};
+    use p_dash::models::stage::{stage, Stage};
+    use p_dash::models::block::{block, Block, BlockType};
 
     use dojo::utils::{selector_from_names};
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
-    use p_dash::systems::app::{
+    use p_dash::systems::actions::{
         p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
 
@@ -32,7 +32,6 @@ mod tests {
             core_actions_address::TEST_CLASS_HASH,
             permissions::TEST_CLASS_HASH,
             stage::TEST_CLASS_HASH,
-            stage_id::TEST_CLASS_HASH,
             block::TEST_CLASS_HASH,
         ];
         let world = spawn_test_world(["pixelaw"].span(), models.span());
@@ -81,8 +80,10 @@ mod tests {
 
         let color = encode_color(1, 1, 1);
 
-        actions
+        let stage_id = actions
             .initialize_stage(
+                0,
+                0,
                 DefaultParameters {
                     for_player: contract_address_const::<0x1337>(),
                     for_system: contract_address_const::<0x1337>(),
@@ -94,7 +95,6 @@ mod tests {
         let pixel_1_1 = get!(world, (1, 1), (Pixel));
         assert(pixel_1_1.color == color, 'should be the color');
 
-        let stage_id = get!(world, (1, 1), (StageId));
         let stage = get!(world, stage_id, (Stage));
 
         println!("stage.x: {}", stage.x);
@@ -106,20 +106,22 @@ mod tests {
         // assert(stage.w == 200 && stage.h == 16, 'config setting error(stage)');
 
         let block = get!(world, (1, 1), (Block));
-        assert(block.block.into() == 0x1, 'config setting error(Block)');
+        assert(block.blocktype.into() == 0x1, 'config setting error(Block)');
 
         actions
             .put_block(
+                stage_id,
+                BlockType::Block,
                 DefaultParameters {
                     for_player: contract_address_const::<0x1337>(),
                     for_system: contract_address_const::<0x1337>(),
                     position: Position { x: 2, y: 2 },
                     color: color
                 },
-                blocktype: BlockType::Block,
             );
 
         println!("Passed test");
+        (stage_id);
     }
 
     fn encode_color(r: u8, g: u8, b: u8) -> u32 {
