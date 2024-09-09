@@ -24,6 +24,7 @@ dependencies = [
 [[package]]
 name = "pixelaw"
 version = "0.3.50"
+source = "git+https://github.com/pixelaw/core?rev=9a1484092e1b06702e5509eeacfdaea0a92ce72e#9a1484092e1b06702e5509eeacfdaea0a92ce72e"
 dependencies = [
  "dojo",
 ]
