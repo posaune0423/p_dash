@@ -1,0 +1,513 @@
+[
+  {
+    "type": "impl",
+    "name": "ContractImpl",
+    "interface_name": "dojo::contract::contract::IContract"
+  },
+  {
+    "type": "struct",
+    "name": "core::byte_array::ByteArray",
+    "members": [
+      {
+        "name": "data",
+        "type": "core::array::Array::<core::bytes_31::bytes31>"
+      },
+      {
+        "name": "pending_word",
+        "type": "core::felt252"
+      },
+      {
+        "name": "pending_word_len",
+        "type": "core::integer::u32"
+      }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "dojo::contract::contract::IContract",
+    "items": [
+      {
+        "type": "function",
+        "name": "contract_name",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::byte_array::ByteArray"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "namespace",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::byte_array::ByteArray"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "tag",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::byte_array::ByteArray"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "name_hash",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::felt252"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "namespace_hash",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::felt252"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "selector",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::felt252"
+          }
+        ],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "WorldProviderImpl",
+    "interface_name": "dojo::world::world_contract::IWorldProvider"
+  },
+  {
+    "type": "struct",
+    "name": "dojo::world::world_contract::IWorldDispatcher",
+    "members": [
+      {
+        "name": "contract_address",
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "dojo::world::world_contract::IWorldProvider",
+    "items": [
+      {
+        "type": "function",
+        "name": "world",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "dojo::world::world_contract::IWorldDispatcher"
+          }
+        ],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "ActionsInteroperability",
+    "interface_name": "pixelaw::core::traits::IInteroperability"
+  },
+  {
+    "type": "enum",
+    "name": "core::option::Option::<core::integer::u32>",
+    "variants": [
+      {
+        "name": "Some",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "None",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "core::option::Option::<core::starknet::contract_address::ContractAddress>",
+    "variants": [
+      {
+        "name": "Some",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "None",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "core::option::Option::<core::felt252>",
+    "variants": [
+      {
+        "name": "Some",
+        "type": "core::felt252"
+      },
+      {
+        "name": "None",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "core::option::Option::<core::integer::u64>",
+    "variants": [
+      {
+        "name": "Some",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "None",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "pixelaw::core::models::pixel::PixelUpdate",
+    "members": [
+      {
+        "name": "x",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "y",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "color",
+        "type": "core::option::Option::<core::integer::u32>"
+      },
+      {
+        "name": "owner",
+        "type": "core::option::Option::<core::starknet::contract_address::ContractAddress>"
+      },
+      {
+        "name": "app",
+        "type": "core::option::Option::<core::starknet::contract_address::ContractAddress>"
+      },
+      {
+        "name": "text",
+        "type": "core::option::Option::<core::felt252>"
+      },
+      {
+        "name": "timestamp",
+        "type": "core::option::Option::<core::integer::u64>"
+      },
+      {
+        "name": "action",
+        "type": "core::option::Option::<core::felt252>"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "pixelaw::core::models::registry::App",
+    "members": [
+      {
+        "name": "system",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "name",
+        "type": "core::felt252"
+      },
+      {
+        "name": "manifest",
+        "type": "core::felt252"
+      },
+      {
+        "name": "icon",
+        "type": "core::felt252"
+      },
+      {
+        "name": "action",
+        "type": "core::felt252"
+      }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "pixelaw::core::traits::IInteroperability",
+    "items": [
+      {
+        "type": "function",
+        "name": "on_pre_update",
+        "inputs": [
+          {
+            "name": "pixel_update",
+            "type": "pixelaw::core::models::pixel::PixelUpdate"
+          },
+          {
+            "name": "app_caller",
+            "type": "pixelaw::core::models::registry::App"
+          },
+          {
+            "name": "player_caller",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "on_post_update",
+        "inputs": [
+          {
+            "name": "pixel_update",
+            "type": "pixelaw::core::models::pixel::PixelUpdate"
+          },
+          {
+            "name": "app_caller",
+            "type": "pixelaw::core::models::registry::App"
+          },
+          {
+            "name": "player_caller",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "PDashActionsImpl",
+    "interface_name": "p_dash::systems::actions::IPDashActions"
+  },
+  {
+    "type": "struct",
+    "name": "pixelaw::core::utils::Position",
+    "members": [
+      {
+        "name": "x",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "y",
+        "type": "core::integer::u32"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "pixelaw::core::utils::DefaultParameters",
+    "members": [
+      {
+        "name": "for_player",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "for_system",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "position",
+        "type": "pixelaw::core::utils::Position"
+      },
+      {
+        "name": "color",
+        "type": "core::integer::u32"
+      }
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "p_dash::models::block::BlockType",
+    "variants": [
+      {
+        "name": "Empty",
+        "type": "()"
+      },
+      {
+        "name": "InitBlock",
+        "type": "()"
+      },
+      {
+        "name": "Block",
+        "type": "()"
+      },
+      {
+        "name": "Tile",
+        "type": "()"
+      },
+      {
+        "name": "Spike",
+        "type": "()"
+      },
+      {
+        "name": "Hole",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "p_dash::systems::actions::IPDashActions",
+    "items": [
+      {
+        "type": "function",
+        "name": "init",
+        "inputs": [],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "initialize_stage",
+        "inputs": [
+          {
+            "name": "start_x",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "start_y",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "default_params",
+            "type": "pixelaw::core::utils::DefaultParameters"
+          },
+          {
+            "name": "width",
+            "type": "core::option::Option::<core::integer::u32>"
+          },
+          {
+            "name": "height",
+            "type": "core::option::Option::<core::integer::u32>"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "core::integer::u32"
+          }
+        ],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "put_block",
+        "inputs": [
+          {
+            "name": "stage_id",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "blocktype",
+            "type": "p_dash::models::block::BlockType"
+          },
+          {
+            "name": "default_params",
+            "type": "pixelaw::core::utils::DefaultParameters"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "IDojoInitImpl",
+    "interface_name": "p_dash::systems::actions::p_dash_actions::IDojoInit"
+  },
+  {
+    "type": "interface",
+    "name": "p_dash::systems::actions::p_dash_actions::IDojoInit",
+    "items": [
+      {
+        "type": "function",
+        "name": "dojo_init",
+        "inputs": [],
+        "outputs": [],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "UpgradableImpl",
+    "interface_name": "dojo::contract::upgradeable::IUpgradeable"
+  },
+  {
+    "type": "interface",
+    "name": "dojo::contract::upgradeable::IUpgradeable",
+    "items": [
+      {
+        "type": "function",
+        "name": "upgrade",
+        "inputs": [
+          {
+            "name": "new_class_hash",
+            "type": "core::starknet::class_hash::ClassHash"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "dojo::contract::upgradeable::upgradeable::Upgraded",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "class_hash",
+        "type": "core::starknet::class_hash::ClassHash",
+        "kind": "data"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "dojo::contract::upgradeable::upgradeable::Event",
+    "kind": "enum",
+    "variants": [
+      {
+        "name": "Upgraded",
+        "type": "dojo::contract::upgradeable::upgradeable::Upgraded",
+        "kind": "nested"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "p_dash::systems::actions::p_dash_actions::Event",
+    "kind": "enum",
+    "variants": [
+      {
+        "name": "UpgradeableEvent",
+        "type": "dojo::contract::upgradeable::upgradeable::Event",
+        "kind": "nested"
+      }
+    ]
+  }
+]

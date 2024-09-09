@@ -8,8 +8,9 @@ edition = "2024_07"
 sierra-replace-ids = true
 
 [dependencies]
+pixelaw = { path = "/Users/asumayamada/Private/pixelaw/core/contracts" }
 # pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.47" }
-pixelaw = { git = "https://github.com/pixelaw/core", rev = "a9dc5532d5ca26b301f6ba00cc87cfbbcc656ee6" }
+# pixelaw = { git = "https://github.com/pixelaw/core", rev = "9a1484092e1b06702e5509eeacfdaea0a92ce72e" }
 
 [[target.dojo]]
 build-external-contracts = [

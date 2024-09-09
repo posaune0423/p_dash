@@ -11,7 +11,12 @@ use p_dash::models::block::{BlockType, Block};
 pub trait IPDashActions<TContractState> {
     fn init(ref world: IWorldDispatcher);
     fn initialize_stage(
-        ref world: IWorldDispatcher, start_x: u32, start_y: u32, default_params: DefaultParameters
+        ref world: IWorldDispatcher,
+        start_x: u32,
+        start_y: u32,
+        default_params: DefaultParameters,
+        width: Option<u32>,
+        height: Option<u32>,
     ) -> usize; // optimally input the width in the future.
     fn put_block(
         ref world: IWorldDispatcher,
@@ -35,12 +40,40 @@ pub mod p_dash_actions {
         IActionsDispatcher as ICoreActionsDispatcher,
         IActionsDispatcherTrait as ICoreActionsDispatcherTrait
     };
+    use pixelaw::core::traits::IInteroperability;
+    use pixelaw::core::models::registry::App;
     use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
 
     use super::IPDashActions;
-    use p_dash::constants::app::{STAGE_DEFAULT_WIDTH, STAGE_DEFAULT_HEIGHT, APP_KEY, APP_ICON, APP_MANIFEST};
+    use p_dash::constants::app::{
+        STAGE_DEFAULT_WIDTH, STAGE_DEFAULT_HEIGHT, APP_KEY, APP_ICON, APP_MANIFEST
+    };
     use p_dash::models::block::{BlockType, Block};
     use p_dash::models::stage::{Stage};
+
+
+    #[abi(embed_v0)]
+    impl ActionsInteroperability of IInteroperability<ContractState> {
+        fn on_pre_update(
+            ref world: IWorldDispatcher,
+            pixel_update: PixelUpdate,
+            app_caller: App,
+            player_caller: ContractAddress
+        ) {
+            // do nothing
+            let _world = world;
+        }
+
+        fn on_post_update(
+            ref world: IWorldDispatcher,
+            pixel_update: PixelUpdate,
+            app_caller: App,
+            player_caller: ContractAddress
+        ) {
+            // do nothing
+            let _world = world;
+        }
+    }
 
 
     // impl: implement functions specified in trait
@@ -66,7 +99,6 @@ pub mod p_dash_actions {
                 );
         }
 
-
         /// Initialize stage for p/dash
         ///
         /// # Arguments
@@ -80,47 +112,47 @@ pub mod p_dash_actions {
             ref world: IWorldDispatcher,
             start_x: u32,
             start_y: u32,
-            default_params: DefaultParameters
+            default_params: DefaultParameters,
+            width: Option<u32>,
+            height: Option<u32>,
         ) -> usize {
             println!("Initialize the stage for p/dash");
-
 
             // Load important variables
             let core_actions = get_core_actions(world);
             let player = core_actions.get_player_address(default_params.for_player);
             // let position = default_params.position;
-            // let system = core_actions.get_system_address(default_params.for_system);
+            let system = core_actions.get_system_address(default_params.for_system);
 
             // check if the stage is created
-            let stage_id = world.uuid();
-
+            let stage_id = world.uuid().into();
+            let w = width.unwrap_or(STAGE_DEFAULT_WIDTH);
+            let h = height.unwrap_or(STAGE_DEFAULT_HEIGHT);
 
             // set the Stage configs.
-            set!(
-                world, (Stage { id: stage_id, x: start_x, y: start_y, w: STAGE_DEFAULT_WIDTH, h: STAGE_DEFAULT_HEIGHT })
-            );
+            set!(world, (Stage { id: stage_id, x: start_x, y: start_y, w, h }));
 
             let mut x = start_x;
             loop {
-                if x == start_x + STAGE_DEFAULT_WIDTH {
+                if x == start_x + w {
                     break;
                 }
                 let mut y = start_y;
                 loop {
-                    if y == start_y + STAGE_DEFAULT_HEIGHT {
+                    if y == start_y + h {
                         break;
                     }
-                    set!(world, (Block { stage_id, x, y, blocktype: BlockType::Empty }));
+                    set!(world, (Block { stage_id, x, y, blocktype: BlockType::InitBlock }));
 
                     core_actions
                         .update_pixel(
                             player,
-                            get_contract_address(),
+                            system,
                             PixelUpdate {
                                 x,
                                 y,
-                                color: Option::Some(0xFFFFFF), // initial color (white)
-                                app: Option::Some(get_contract_address()),
+                                color: Option::Some(default_params.color), // initial color (white)
+                                app: Option::Some(system),
                                 owner: Option::Some(player),
                                 text: Option::None,
                                 timestamp: Option::None,
@@ -133,7 +165,8 @@ pub mod p_dash_actions {
             };
 
             println!("p/dash set up done");
-            stage_id;
+            let result = stage_id.into();
+            return result;
         }
 
         fn put_block(
@@ -173,7 +206,7 @@ pub mod p_dash_actions {
                 );
 
             // set the block types for init block.
-            set!(world, (Block { stage_id, x: position.x, y: position.y, blocktype: blocktype }));
+            set!(world, (Block { stage_id, x: position.x, y: position.y, blocktype }));
 
             println!("Block set");
         }

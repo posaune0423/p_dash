@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x23ef82c8a79694e0a86f1bf829c499ca883ccc047bbdc05dd983bd153cdc79f"
+original_class_hash = "0x23ef82c8a79694e0a86f1bf829c499ca883ccc047bbdc05dd983bd153cdc79f"
+abi = "manifests/dev/base/abis/models/pixelaw-Block-656ed65c.json"
+tag = "pixelaw-Block"
+qualified_path = "p_dash::models::block::block"
+manifest_name = "pixelaw-Block-656ed65c"
+
+[[members]]
+name = "stage_id"
+type = "usize"
+key = true
+
+[[members]]
+name = "x"
+type = "u32"
+key = true
+
+[[members]]
+name = "y"
+type = "u32"
+key = true
+
+[[members]]
+name = "blocktype"
+type = "BlockType"
+key = false
