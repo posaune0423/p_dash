@@ -1,11 +1,10 @@
 import { type Entities, type ToriiClient } from '@dojoengine/torii-client'
-import { hexToRgba } from '@/utils'
 
 export const getPixelComponentFromEntities = (entities: Entities) => {
   return Object.values(entities).map((entity) => ({
     x: entity['pixelaw-Pixel'].x.value as number,
     y: entity['pixelaw-Pixel'].y.value as number,
-    color: hexToRgba(entity['pixelaw-Pixel'].color.value as number),
+    color: entity['pixelaw-Pixel'].color.value as number,
   }))
 }
 

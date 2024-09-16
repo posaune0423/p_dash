@@ -1,4 +1,5 @@
 import { Scene } from 'phaser'
+import { type Obstacle } from '@/types'
 
 export class Preloader extends Scene {
   stageData!: Obstacle[]

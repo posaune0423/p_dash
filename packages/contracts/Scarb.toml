@@ -8,9 +8,8 @@ edition = "2024_07"
 sierra-replace-ids = true
 
 [dependencies]
-# pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.47" }
-pixelaw = { git = "https://github.com/pixelaw/core", rev = "9a1484092e1b06702e5509eeacfdaea0a92ce72e" }
-dojo = { git = "https://github.com/dojoengine/dojo", rev = "v1.0.0-alpha.11" }
+pixelaw = { git = "https://github.com/pixelaw/core", tag = "v0.3.50" }
+dojo = { git = "https://github.com/dojoengine/dojo",tag = "v1.0.0-alpha.11" }
 
 [[target.dojo]]
 build-external-contracts = [

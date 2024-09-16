@@ -1,3 +1,5 @@
+import { type Obstacle } from '@/types'
+
 export const mockStageData: { [key: string]: Obstacle[] } = {
   'sci-fi': [
     { x: 600, y: 0, type: 'block' },

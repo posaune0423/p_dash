@@ -8,7 +8,7 @@ import { createClientComponents } from '@/libs/dojo/createClientComponents'
 import { defineContractComponents } from '@/libs/dojo/generated/components'
 import { setupWorld } from '@/libs/dojo/generated/systems'
 import { world } from '@/libs/dojo/world'
-import init, { createClient } from '@/libs/dojo.c/pkg'
+import init, { createClient } from '@/libs/torii-client/pkg'
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>
 

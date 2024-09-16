@@ -2,6 +2,7 @@ import { Input, Scene } from 'phaser'
 import { EventBus } from '../EventBus'
 import { GROUND_HEIGHT, BASIC_PIXEL, GRAVITY } from '@/constants'
 import { env } from '@/env'
+import { type Obstacle } from '@/types'
 
 export class Game extends Scene {
   background!: Phaser.GameObjects.TileSprite

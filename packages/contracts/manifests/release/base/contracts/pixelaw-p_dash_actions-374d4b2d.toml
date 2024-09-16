@@ -1,0 +1,16 @@
+kind = "DojoContract"
+class_hash = "0x46db41b8948e4b64b2f7e531f170389581ef2cb3ce8f6d20dfc8946e8dcc172"
+original_class_hash = "0x46db41b8948e4b64b2f7e531f170389581ef2cb3ce8f6d20dfc8946e8dcc172"
+base_class_hash = "0x0"
+abi = "manifests/release/base/abis/contracts/pixelaw-p_dash_actions-374d4b2d.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "pixelaw-p_dash_actions"
+systems = [
+    "on_pre_update",
+    "on_post_update",
+    "init",
+    "put_block",
+]
+manifest_name = "pixelaw-p_dash_actions-374d4b2d"
