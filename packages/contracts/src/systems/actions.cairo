@@ -1,11 +1,11 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use p_dash::models::block::{BlockType, Block};
 use pixelaw::core::models::pixel::{Pixel, PixelUpdate};
 use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
 use starknet::{
     get_caller_address, get_contract_address, get_execution_info, ContractAddress,
     contract_address_const
 };
-use p_dash::models::block::{BlockType, Block};
 
 #[dojo::interface]
 pub trait IPDashActions<TContractState> {
@@ -29,27 +29,27 @@ pub trait IPDashActions<TContractState> {
 /// contracts must be named as such (APP_KEY + underscore + "actions")
 #[dojo::contract(namespace: "pixelaw", nomapping: true)]
 pub mod p_dash_actions {
-    use starknet::{
-        get_tx_info, get_caller_address, get_contract_address, get_execution_info, ContractAddress,
-        contract_address_const
-    };
-
-    use pixelaw::core::models::pixel::{Pixel, PixelUpdate};
-    use pixelaw::core::models::permissions::{Permission};
-    use pixelaw::core::actions::{
-        IActionsDispatcher as ICoreActionsDispatcher,
-        IActionsDispatcherTrait as ICoreActionsDispatcherTrait
-    };
-    use pixelaw::core::traits::IInteroperability;
-    use pixelaw::core::models::registry::App;
-    use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
-
-    use super::IPDashActions;
     use p_dash::constants::app::{
         STAGE_DEFAULT_WIDTH, STAGE_DEFAULT_HEIGHT, APP_KEY, APP_ICON, APP_MANIFEST
     };
     use p_dash::models::block::{BlockType, Block};
     use p_dash::models::stage::{Stage};
+    use pixelaw::core::actions::{
+        IActionsDispatcher as ICoreActionsDispatcher,
+        IActionsDispatcherTrait as ICoreActionsDispatcherTrait
+    };
+    use pixelaw::core::models::permissions::{Permission};
+
+    use pixelaw::core::models::pixel::{Pixel, PixelUpdate};
+    use pixelaw::core::models::registry::App;
+    use pixelaw::core::traits::IInteroperability;
+    use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
+    use starknet::{
+        get_tx_info, get_caller_address, get_contract_address, get_execution_info, ContractAddress,
+        contract_address_const
+    };
+
+    use super::IPDashActions;
 
 
     #[abi(embed_v0)]

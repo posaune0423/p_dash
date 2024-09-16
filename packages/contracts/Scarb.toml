@@ -34,6 +34,9 @@ build-external-contracts = [
     "pixelaw::core::actions::IActionsDispatcherTrait",
 ]
 
+[tool.fmt]
+sort-module-level-items = true
+
 [scripts]
 init_auth = "./scripts/init_auth.sh"
 stage_test = "./scripts/stage_test.sh"

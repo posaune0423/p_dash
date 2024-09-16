@@ -1,25 +1,25 @@
 #[cfg(test)]
 mod tests {
-    use starknet::{contract_address_const, testing::set_account_contract_address};
+    use dojo::utils::test::{spawn_test_world, deploy_contract};
+    use dojo::utils::{selector_from_names};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use dojo::utils::{selector_from_names};
-    use dojo::utils::test::{spawn_test_world, deploy_contract};
-
-    use pixelaw::core::models::registry::{app, app_name, core_actions_address};
-    use pixelaw::core::models::pixel::{Pixel, PixelUpdate};
-    use pixelaw::core::models::pixel::{pixel};
-    use pixelaw::core::models::permissions::{permissions};
-    use pixelaw::core::utils::{
-        get_core_actions, encode_color, decode_color, Direction, Position, DefaultParameters
-    };
-    use pixelaw::core::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
+    use p_dash::models::block::{block, Block, BlockType};
 
     use p_dash::models::stage::{stage, Stage};
-    use p_dash::models::block::{block, Block, BlockType};
     use p_dash::systems::actions::{
         p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
+    use pixelaw::core::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
+    use pixelaw::core::models::permissions::{permissions};
+    use pixelaw::core::models::pixel::{Pixel, PixelUpdate};
+    use pixelaw::core::models::pixel::{pixel};
+
+    use pixelaw::core::models::registry::{app, app_name, core_actions_address};
+    use pixelaw::core::utils::{
+        get_core_actions, encode_color, decode_color, Direction, Position, DefaultParameters
+    };
+    use starknet::{contract_address_const, testing::set_account_contract_address};
 
 
     // Helper function: deploys world and actions
