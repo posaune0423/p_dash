@@ -1,16 +1,14 @@
 'use client'
 
-import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { BASE_CELL_SIZE, MAX_SCALE, MIN_SCALE, SWIPE_THRESHOLD } from '@/constants/webgl'
-import { useDojo } from '@/hooks/useDojo'
+import { startTransition, useCallback, useEffect, useRef, useState } from 'react'
+import { BASE_CELL_SIZE, MAX_SCALE, MIN_SCALE, SWIPE_THRESHOLD } from '@/constants/canvas'
 import { useGridState } from '@/hooks/useGridState'
 import { type GridState, type Block } from '@/types'
-
 import { convertClientPosToCanvasPos } from '@/utils/canvas'
 import { getPinchDistance, getTouchPositions } from '@/utils/gestures'
 
 const GRID_WIDTH = 80
-const GRID_HEIGHT = 30
+const GRID_HEIGHT = 15
 
 export const useStageEditor = () => {
   // Refs
@@ -34,14 +32,8 @@ export const useStageEditor = () => {
   }
 
   // Other Hooks
-  const {
-    setup: {
-      account: { account },
-      connectedAccount,
-    },
-  } = useDojo()
+
   const { gridState, setGridState } = useGridState()
-  const activeAccount = useMemo(() => connectedAccount || account, [connectedAccount, account])
 
   const [currentBlocks, setCurrentBlocks] = useState<Block[]>([])
   const imageCache = useRef<Map<string, HTMLImageElement>>(new Map())
@@ -268,7 +260,16 @@ export const useStageEditor = () => {
         } as Block
 
         startTransition(async () => {
-          setCurrentBlocks((prev) => [...prev, block])
+          const shouldRemoveIndex = currentBlocks.findIndex(
+            (b) => b.x === block.x && b.y === block.y && b.type === block.type,
+          )
+
+          if (shouldRemoveIndex !== -1) {
+            setCurrentBlocks((prev) => prev.filter((_, index) => index !== shouldRemoveIndex))
+          } else {
+            setCurrentBlocks((prev) => [...prev, block])
+          }
+
           await loadImage(block.image)
           animate()
         })
@@ -276,7 +277,7 @@ export const useStageEditor = () => {
 
       isDraggingRef.current = false
     },
-    [gridState, selectedElement, loadImage, animate],
+    [gridState, selectedElement, loadImage, animate, currentBlocks, setCurrentBlocks],
   )
 
   const handlePinchZoom = useCallback(
@@ -325,7 +326,7 @@ export const useStageEditor = () => {
   }, [])
 
   useEffect(() => {
-    animate()
+    requestAnimationFrame(animate)
   }, [animate, gridState])
 
   // resize observer

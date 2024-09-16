@@ -2,8 +2,11 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useMemo, useState } from 'react'
 import CustomButton from './CustomButton'
 import { Button } from '@/components/ui/button'
+import { useDojo } from '@/hooks/useDojo'
 import { cn } from '@/utils'
 
 export const StageElements = ({
@@ -13,10 +16,36 @@ export const StageElements = ({
   selectedElement: string | null
   handleSelectElement: (element: string) => void
 }) => {
+  const {
+    setup: {
+      account: { account },
+      connectedAccount,
+      systemCalls: { initializeStage },
+    },
+  } = useDojo()
+  const activeAccount = useMemo(() => connectedAccount || account, [connectedAccount, account])
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleClickSave = useCallback(async () => {
+    if (!activeAccount) return
+    setIsLoading(true)
+    initializeStage(activeAccount, { x: 2, y: 2, color: 0x0 })
+      .then(() => {
+        router.push('/my')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }, [activeAccount, initializeStage, router])
+
   return (
     <div className='fixed bottom-0 left-0 h-[50px] w-full bg-black/80'>
       <div className='mx-auto flex max-w-lg items-center justify-between gap-2 p-1'>
-        <Button>
+        <Button disabled={isLoading}>
           <Link href='/my'>Back</Link>
         </Button>
         <div className='flex items-center gap-8'>
@@ -71,7 +100,9 @@ export const StageElements = ({
             />
           </div>
         </div>
-        <CustomButton>Save</CustomButton>
+        <CustomButton onClick={handleClickSave} disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'Save'}
+        </CustomButton>
       </div>
     </div>
   )

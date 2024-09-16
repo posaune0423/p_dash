@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { type DojoConfig, DojoProvider } from '@dojoengine/core'
 import { BurnerManager } from '@dojoengine/create-burner'
+import { getSyncEvents, getSyncEntities } from '@dojoengine/state'
 import { Account, type ArraySignatureType } from 'starknet'
 import { createSystemCalls } from './createSystemCalls'
 import { createClientComponents } from '@/libs/dojo/createClientComponents'
@@ -27,7 +29,11 @@ export async function setup({ ...config }: DojoConfig) {
   // create client components
   const clientComponents = createClientComponents({ contractComponents })
 
-  // fetch all existing entities from torii
+  // Sync all events
+  const eventSync = getSyncEvents(toriiClient, contractComponents as any, undefined, [])
+
+  // Sync all entities
+  const sync = await getSyncEntities(toriiClient, contractComponents as any, [])
 
   // create dojo provider
   const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl)
@@ -70,5 +76,7 @@ export async function setup({ ...config }: DojoConfig) {
     dojoProvider,
     burnerManager,
     toriiClient,
+    eventSync,
+    sync,
   }
 }

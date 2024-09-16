@@ -1,4 +1,4 @@
-import { BASE_CELL_SIZE } from '@/constants/webgl'
+import { BASE_CELL_SIZE } from '@/constants/canvas'
 import { type GridState } from '@/types'
 
 export const convertClientPosToCanvasPos = (

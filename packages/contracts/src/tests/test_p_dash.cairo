@@ -62,7 +62,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(3000000000)]
     fn test_actions() {
         // Deploy everything
         let (world, core_actions, actions) = deploy_world();
@@ -91,8 +90,8 @@ mod tests {
                     position: Position { x: 1, y: 1 },
                     color: color
                 },
-                Option::Some(2),
-                Option::Some(2),
+                Option::None,
+                Option::None,
             );
 
         // Check if the stage is initialized correctly
