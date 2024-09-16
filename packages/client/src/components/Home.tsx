@@ -5,7 +5,7 @@ import { APP_NAME } from '@/constants'
 
 const Home = () => {
   return (
-    <main className='fixed flex min-h-[calc(100dvh)] flex-col items-center justify-center space-y-4'>
+    <main className='fixed flex min-h-[calc(100dvh)] w-full flex-col items-center justify-center space-y-4'>
       <Image
         src='/hero.png'
         alt='logo'

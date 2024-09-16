@@ -7,8 +7,8 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_MASTER_ADDRESS: z.custom<`0x${string}`>(),
     NEXT_PUBLIC_MASTER_PRIVATE_KEY: z.custom<`0x${string}`>(),
-    NEXT_PUBLIC_NODE_URL: z.string().url(),
-    NEXT_PUBLIC_TORII: z.string().url(),
+    NEXT_PUBLIC_RPC_URL: z.string().url(),
+    NEXT_PUBLIC_TORII_URL: z.string().url(),
     NEXT_PUBLIC_DEBUG: z.boolean(),
     NEXT_PUBLIC_PROFILE: z.enum(['dev', 'slot']),
   },
@@ -16,8 +16,8 @@ export const env = createEnv({
   runtimeEnv: {
     NEXT_PUBLIC_MASTER_ADDRESS: process.env.NEXT_PUBLIC_MASTER_ADDRESS,
     NEXT_PUBLIC_MASTER_PRIVATE_KEY: process.env.NEXT_PUBLIC_MASTER_PRIVATE_KEY,
-    NEXT_PUBLIC_NODE_URL: process.env.NEXT_PUBLIC_NODE_URL,
-    NEXT_PUBLIC_TORII: process.env.NEXT_PUBLIC_TORII,
+    NEXT_PUBLIC_RPC_URL: process.env.NEXT_PUBLIC_RPC_URL,
+    NEXT_PUBLIC_TORII_URL: process.env.NEXT_PUBLIC_TORII_URL,
     NEXT_PUBLIC_DEBUG: process.env.NEXT_PUBLIC_DEBUG === 'true',
     NEXT_PUBLIC_PROFILE: process.env.NEXT_PUBLIC_PROFILE,
   },

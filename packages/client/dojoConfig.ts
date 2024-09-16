@@ -4,7 +4,9 @@ import manifestSlot from '../contracts/manifests/release/deployment/manifest.jso
 import { env } from '@/env'
 
 export const dojoConfig = createDojoConfig({
-  toriiUrl: env.NEXT_PUBLIC_TORII,
-  rpcUrl: env.NEXT_PUBLIC_NODE_URL,
+  toriiUrl: env.NEXT_PUBLIC_TORII_URL,
+  rpcUrl: env.NEXT_PUBLIC_RPC_URL,
+  masterAddress: env.NEXT_PUBLIC_MASTER_ADDRESS,
+  masterPrivateKey: env.NEXT_PUBLIC_MASTER_PRIVATE_KEY,
   manifest: manifestSlot,
 })

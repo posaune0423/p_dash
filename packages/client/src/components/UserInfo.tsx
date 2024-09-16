@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuerySync, useEntityQuery } from '@dojoengine/react'
-import { Has } from '@dojoengine/recs'
+import { getComponentValue, Has } from '@dojoengine/recs'
 import {
   // useBalance,
   useAccount,
@@ -23,16 +23,16 @@ const UserInfo = () => {
   const {
     setup: {
       toriiClient,
-      clientComponents: { StageId },
+      clientComponents: { Stage },
       contractComponents,
     },
   } = useDojo()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  useQuerySync(toriiClient, [contractComponents.StageId], [])
+  useQuerySync(toriiClient, [contractComponents.Stage], [])
 
-  const stageIds = useEntityQuery([Has(StageId)])
-  console.log(stageIds)
+  const stageEntities = useEntityQuery([Has(Stage)])
+  console.log(stageEntities)
 
   return (
     <section className='h-[calc(100vh-64px)] overflow-y-auto py-10 text-white'>
@@ -63,17 +63,20 @@ const UserInfo = () => {
           <Link href='/stage/create'>Create Stage</Link>
         </Button>
         <div className='grid grid-cols-2 gap-4'>
-          {stageIds.map((stageId) => (
-            <Link key={stageId} href={`/stage/${stageId}/edit`} className='block'>
-              <Image
-                src='/assets/stage/sci-fi/bg.png'
-                alt={`Stage ${stageId}`}
-                width={200}
-                height={100}
-                className='h-auto w-full rounded-lg object-cover'
-              />
-            </Link>
-          ))}
+          {stageEntities.map((stageEntity) => {
+            const stage = getComponentValue(Stage, stageEntity)
+            return (
+              <Link key={stage?.id} href={`/stage/${stage?.id}/edit`} className='block'>
+                <Image
+                  src='/assets/stage/sci-fi/bg.png'
+                  alt={`Stage ${stage?.id}`}
+                  width={200}
+                  height={100}
+                  className='h-auto w-full rounded-lg object-cover'
+                />
+              </Link>
+            )
+          })}
         </div>
       </div>
     </section>

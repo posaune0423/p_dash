@@ -2080,10 +2080,10 @@
     },
     {
       "kind": "DojoContract",
-      "address": null,
+      "address": "0x1d7b4801ae82c121359b28cac257e0c5b436532f91d04ac8890c3a25bc6e44e",
       "class_hash": "0x46db41b8948e4b64b2f7e531f170389581ef2cb3ce8f6d20dfc8946e8dcc172",
       "original_class_hash": "0x46db41b8948e4b64b2f7e531f170389581ef2cb3ce8f6d20dfc8946e8dcc172",
-      "base_class_hash": "0x0",
+      "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
           "type": "impl",

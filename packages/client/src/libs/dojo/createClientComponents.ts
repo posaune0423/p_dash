@@ -10,11 +10,13 @@ export function createClientComponents({
 }) {
   return {
     ...contractComponents,
-    App: overridableComponent(contractComponents.App),
-    AppName: overridableComponent(contractComponents.AppName),
-    Pixel: overridableComponent(contractComponents.Pixel),
-    Permissions: overridableComponent(contractComponents.Permissions),
-    Instruction: overridableComponent(contractComponents.Instruction),
-    CoreActionsAddress: overridableComponent(contractComponents.CoreActionsAddress),
+    Stage: overridableComponent(contractComponents.Stage),
+    Block: overridableComponent(contractComponents.Block),
+    // App: overridableComponent(contractComponents.App),
+    // AppName: overridableComponent(contractComponents.AppName),
+    // Pixel: overridableComponent(contractComponents.Pixel),
+    // Permissions: overridableComponent(contractComponents.Permissions),
+    // Instruction: overridableComponent(contractComponents.Instruction),
+    // CoreActionsAddress: overridableComponent(contractComponents.CoreActionsAddress),
   }
 }
