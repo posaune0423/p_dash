@@ -29,9 +29,7 @@ pub trait IPDashActions<TContractState> {
 /// contracts must be named as such (APP_KEY + underscore + "actions")
 #[dojo::contract(namespace: "pixelaw", nomapping: true)]
 pub mod p_dash_actions {
-    use p_dash::constants::app::{
-        STAGE_DEFAULT_WIDTH, STAGE_DEFAULT_HEIGHT, APP_KEY, APP_ICON, APP_MANIFEST
-    };
+    use p_dash::constants::app::{STAGE_DEFAULT_WIDTH, STAGE_DEFAULT_HEIGHT, APP_KEY, APP_ICON};
     use p_dash::models::block::{BlockType, Block};
     use p_dash::models::stage::{Stage};
     use pixelaw::core::actions::{
@@ -82,9 +80,8 @@ pub mod p_dash_actions {
         fn init(ref world: IWorldDispatcher) {
             let core_actions = pixelaw::core::utils::get_core_actions(world);
 
-            core_actions.update_app(APP_KEY, APP_ICON, APP_MANIFEST);
-            ///Grant permission to the snake App
-
+            core_actions.new_app(contract_address_const::<0>(), APP_KEY, APP_ICON);
+            ///Grant permission to the app
             core_actions
                 .update_permission(
                     APP_KEY,
@@ -116,7 +113,7 @@ pub mod p_dash_actions {
             width: Option<u32>,
             height: Option<u32>,
         ) -> usize {
-            println!("Initialize the stage for p/dash");
+            // println!("Initialize the stage for p/dash");
 
             // Load important variables
             let core_actions = get_core_actions(world);
@@ -151,7 +148,7 @@ pub mod p_dash_actions {
                             PixelUpdate {
                                 x,
                                 y,
-                                color: Option::Some(default_params.color), // initial color (white)
+                                color: Option::Some(default_params.color), // initial color(white)
                                 app: Option::Some(system),
                                 owner: Option::Some(player),
                                 text: Option::None,
@@ -164,7 +161,8 @@ pub mod p_dash_actions {
                 x += 1;
             };
 
-            println!("p/dash set up done");
+            // println!("p/dash set up done");
+
             let result = stage_id.into();
             return result;
         }
@@ -175,7 +173,7 @@ pub mod p_dash_actions {
             blocktype: BlockType,
             default_params: DefaultParameters
         ) {
-            println!("Put block");
+            // println!("Put block");
 
             // Load important variables
             let core_actions = get_core_actions(world);
@@ -207,8 +205,7 @@ pub mod p_dash_actions {
 
             // set the block types for init block.
             set!(world, (Block { stage_id, x: position.x, y: position.y, blocktype }));
-
-            println!("Block set");
+            // println!("Block set");
         }
     }
 }

@@ -37,28 +37,28 @@ fi
 # make sure all components/systems are deployed
 CORE_MODELS=("pixelaw-App" "pixelaw-AppName" "pixelaw-CoreActionsAddress" "pixelaw-Pixel" "pixelaw-Permissions" "pixelaw-QueueItem" "pixelaw-Snake" "pixelaw-Instruction")
 SNAKE_MODELS=("pixelaw-Snake" "pixelaw-SnakeSegment")
-P_DASH_MODELS=("pixelaw-Block" "pixelaw-Stage" "pixelaw-StageId")
+P_DASH_MODELS=("pixelaw-Block" "pixelaw-Stage")
 
 echo "Write permissions for CORE_ACTIONS"
 for model in ${CORE_MODELS[@]}; do
     sleep 0.1
-    sozo --profile $SCARB_PROFILE auth grant writer model:$model,$CORE_ACTIONS --world $world_address --account-address $account_address --private-key $private_key
+    sozo --profile $SCARB_PROFILE auth grant writer model:$model,$CORE_ACTIONS
 done
 echo "Write permissions for CORE_ACTIONS: Done"
 
 echo "Initialize CORE_ACTIONS : $CORE_ACTIONS"
 sleep 0.1
-sozo --profile $SCARB_PROFILE execute $CORE_ACTIONS init --world $world_address --account-address $account_address --private-key $private_key
+sozo --profile $SCARB_PROFILE execute $CORE_ACTIONS init
 echo "Initialize CORE_ACTIONS: Done"
 
 echo "Initialize P_DASH_ACTIONS: Done"
 sleep 0.1
-sozo --profile $SCARB_PROFILE execute $P_DASH_ACTIONS init --world $world_address --account-address $account_address --private-key $private_key
+sozo --profile $SCARB_PROFILE execute $P_DASH_ACTIONS init
 echo "Initialize P_DASH_ACTIONS: Done"
 
 echo "Write permissions for P_DASH_ACTIONS"
 for model in ${P_DASH_MODELS[@]}; do
     sleep 0.1
-    sozo --profile $SCARB_PROFILE auth grant writer model:$model,$P_DASH_ACTIONS --world $world_address --account-address $account_address --private-key $private_key
+    sozo --profile $SCARB_PROFILE auth grant writer model:$model,$P_DASH_ACTIONS
 done
 echo "Write permissions for P_DASH_ACTIONS: Done"
