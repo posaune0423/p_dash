@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { type Color } from '@/types'
+import { BlockType, type Color } from '@/types'
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
@@ -60,4 +60,25 @@ export const hexToRgba = (hex: number): Color => {
   const b = ((hex >>> 8) & 0xff) / 255
   const a = (hex & 0xff) / 255
   return { r, g, b, a }
+}
+
+export const getBlockColor = (blockType: BlockType): string => {
+  switch (blockType) {
+    case BlockType.Block:
+      return '0x808080FF'
+    case BlockType.Spike:
+      return '0xFF0000FF'
+    case BlockType.Empty:
+      return '0x00000000'
+    case BlockType.Tile:
+      return '0x8B4513FF'
+    case BlockType.InitBlock:
+      return '0xFFFF00FF'
+    default:
+      return '0xFFFFFFFF'
+  }
+}
+
+export const blockTypeToIndex = (blockType: BlockType): number => {
+  return Object.values(BlockType).indexOf(blockType)
 }

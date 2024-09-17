@@ -7,20 +7,25 @@ import { useCallback, useMemo, useState } from 'react'
 import CustomButton from './CustomButton'
 import { Button } from '@/components/ui/button'
 import { useDojo } from '@/hooks/useDojo'
+import { type Block, BlockType } from '@/types'
 import { cn } from '@/utils'
 
 export const StageElements = ({
+  stageId,
+  currentBlocks,
   selectedElement,
   handleSelectElement,
 }: {
-  selectedElement: string | null
-  handleSelectElement: (element: string) => void
+  stageId?: number
+  currentBlocks: Block[]
+  selectedElement: BlockType | null
+  handleSelectElement: (element: BlockType) => void
 }) => {
   const {
     setup: {
       account: { account },
       connectedAccount,
-      systemCalls: { initializeStage },
+      systemCalls: { initializeStage, batchPutBlocks },
     },
   } = useDojo()
   const activeAccount = useMemo(() => connectedAccount || account, [connectedAccount, account])
@@ -30,17 +35,19 @@ export const StageElements = ({
   const handleClickSave = useCallback(async () => {
     if (!activeAccount) return
     setIsLoading(true)
-    initializeStage(activeAccount, 2, 2, 2, 2)
-      .then(() => {
-        router.push('/my')
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }, [activeAccount, initializeStage, router])
+    if (stageId) {
+      // TODO: update stage
+      await batchPutBlocks(activeAccount, stageId, currentBlocks)
+      setIsLoading(false)
+      router.push(`/my/`)
+    } else {
+      const result = await initializeStage(activeAccount, 2, 2, 2, 2)
+      console.log('result', result)
+      await batchPutBlocks(activeAccount, 2, currentBlocks)
+      router.push('/my/')
+    }
+    setIsLoading(false)
+  }, [activeAccount, router, stageId, currentBlocks, initializeStage, batchPutBlocks])
 
   return (
     <div className='fixed bottom-0 left-0 h-[50px] w-full bg-black/80'>
@@ -52,44 +59,48 @@ export const StageElements = ({
           <div
             className={cn(
               'relative w-9 h-9 cursor-pointer',
-              selectedElement === 'block' &&
+              selectedElement === BlockType.Block &&
                 'before:absolute before:inset-0 before:border-2 before:border-white/80 before:rounded-md',
             )}
-            onClick={() => handleSelectElement('block')}
+            onClick={() => handleSelectElement(BlockType.Block)}
           >
             <Image
               src='/assets/stage/sci-fi/block.png'
               width={36}
               height={36}
               alt='block'
-              className={cn(selectedElement === 'block' && 'border-2 border-white/80 rounded-md')}
-              onClick={() => handleSelectElement('block')}
+              className={cn(
+                selectedElement === BlockType.Block && 'border-2 border-white/80 rounded-md',
+              )}
+              onClick={() => handleSelectElement(BlockType.Block)}
             />
           </div>
           <div
             className={cn(
               'relative w-9 h-9 cursor-pointer',
-              selectedElement === 'tiles' &&
+              selectedElement === BlockType.Tile &&
                 'before:absolute before:inset-0 before:border-2 before:border-white/80 before:rounded-md',
             )}
-            onClick={() => handleSelectElement('tiles')}
+            onClick={() => handleSelectElement(BlockType.Tile)}
           >
             <Image
               src='/assets/stage/sci-fi/tiles.png'
               width={36}
               height={36}
               alt='tiles'
-              className={cn(selectedElement === 'tiles' && 'border-2 border-white/80 rounded-md')}
-              onClick={() => handleSelectElement('tiles')}
+              className={cn(
+                selectedElement === BlockType.Tile && 'border-2 border-white/80 rounded-md',
+              )}
+              onClick={() => handleSelectElement(BlockType.Tile)}
             />
           </div>
           <div
             className={cn(
               'relative w-9 h-9 cursor-pointer',
-              selectedElement === 'spike' &&
+              selectedElement === BlockType.Spike &&
                 'before:absolute before:inset-0 before:border-2 before:border-white/80 before:rounded-md',
             )}
-            onClick={() => handleSelectElement('spike')}
+            onClick={() => handleSelectElement(BlockType.Spike)}
           >
             <Image
               src='/assets/stage/sci-fi/spike.png'

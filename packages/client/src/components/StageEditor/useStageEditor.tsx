@@ -1,20 +1,29 @@
 'use client'
 
-import { startTransition, useCallback, useEffect, useRef, useState } from 'react'
+import { useEntityQuery, useQuerySync } from '@dojoengine/react'
+import { getComponentValue, HasValue } from '@dojoengine/recs'
+import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { BASE_CELL_SIZE, MAX_SCALE, MIN_SCALE, SWIPE_THRESHOLD } from '@/constants/canvas'
+import { useDojo } from '@/hooks/useDojo'
 import { useGridState } from '@/hooks/useGridState'
-import { type GridState, type Block } from '@/types'
+import { type GridState, type Block, BlockType } from '@/types'
 import { convertClientPosToCanvasPos } from '@/utils/canvas'
 import { getPinchDistance, getTouchPositions } from '@/utils/gestures'
 
 const GRID_WIDTH = 80
-const GRID_HEIGHT = 15
+const GRID_HEIGHT = 10
 
-export const useStageEditor = () => {
+const blockTypeToImage = {
+  [BlockType.Block]: 'block.png',
+  [BlockType.Spike]: 'spike.png',
+  [BlockType.Tile]: 'tiles.png',
+}
+
+export const useStageEditor = ({ stageId }: { stageId: number }) => {
   // Refs
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
-
+  const imageCache = useRef<Map<string, HTMLImageElement>>(new Map())
   const isDraggingRef = useRef<boolean>(false)
   const lastTouchPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
   const touchStartPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
@@ -26,17 +35,40 @@ export const useStageEditor = () => {
     gestureStartTime: null as number | null,
   })
 
-  const [selectedElement, setSelectedElement] = useState<string | null>(null)
-  const handleSelectElement = (element: string) => {
+  const [selectedElement, setSelectedElement] = useState<BlockType | null>(null)
+  const handleSelectElement = (element: BlockType) => {
     setSelectedElement(element)
   }
 
   // Other Hooks
+  const {
+    setup: {
+      toriiClient,
+      clientComponents: { Block },
+      contractComponents,
+    },
+  } = useDojo()
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  useQuerySync(toriiClient, [contractComponents.Block], [])
+
+  const blockEntities = useEntityQuery([HasValue(Block, { stage_id: stageId })])
+  const blocks = useMemo(() => {
+    return blockEntities
+      .map((entity) => {
+        const block = getComponentValue(Block, entity)
+        return {
+          x: block?.x,
+          y: block?.y,
+          type: block?.blocktype as unknown as BlockType,
+          image: `/assets/stage/sci-fi/${blockTypeToImage[block?.blocktype as unknown as BlockType]}`,
+        } as Block
+      })
+      .filter((block) => block.type !== BlockType.Empty && block.type !== BlockType.InitBlock)
+  }, [blockEntities, Block])
 
   const { gridState, setGridState } = useGridState()
-
-  const [currentBlocks, setCurrentBlocks] = useState<Block[]>([])
-  const imageCache = useRef<Map<string, HTMLImageElement>>(new Map())
+  const [currentBlocks, setCurrentBlocks] = useState<Block[]>(blocks)
 
   const loadImage = useCallback((src: string): Promise<HTMLImageElement> => {
     return new Promise((resolve, reject) => {
@@ -84,33 +116,6 @@ export const useStageEditor = () => {
 
     ctx.stroke()
   }, [gridState])
-
-  const drawBlock = useCallback(
-    (block: Block) => {
-      const ctx = ctxRef.current
-      const canvas = canvasRef.current
-      if (!ctx || !canvas) return
-
-      const screenX = (block.x * BASE_CELL_SIZE - gridState.offsetX) * gridState.scale
-      const screenY = (block.y * BASE_CELL_SIZE - gridState.offsetY) * gridState.scale
-      const size = BASE_CELL_SIZE * gridState.scale
-
-      loadImage(block.image).then((img) => {
-        ctx.drawImage(img, screenX, screenY, size, size)
-      })
-    },
-    [gridState, loadImage],
-  )
-
-  const animate = useCallback(() => {
-    const ctx = ctxRef.current
-    const canvas = canvasRef.current
-    if (!ctx || !canvas) return
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    drawGrid()
-    currentBlocks.forEach(drawBlock)
-  }, [drawGrid, drawBlock, currentBlocks])
 
   const setLimitedGridState = useCallback(
     (updater: (prev: GridState) => GridState) => {
@@ -256,7 +261,7 @@ export const useStageEditor = () => {
           x: cellX,
           y: cellY,
           type: selectedElement,
-          image: `/assets/stage/sci-fi/${selectedElement}.png`,
+          image: `/assets/stage/sci-fi/${blockTypeToImage[selectedElement]}`,
         } as Block
 
         startTransition(async () => {
@@ -271,50 +276,12 @@ export const useStageEditor = () => {
           }
 
           await loadImage(block.image)
-          animate()
         })
       }
 
       isDraggingRef.current = false
     },
-    [gridState, selectedElement, loadImage, animate, currentBlocks, setCurrentBlocks],
-  )
-
-  const handlePinchZoom = useCallback(
-    (e: TouchEvent) => {
-      if (e.touches.length !== 2) return
-
-      const touch1 = e.touches[0]
-      const touch2 = e.touches[1]
-      const dist = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY)
-
-      const { x: centerX, y: centerY } = convertClientPosToCanvasPos(
-        canvasRef,
-        (touch1.clientX + touch2.clientX) / 2,
-        touch1.clientY + touch2.clientY,
-      )
-
-      setLimitedGridState((prev) => {
-        const newScale = Math.max(
-          MIN_SCALE,
-          Math.min(MAX_SCALE, prev.scale * (dist / (prev.lastPinchDist || dist))),
-        )
-
-        const worldCenterX = prev.offsetX + centerX / prev.scale
-        const worldCenterY = prev.offsetY + centerY / prev.scale
-
-        const newOffsetX = worldCenterX - centerX / newScale
-        const newOffsetY = worldCenterY - centerY / newScale
-
-        return {
-          offsetX: newOffsetX,
-          offsetY: newOffsetY,
-          scale: newScale,
-          lastPinchDist: dist,
-        }
-      })
-    },
-    [setLimitedGridState],
+    [gridState, selectedElement, currentBlocks, loadImage, setCurrentBlocks],
   )
 
   // Effects
@@ -325,8 +292,40 @@ export const useStageEditor = () => {
     }
   }, [])
 
+  const drawBlock = useCallback(
+    async (block: Block) => {
+      const ctx = ctxRef.current
+      const canvas = canvasRef.current
+      if (!ctx || !canvas) return
+
+      const screenX = (block.x * BASE_CELL_SIZE - gridState.offsetX) * gridState.scale
+      const screenY = (block.y * BASE_CELL_SIZE - gridState.offsetY) * gridState.scale
+      const size = BASE_CELL_SIZE * gridState.scale
+
+      const image = await loadImage(block.image)
+      ctx.drawImage(image, screenX, screenY, size, size)
+    },
+    [gridState, loadImage],
+  )
+
+  const animate = useCallback(async () => {
+    const ctx = ctxRef.current
+    const canvas = canvasRef.current
+    if (!ctx || !canvas) return
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    drawGrid()
+    for (let i = 0; i < currentBlocks.length; i++) {
+      await drawBlock(currentBlocks[i])
+    }
+  }, [drawGrid, drawBlock, currentBlocks])
+
   useEffect(() => {
-    requestAnimationFrame(animate)
+    const animateFrame = requestAnimationFrame(animate)
+
+    return () => {
+      cancelAnimationFrame(animateFrame)
+    }
   }, [animate, gridState])
 
   // resize observer
@@ -349,11 +348,11 @@ export const useStageEditor = () => {
 
   return {
     canvasRef,
+    selectedElement,
+    currentBlocks,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
-    handlePinchZoom,
-    selectedElement,
     handleSelectElement,
   }
 }

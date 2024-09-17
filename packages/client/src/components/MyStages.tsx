@@ -47,6 +47,7 @@ export const MyStages: React.FC<MyStagesProps> = ({ address }) => {
                 height={100}
                 className='h-auto w-full rounded-lg object-cover'
               />
+              <p>{stage?.id}</p>
             </Link>
           )
         })}

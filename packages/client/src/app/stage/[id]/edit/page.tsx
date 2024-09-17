@@ -1,9 +1,9 @@
 import { StageEditor } from '@/components/StageEditor'
 
-const EditStagePage = () => {
+const EditStagePage = ({ params }: { params: { id: string } }) => {
   return (
     <div className='h-screen w-screen'>
-      <StageEditor />
+      <StageEditor stageId={Number(params.id)} />
     </div>
   )
 }

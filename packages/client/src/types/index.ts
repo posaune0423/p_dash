@@ -12,17 +12,26 @@ export type PlayerInteraction = {
   timestamp: number
 }
 
+export enum BlockType {
+  Empty = 'Empty',
+  InitBlock = 'InitBlock',
+  Block = 'Block',
+  Tile = 'Tile',
+  Spike = 'Spike',
+  Hole = 'Hole',
+}
+
 export type Block = {
   x: number
   y: number
   image: string
-  type: 'block' | 'spike' | 'tiles' | 'null'
+  type: BlockType
 }
 
 export type Obstacle = {
   x: number
   y: number
-  type: 'block' | 'spike' | 'tiles' | 'null'
+  type: BlockType
 }
 
 export type App = {

@@ -4,35 +4,10 @@ import { type DojoProvider } from '@dojoengine/core'
 import { toast } from 'sonner'
 import { type Account, type AccountInterface } from 'starknet'
 import { ZERO_ADDRESS, NAMESPACE } from '@/constants'
-import { handleTransactionError } from '@/utils'
+import { type Block } from '@/types'
+import { blockTypeToIndex, getBlockColor, handleTransactionError } from '@/utils'
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>
-
-export type PixelUpdate = {
-  x: number
-  y: number
-  color: number
-  owner?: `0x${string}`
-  app?: `0x${string}`
-  text?: string
-  timestamp?: number
-  action?: `0x${string}`
-}
-
-export type DefaultParams = {
-  // forPlayer: `0x${string}`;
-  // forSystem: `0x${string}`;
-  x: number
-  y: number
-  color: number
-}
-
-export interface UpdatePixelProps {
-  account: Account | AccountInterface
-  forPlayer: `0x${string}`
-  forSystem: `0x${string}`
-  pixelUpdate: PixelUpdate
-}
 
 const handleError = (action: string, error: unknown) => {
   console.error(`Error executing ${action}:`, error)
@@ -44,71 +19,6 @@ const handleError = (action: string, error: unknown) => {
 
 export async function setupWorld(provider: DojoProvider) {
   const actions = () => ({
-    // ======= Core =======
-    initCore: async ({ account }: { account: AccountInterface }) => {
-      try {
-        return await provider.execute(
-          account,
-          {
-            contractName: 'actions',
-            entrypoint: 'init',
-            calldata: [],
-          },
-          NAMESPACE,
-        )
-      } catch (error) {
-        handleError('initCore', error)
-      }
-    },
-    updatePixel: async (account: Account | AccountInterface, pixelUpdate: PixelUpdate) => {
-      console.log('updatePixel', pixelUpdate)
-      try {
-        return await provider.execute(
-          account,
-          {
-            contractName: 'actions',
-            entrypoint: 'update_pixel',
-            calldata: [ZERO_ADDRESS, ZERO_ADDRESS, pixelUpdate],
-          },
-          NAMESPACE,
-        )
-      } catch (error) {
-        handleError('updatePixel', error)
-      }
-    },
-    // ======= Paint =======
-    initPaint: async (account: Account | AccountInterface) => {
-      console.log('initPaint')
-      try {
-        return await provider.execute(
-          account,
-          {
-            contractName: 'paint_actions',
-            entrypoint: 'init',
-            calldata: [],
-          },
-          NAMESPACE,
-        )
-      } catch (error) {
-        handleError('initPaint', error)
-      }
-    },
-    interact: async (account: Account | AccountInterface, params: DefaultParams) => {
-      console.log('interact', params)
-      try {
-        return await provider.execute(
-          account,
-          {
-            contractName: 'paint_actions',
-            entrypoint: 'interact',
-            calldata: [{ forPlayer: ZERO_ADDRESS, forSystem: ZERO_ADDRESS, ...params }],
-          },
-          NAMESPACE,
-        )
-      } catch (error) {
-        handleError('interact', error)
-      }
-    },
     initializeStage: async (
       account: Account | AccountInterface,
       x: number,
@@ -118,7 +28,7 @@ export async function setupWorld(provider: DojoProvider) {
     ) => {
       console.log('initializeStage')
       try {
-        return await provider.execute(
+        const { transaction_hash } = await provider.execute(
           account,
           {
             contractName: 'p_dash_actions',
@@ -127,8 +37,43 @@ export async function setupWorld(provider: DojoProvider) {
           },
           NAMESPACE,
         )
+        const receipt = await account.waitForTransaction(transaction_hash)
+        console.log('receipt', receipt)
+        return receipt.value
       } catch (error) {
         handleError('initializeStage', error)
+        throw error
+      }
+    },
+    batchPutBlocks: async (
+      account: Account | AccountInterface,
+      stageId: number,
+      blocks: Block[],
+    ) => {
+      const calls = blocks.map((block) => {
+        return {
+          contractName: 'p_dash_actions',
+          entrypoint: 'put_block',
+          calldata: [
+            stageId,
+            blockTypeToIndex(block.type),
+            account.address,
+            ZERO_ADDRESS,
+            block.x,
+            block.y,
+            getBlockColor(block.type),
+          ],
+        }
+      })
+
+      console.log('calls', calls)
+
+      try {
+        // multi call
+        const { transaction_hash } = await provider.execute(account, calls, NAMESPACE)
+        console.log(transaction_hash)
+      } catch (error) {
+        handleError('batchPutBlocks', error)
         throw error
       }
     },
