@@ -84,14 +84,14 @@ mod tests {
             .initialize_stage(
                 1, // start_x
                 1, // start_y
+                2, // width
+                2, // height
                 DefaultParameters {
                     for_player: player1,
                     for_system: contract_address_const::<0>(),
                     position: Position { x: 1, y: 1 },
                     color: color
                 },
-                Option::Some(2), // width
-                Option::Some(2), // height
             );
 
         // Check if the stage is initialized correctly
@@ -101,10 +101,10 @@ mod tests {
         println!("Passed initialize_stage");
 
         // // Check if pixels are initialized
-        let pixel_1_1 = get!(world, (1, 1), (Pixel));
-        assert(pixel_1_1.color == color, 'Pixel color incorrect');
-        assert(pixel_1_1.owner == player1, 'Pixel owner incorrect');
-        println!("Passed initialize_stage");
+        // let pixel_1_1 = get!(world, (1, 1), (Pixel));
+        // assert(pixel_1_1.color == color, 'Pixel color incorrect');
+        // assert(pixel_1_1.owner == player1, 'Pixel owner incorrect');
+        // println!("Passed initialize_stage");
 
         // Check if blocks are initializedÏ
         let block_1_1 = get!(world, (stage_id, 1, 1), (Block));

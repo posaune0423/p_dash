@@ -19,4 +19,4 @@ world_address=$(grep "world_address" "$config_file" | cut -d'"' -f2)
 
 
 # Initialize Stage
-sozo execute --profile $SCARB_PROFILE pixelaw-p_dash_actions initialize_stage --calldata 0,0,0,0,"0xFFFFFF"
+sozo execute --profile $SCARB_PROFILE pixelaw-p_dash_actions initialize_stage --calldata 1,1,100,20,0xe29882a1fcba1e7e10cad46212257fea5c752a4f9b1b1ec683c503a2cf5c8a,0x0,0,0,0

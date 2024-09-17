@@ -14,9 +14,9 @@ pub trait IPDashActions<TContractState> {
         ref world: IWorldDispatcher,
         start_x: u32,
         start_y: u32,
+        width: u32,
+        height: u32,
         default_params: DefaultParameters,
-        width: Option<u32>,
-        height: Option<u32>,
     ) -> usize; // optimally input the width in the future.
     fn put_block(
         ref world: IWorldDispatcher,
@@ -29,7 +29,7 @@ pub trait IPDashActions<TContractState> {
 /// contracts must be named as such (APP_KEY + underscore + "actions")
 #[dojo::contract(namespace: "pixelaw", nomapping: true)]
 pub mod p_dash_actions {
-    use p_dash::constants::app::{STAGE_DEFAULT_WIDTH, STAGE_DEFAULT_HEIGHT, APP_KEY, APP_ICON};
+    use p_dash::constants::app::{APP_KEY, APP_ICON};
     use p_dash::models::block::{BlockType, Block};
     use p_dash::models::stage::{Stage};
     use pixelaw::core::actions::{
@@ -109,9 +109,9 @@ pub mod p_dash_actions {
             ref world: IWorldDispatcher,
             start_x: u32,
             start_y: u32,
+            width: u32,
+            height: u32,
             default_params: DefaultParameters,
-            width: Option<u32>,
-            height: Option<u32>,
         ) -> usize {
             // println!("Initialize the stage for p/dash");
 
@@ -123,48 +123,70 @@ pub mod p_dash_actions {
 
             // check if the stage is created
             let stage_id = world.uuid().into();
-            let w = width.unwrap_or(STAGE_DEFAULT_WIDTH);
-            let h = height.unwrap_or(STAGE_DEFAULT_HEIGHT);
+            let w = width;
+            let h = height;
+            // TODO: now not sure how to pass Option to calldata for sozo cli
+            // let w = width.unwrap_or(STAGE_DEFAULT_WIDTH);
+            // let h = height.unwrap_or(STAGE_DEFAULT_HEIGHT);
 
             // set the Stage configs.
             set!(world, (Stage { id: stage_id, x: start_x, y: start_y, w, h }));
+            set!(
+                world, (Block { stage_id, x: start_x, y: start_y, blocktype: BlockType::InitBlock })
+            );
 
-            let mut x = start_x;
-            loop {
-                if x == start_x + w {
-                    break;
-                }
-                let mut y = start_y;
-                loop {
-                    if y == start_y + h {
-                        break;
+            core_actions
+                .update_pixel(
+                    player,
+                    system,
+                    PixelUpdate {
+                        x: start_x,
+                        y: start_y,
+                        color: Option::Some(default_params.color), // initial color(white)
+                        app: Option::Some(system),
+                        owner: Option::Some(player),
+                        text: Option::None,
+                        timestamp: Option::None,
+                        action: Option::None
                     }
-                    set!(world, (Block { stage_id, x, y, blocktype: BlockType::InitBlock }));
+                );
 
-                    core_actions
-                        .update_pixel(
-                            player,
-                            system,
-                            PixelUpdate {
-                                x,
-                                y,
-                                color: Option::Some(default_params.color), // initial color(white)
-                                app: Option::Some(system),
-                                owner: Option::Some(player),
-                                text: Option::None,
-                                timestamp: Option::None,
-                                action: Option::None
-                            }
-                        );
-                    y += 1;
-                };
-                x += 1;
-            };
+            // let mut x = start_x;
+            // loop {
+            //     if x == start_x + w {
+            //         break;
+            //     }
+            //     let mut y = start_y;
+            //     loop {
+            //         if y == start_y + h {
+            //             break;
+            //         }
+            //         set!(world, (Block { stage_id, x, y, blocktype: BlockType::InitBlock }));
+
+            //         core_actions
+            //             .update_pixel(
+            //                 player,
+            //                 system,
+            //                 PixelUpdate {
+            //                     x,
+            //                     y,
+            //                     color: Option::Some(default_params.color), // initial
+            //                     color(white)
+            //                     app: Option::Some(system),
+            //                     owner: Option::Some(player),
+            //                     text: Option::None,
+            //                     timestamp: Option::None,
+            //                     action: Option::None
+            //                 }
+            //             );
+            //         y += 1;
+            //     };
+            //     x += 1;
+            // };
 
             // println!("p/dash set up done");
 
-            let result = stage_id.into();
-            return result;
+            return stage_id;
         }
 
         fn put_block(
@@ -182,10 +204,10 @@ pub mod p_dash_actions {
             let system = core_actions.get_system_address(default_params.for_system);
 
             // Load the Pixel
-            let mut pixel = get!(world, (position.x, position.y), (Pixel));
+            // let mut pixel = get!(world, (position.x, position.y), (Pixel));
 
             // Check if the pixel is free.
-            assert(pixel.owner == player, 'Please select your own pixel');
+            // assert(pixel.owner == player, 'Please select your own pixel');
 
             core_actions
                 .update_pixel(
