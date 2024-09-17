@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
-original_class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
+class_hash = "0x643c727dbdad863d58aea082bfa066e9b2fed60f4c1fb78c7b0dbdfeb6175b2"
+original_class_hash = "0x643c727dbdad863d58aea082bfa066e9b2fed60f4c1fb78c7b0dbdfeb6175b2"
 abi = "manifests/dev/base/abis/models/pixelaw-Stage-549fb0e1.json"
 tag = "pixelaw-Stage"
 qualified_path = "p_dash::models::stage::stage"
@@ -29,4 +29,9 @@ key = false
 [[members]]
 name = "h"
 type = "u32"
+key = false
+
+[[members]]
+name = "creator"
+type = "ContractAddress"
 key = false

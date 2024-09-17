@@ -30,7 +30,7 @@ export const StageElements = ({
   const handleClickSave = useCallback(async () => {
     if (!activeAccount) return
     setIsLoading(true)
-    initializeStage(activeAccount, { x: 2, y: 2, color: 0x0 })
+    initializeStage(activeAccount, 2, 2, 2, 2)
       .then(() => {
         router.push('/my')
       })

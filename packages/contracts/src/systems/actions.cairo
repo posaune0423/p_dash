@@ -130,7 +130,7 @@ pub mod p_dash_actions {
             // let h = height.unwrap_or(STAGE_DEFAULT_HEIGHT);
 
             // set the Stage configs.
-            set!(world, (Stage { id: stage_id, x: start_x, y: start_y, w, h }));
+            set!(world, (Stage { id: stage_id, x: start_x, y: start_y, w, h, creator: player }));
             set!(
                 world, (Block { stage_id, x: start_x, y: start_y, blocktype: BlockType::InitBlock })
             );

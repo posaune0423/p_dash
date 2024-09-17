@@ -1,6 +1,6 @@
 import { createDojoConfig } from '@dojoengine/core'
-// import manifestDev from '../contracts/manifests/dev/deployment/manifest.json'
-import manifestSlot from '../contracts/manifests/release/deployment/manifest.json'
+// import manifest from '../contracts/manifests/dev/deployment/manifest.json'
+import manifest from '../contracts/manifests/release/deployment/manifest.json'
 import { env } from '@/env'
 
 export const dojoConfig = createDojoConfig({
@@ -8,5 +8,5 @@ export const dojoConfig = createDojoConfig({
   rpcUrl: env.NEXT_PUBLIC_RPC_URL,
   masterAddress: env.NEXT_PUBLIC_MASTER_ADDRESS,
   masterPrivateKey: env.NEXT_PUBLIC_MASTER_PRIVATE_KEY,
-  manifest: manifestSlot,
+  manifest: manifest,
 })

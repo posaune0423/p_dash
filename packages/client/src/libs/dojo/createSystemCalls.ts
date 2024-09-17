@@ -51,11 +51,14 @@ export function createSystemCalls(
 
   const initializeStage = async (
     account: Account | AccountInterface,
-    params: Pick<DefaultParams, 'x' | 'y' | 'color'>,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
   ) => {
-    console.log('initializeStage', params)
+    console.log('initializeStage')
     try {
-      await client.actions.initializeStage(account, { ...params })
+      await client.actions.initializeStage(account, x, y, width, height)
     } catch (e) {
       console.error(e)
       throw e

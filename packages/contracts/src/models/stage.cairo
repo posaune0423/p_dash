@@ -1,5 +1,6 @@
-// we specify the stage by upp-right coordinates and width.
+use starknet::ContractAddress;
 
+// we specify the stage by upp-right coordinates and width.
 #[derive(Copy, Drop, Serde)]
 #[dojo::model(namespace: "pixelaw", nomapping: true)]
 pub struct Stage {
@@ -9,4 +10,5 @@ pub struct Stage {
     pub y: u32,
     pub w: u32,
     pub h: u32,
+    pub creator: ContractAddress,
 }

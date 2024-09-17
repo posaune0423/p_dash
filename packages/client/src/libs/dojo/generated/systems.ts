@@ -109,15 +109,21 @@ export async function setupWorld(provider: DojoProvider) {
         handleError('interact', error)
       }
     },
-    initializeStage: async (account: Account | AccountInterface, params: DefaultParams) => {
-      console.log('initializeStage', params)
+    initializeStage: async (
+      account: Account | AccountInterface,
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+    ) => {
+      console.log('initializeStage')
       try {
         return await provider.execute(
           account,
           {
             contractName: 'p_dash_actions',
             entrypoint: 'initialize_stage',
-            calldata: [{ forPlayer: ZERO_ADDRESS, forSystem: ZERO_ADDRESS, ...params }],
+            calldata: [x, y, width, height, account.address, ZERO_ADDRESS, x, y, '0xffffff'],
           },
           NAMESPACE,
         )

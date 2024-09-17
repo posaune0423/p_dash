@@ -1,84 +1,51 @@
 'use client'
 
-import { useQuerySync, useEntityQuery } from '@dojoengine/react'
-import { getComponentValue, Has } from '@dojoengine/recs'
 import {
   // useBalance,
-  useAccount,
   useNetwork,
 } from '@starknet-react/core'
-import Image from 'next/image'
-import Link from 'next/link'
+import { useMemo } from 'react'
 import Avatar from './Avatar'
 import CopyButton from './CopyButton'
-import { Button } from './ui/button'
+import { MyStages } from './MyStages'
 import { useDojo } from '@/hooks/useDojo'
 import { truncateAddress } from '@/utils'
 
 const UserInfo = () => {
-  const { address, status } = useAccount()
-  // const { data: balance } = useBalance({ address })
-  const { chain } = useNetwork()
-
   const {
     setup: {
-      toriiClient,
-      clientComponents: { Stage },
-      contractComponents,
+      account: { account },
+      connectedAccount,
     },
   } = useDojo()
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  useQuerySync(toriiClient, [contractComponents.Stage], [])
-
-  const stageEntities = useEntityQuery([Has(Stage)])
-  console.log(stageEntities)
+  const activeAccount = useMemo(() => connectedAccount || account, [connectedAccount, account])
+  // const { data: balance } = useBalance({ address })
+  const { chain } = useNetwork()
 
   return (
     <section className='h-[calc(100vh-64px)] overflow-y-auto py-10 text-white'>
       <div className='mx-auto mb-8 w-fit'>
-        {address && (
+        {activeAccount?.address && (
           <Avatar
-            address={address}
+            address={activeAccount.address}
             loading={status === 'connecting' || status === 'reconnecting'}
             size={100}
           />
         )}
       </div>
 
-      {address && (
+      {activeAccount?.address && (
         <div className='mx-auto flex w-full max-w-md flex-col justify-center space-y-3'>
           <div className='flex items-center gap-3'>
-            <p>Address: {truncateAddress(address)}</p>
-            <CopyButton value={address} />
+            <p>Address: {truncateAddress(activeAccount.address)}</p>
+            <CopyButton value={activeAccount.address} />
           </div>
           {/* <h2>Balance: {balance?.formatted ?? 0}</h2> */}
           <p>Network: {chain?.name}</p>
         </div>
       )}
 
-      <div className='mx-auto w-full max-w-md pt-8'>
-        <h2 className='mb-4 text-xl font-semibold'>Stages</h2>
-        <Button className='mx-auto mb-4 max-w-fit'>
-          <Link href='/stage/create'>Create Stage</Link>
-        </Button>
-        <div className='grid grid-cols-2 gap-4'>
-          {stageEntities.map((stageEntity) => {
-            const stage = getComponentValue(Stage, stageEntity)
-            return (
-              <Link key={stage?.id} href={`/stage/${stage?.id}/edit`} className='block'>
-                <Image
-                  src='/assets/stage/sci-fi/bg.png'
-                  alt={`Stage ${stage?.id}`}
-                  width={200}
-                  height={100}
-                  className='h-auto w-full rounded-lg object-cover'
-                />
-              </Link>
-            )
-          })}
-        </div>
-      </div>
+      <MyStages address={activeAccount?.address} />
     </section>
   )
 }
