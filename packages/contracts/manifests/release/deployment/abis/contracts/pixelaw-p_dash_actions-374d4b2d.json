@@ -238,10 +238,6 @@
         "type": "core::felt252"
       },
       {
-        "name": "manifest",
-        "type": "core::felt252"
-      },
-      {
         "name": "icon",
         "type": "core::felt252"
       },
@@ -392,16 +388,16 @@
             "type": "core::integer::u32"
           },
           {
-            "name": "default_params",
-            "type": "pixelaw::core::utils::DefaultParameters"
-          },
-          {
             "name": "width",
-            "type": "core::option::Option::<core::integer::u32>"
+            "type": "core::integer::u32"
           },
           {
             "name": "height",
-            "type": "core::option::Option::<core::integer::u32>"
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "default_params",
+            "type": "pixelaw::core::utils::DefaultParameters"
           }
         ],
         "outputs": [

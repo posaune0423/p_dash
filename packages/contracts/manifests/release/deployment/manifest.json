@@ -1255,10 +1255,10 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": null,
-      "class_hash": "0x31ad47b55f3d18e932dd541e5686084703b0f7d123558c0a9bec6d6e09720b0",
-      "original_class_hash": "0x31ad47b55f3d18e932dd541e5686084703b0f7d123558c0a9bec6d6e09720b0",
-      "base_class_hash": "0x0",
+      "address": "0x6c2ffdd97cb5a1bca13de416adb23a1d0e24ae3c805114b2100f6af95a7f60e",
+      "class_hash": "0x8fc78d962baf4651c69c567cdd14f4e0d071fcd0a874fe72abd2394b221ffc",
+      "original_class_hash": "0x8fc78d962baf4651c69c567cdd14f4e0d071fcd0a874fe72abd2394b221ffc",
+      "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
           "type": "impl",
@@ -1599,10 +1599,6 @@
               "type": "core::felt252"
             },
             {
-              "name": "manifest",
-              "type": "core::felt252"
-            },
-            {
               "name": "icon",
               "type": "core::felt252"
             },
@@ -1642,32 +1638,12 @@
               "name": "update_permission",
               "inputs": [
                 {
-                  "name": "for_system",
+                  "name": "app_key",
                   "type": "core::felt252"
                 },
                 {
                   "name": "permission",
                   "type": "pixelaw::core::models::permissions::Permission"
-                }
-              ],
-              "outputs": [],
-              "state_mutability": "external"
-            },
-            {
-              "type": "function",
-              "name": "update_app",
-              "inputs": [
-                {
-                  "name": "name",
-                  "type": "core::felt252"
-                },
-                {
-                  "name": "icon",
-                  "type": "core::felt252"
-                },
-                {
-                  "name": "manifest",
-                  "type": "core::felt252"
                 }
               ],
               "outputs": [],
@@ -1787,10 +1763,6 @@
                 },
                 {
                   "name": "icon",
-                  "type": "core::felt252"
-                },
-                {
-                  "name": "manifest",
                   "type": "core::felt252"
                 }
               ],
@@ -2069,7 +2041,6 @@
       "systems": [
         "init",
         "update_permission",
-        "update_app",
         "schedule_queue",
         "process_queue",
         "update_pixel",
@@ -2081,8 +2052,8 @@
     {
       "kind": "DojoContract",
       "address": "0x1d7b4801ae82c121359b28cac257e0c5b436532f91d04ac8890c3a25bc6e44e",
-      "class_hash": "0x46db41b8948e4b64b2f7e531f170389581ef2cb3ce8f6d20dfc8946e8dcc172",
-      "original_class_hash": "0x46db41b8948e4b64b2f7e531f170389581ef2cb3ce8f6d20dfc8946e8dcc172",
+      "class_hash": "0x2aec1707b289ec5f94bba0082f77ac1d54ee862d064f38d0fd29cf2007569ef",
+      "original_class_hash": "0x2aec1707b289ec5f94bba0082f77ac1d54ee862d064f38d0fd29cf2007569ef",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2324,10 +2295,6 @@
               "type": "core::felt252"
             },
             {
-              "name": "manifest",
-              "type": "core::felt252"
-            },
-            {
               "name": "icon",
               "type": "core::felt252"
             },
@@ -2478,16 +2445,16 @@
                   "type": "core::integer::u32"
                 },
                 {
-                  "name": "default_params",
-                  "type": "pixelaw::core::utils::DefaultParameters"
-                },
-                {
                   "name": "width",
-                  "type": "core::option::Option::<core::integer::u32>"
+                  "type": "core::integer::u32"
                 },
                 {
                   "name": "height",
-                  "type": "core::option::Option::<core::integer::u32>"
+                  "type": "core::integer::u32"
+                },
+                {
+                  "name": "default_params",
+                  "type": "pixelaw::core::utils::DefaultParameters"
                 }
               ],
               "outputs": [
@@ -2625,11 +2592,6 @@
           "key": false
         },
         {
-          "name": "manifest",
-          "type": "felt252",
-          "key": false
-        },
-        {
           "name": "icon",
           "type": "felt252",
           "key": false
@@ -2640,8 +2602,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x34204d56b9f6a93b305e54a27b5e8e593f159f87212fcf39c770020b03bfce5",
-      "original_class_hash": "0x34204d56b9f6a93b305e54a27b5e8e593f159f87212fcf39c770020b03bfce5",
+      "class_hash": "0x4107d94a66470b68d2e06102c87937c03cca51fafa84a3a4fc45c95a4d2403c",
+      "original_class_hash": "0x4107d94a66470b68d2e06102c87937c03cca51fafa84a3a4fc45c95a4d2403c",
       "abi": [
         {
           "type": "impl",
@@ -3020,10 +2982,6 @@
             },
             {
               "name": "name",
-              "type": "core::felt252"
-            },
-            {
-              "name": "manifest",
               "type": "core::felt252"
             },
             {
