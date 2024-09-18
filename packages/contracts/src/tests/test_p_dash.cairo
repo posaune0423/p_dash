@@ -127,8 +127,9 @@ mod tests {
         assert(block_2_2.blocktype == BlockType::Block, 'Block type is incorrect');
 
         // Check if the pixel is updated
-        let pixel_2_2 = get!(world, (2, 2), (Pixel));
-        assert(pixel_2_2.color == encode_color(255, 0, 0, 255), 'Pixel color is incorrect');
+        let pixel_3_3 = get!(world, (3, 3), (Pixel));
+        println!("pixel_3_3.color: {:?}", pixel_3_3.color);
+        assert(pixel_3_3.color == encode_color(255, 0, 0, 255), 'Pixel color is incorrect');
         println!("Successfully put block");
     }
 
