@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- for now */
 import { type Account, type AccountInterface } from 'starknet'
+import { hash } from 'starknet'
 import { type ClientComponents } from './createClientComponents'
 import { type ContractComponents } from './generated/components'
 import type { IWorld } from './generated/systems'
@@ -19,9 +20,10 @@ export function createSystemCalls(
     width: number,
     height: number,
   ) => {
-    console.log('initializeStage')
+    const stageId = hash.computePedersenHashOnElements([account.address, x, y, width, height])
     try {
-      return await client.actions.initializeStage(account, x, y, width, height)
+      await client.actions.initializeStage(account, stageId, x, y, width, height)
+      return stageId
     } catch (e) {
       console.error(e)
       throw e
@@ -30,7 +32,7 @@ export function createSystemCalls(
 
   const batchPutBlocks = async (
     account: Account | AccountInterface,
-    stageId: number,
+    stageId: string,
     blocks: Block[],
   ) => {
     try {

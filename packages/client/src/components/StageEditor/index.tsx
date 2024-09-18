@@ -4,7 +4,7 @@ import React from 'react'
 import { StageElements } from '../StageElements'
 import { useStageEditor } from './useStageEditor'
 
-export const StageEditor = ({ stageId }: { stageId: number }) => {
+export const StageEditor = ({ stageId }: { stageId: string }) => {
   const {
     canvasRef,
     selectedElement,
@@ -13,7 +13,7 @@ export const StageEditor = ({ stageId }: { stageId: number }) => {
     handleTouchMove,
     handleTouchEnd,
     handleSelectElement,
-  } = useStageEditor({ stageId })
+  } = useStageEditor(stageId)
 
   return (
     <section className='relative size-full'>

@@ -30,7 +30,7 @@ pub trait IPDashActions<TContractState> {
 /// contracts must be named as such (APP_KEY + underscore + "actions")
 #[dojo::contract(namespace: "pixelaw", nomapping: true)]
 pub mod p_dash_actions {
-    use p_dash::constants::app::{APP_KEY, APP_ICON};
+    use p_dash::constants::app::{APP_KEY, APP_ICON, APP_OFFSET_X, APP_OFFSET_Y};
     use p_dash::models::block::{BlockType, Block};
     use p_dash::models::stage::{Stage};
     use pixelaw::core::actions::{
@@ -129,7 +129,9 @@ pub mod p_dash_actions {
 
             // should check the stageId is not already taken
             let existing_stage = get!(world, (stage_id), (Stage));
-            assert(existing_stage.creator == contract_address_const::<0>(), 'StageId already taken');
+            assert(
+                existing_stage.creator == contract_address_const::<0>(), 'StageId already taken'
+            );
 
             // set the Stage configs.
             set!(world, (Stage { id: stage_id, x: start_x, y: start_y, w, h, creator: player }));
@@ -212,8 +214,8 @@ pub mod p_dash_actions {
                     player,
                     system,
                     PixelUpdate {
-                        x: position.x,
-                        y: position.y,
+                        x: position.x + 1, // already summed with stage.x
+                        y: position.y + 1, // already summed with stage.y
                         color: Option::Some(default_params.color),
                         timestamp: Option::None,
                         text: Option::None,

@@ -4,7 +4,7 @@ import { type DojoProvider } from '@dojoengine/core'
 import { toast } from 'sonner'
 import { type Account, type AccountInterface } from 'starknet'
 import { ZERO_ADDRESS, NAMESPACE } from '@/constants'
-import { type Block } from '@/types'
+import { BlockType, type Block } from '@/types'
 import { blockTypeToIndex, getBlockColor, handleTransactionError } from '@/utils'
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>
@@ -21,6 +21,7 @@ export async function setupWorld(provider: DojoProvider) {
   const actions = () => ({
     initializeStage: async (
       account: Account | AccountInterface,
+      stageId: string,
       x: number,
       y: number,
       width: number,
@@ -33,13 +34,23 @@ export async function setupWorld(provider: DojoProvider) {
           {
             contractName: 'p_dash_actions',
             entrypoint: 'initialize_stage',
-            calldata: [x, y, width, height, account.address, ZERO_ADDRESS, x, y, '0xffffff'],
+            calldata: [
+              stageId,
+              x,
+              y,
+              width,
+              height,
+              account.address,
+              ZERO_ADDRESS,
+              x,
+              y,
+              getBlockColor(BlockType.InitBlock),
+            ],
           },
           NAMESPACE,
         )
         const receipt = await account.waitForTransaction(transaction_hash)
         console.log('receipt', receipt)
-        return receipt.value
       } catch (error) {
         handleError('initializeStage', error)
         throw error
@@ -47,7 +58,7 @@ export async function setupWorld(provider: DojoProvider) {
     },
     batchPutBlocks: async (
       account: Account | AccountInterface,
-      stageId: number,
+      stageId: string,
       blocks: Block[],
     ) => {
       const calls = blocks.map((block) => {

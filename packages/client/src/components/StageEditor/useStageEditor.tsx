@@ -1,7 +1,8 @@
 'use client'
 
-import { useEntityQuery, useQuerySync } from '@dojoengine/react'
+import { useComponentValue, useEntityQuery, useQuerySync } from '@dojoengine/react'
 import { getComponentValue, HasValue } from '@dojoengine/recs'
+import { getEntityIdFromKeys } from '@dojoengine/utils'
 import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { BASE_CELL_SIZE, MAX_SCALE, MIN_SCALE, SWIPE_THRESHOLD } from '@/constants/canvas'
 import { useDojo } from '@/hooks/useDojo'
@@ -9,9 +10,7 @@ import { useGridState } from '@/hooks/useGridState'
 import { type GridState, type Block, BlockType } from '@/types'
 import { convertClientPosToCanvasPos } from '@/utils/canvas'
 import { getPinchDistance, getTouchPositions } from '@/utils/gestures'
-
-const GRID_WIDTH = 80
-const GRID_HEIGHT = 10
+import { GRID_HEIGHT, GRID_WIDTH } from '@/utils/stageHelper'
 
 const blockTypeToImage = {
   [BlockType.Block]: 'block.png',
@@ -19,7 +18,7 @@ const blockTypeToImage = {
   [BlockType.Tile]: 'tiles.png',
 }
 
-export const useStageEditor = ({ stageId }: { stageId: number }) => {
+export const useStageEditor = (stageId: string) => {
   // Refs
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
@@ -44,7 +43,7 @@ export const useStageEditor = ({ stageId }: { stageId: number }) => {
   const {
     setup: {
       toriiClient,
-      clientComponents: { Block },
+      clientComponents: { Block, Stage },
       contractComponents,
     },
   } = useDojo()
@@ -52,23 +51,25 @@ export const useStageEditor = ({ stageId }: { stageId: number }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useQuerySync(toriiClient, [contractComponents.Block], [])
 
-  const blockEntities = useEntityQuery([HasValue(Block, { stage_id: stageId })])
-  const blocks = useMemo(() => {
+  const stage = useComponentValue(Stage, getEntityIdFromKeys([BigInt(stageId ?? 0)]))
+  const blockEntities = useEntityQuery([HasValue(Block, { stage_id: BigInt(stageId ?? 0) })])
+
+  const initialBlocks = useMemo(() => {
     return blockEntities
       .map((entity) => {
         const block = getComponentValue(Block, entity)
         return {
-          x: block?.x,
-          y: block?.y,
+          x: Number(block?.x) - Number(stage?.x),
+          y: Number(block?.y) - Number(stage?.y),
           type: block?.blocktype as unknown as BlockType,
           image: `/assets/stage/sci-fi/${blockTypeToImage[block?.blocktype as unknown as BlockType]}`,
         } as Block
       })
       .filter((block) => block.type !== BlockType.Empty && block.type !== BlockType.InitBlock)
-  }, [blockEntities, Block])
+  }, [blockEntities, Block, stage])
 
   const { gridState, setGridState } = useGridState()
-  const [currentBlocks, setCurrentBlocks] = useState<Block[]>(blocks)
+  const [currentBlocks, setCurrentBlocks] = useState<Block[]>(initialBlocks)
 
   const loadImage = useCallback((src: string): Promise<HTMLImageElement> => {
     return new Promise((resolve, reject) => {

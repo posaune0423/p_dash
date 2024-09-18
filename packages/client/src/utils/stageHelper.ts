@@ -1,5 +1,5 @@
-export const GRID_WIDTH = 32
-export const GRID_HEIGHT = 32
+export const GRID_WIDTH = 80
+export const GRID_HEIGHT = 15
 export const STAGE_GAP = 2 // ステージ間の間隔
 export const APP_OFFSET = { x: 10000, y: 10000 } // アプリ全体のオフセット
 

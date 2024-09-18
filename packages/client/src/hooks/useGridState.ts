@@ -8,7 +8,7 @@ export const useGridState = () => {
   const [storedLastGridState, setStoredLastGridState] = useLocalStorage('lastGridState', {
     offsetX: 0,
     offsetY: 0,
-    scale: 1,
+    scale: 0.8,
   })
   const [gridState, setGridState] = useState<GridState>(storedLastGridState)
 

@@ -57,7 +57,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          stage_id: RecsType.Number,
+          stage_id: RecsType.BigInt,
           x: RecsType.Number,
           y: RecsType.Number,
           blocktype: RecsType.Number,
@@ -66,7 +66,7 @@ export function defineContractComponents(world: World) {
           metadata: {
             namespace: 'pixelaw',
             name: 'Block',
-            types: ['u32', 'u32', 'u32', 'enum'],
+            types: ['felt252', 'u32', 'u32', 'enum'],
             customTypes: ['BlockType'],
           },
         },
@@ -234,7 +234,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          id: RecsType.Number,
+          id: RecsType.BigInt,
           x: RecsType.Number,
           y: RecsType.Number,
           w: RecsType.Number,
@@ -245,7 +245,7 @@ export function defineContractComponents(world: World) {
           metadata: {
             namespace: 'pixelaw',
             name: 'Stage',
-            types: ['u32', 'u32', 'u32', 'u32', 'u32', 'contractaddress'],
+            types: ['felt252', 'u32', 'u32', 'u32', 'u32', 'contractaddress'],
             customTypes: [],
           },
         },
