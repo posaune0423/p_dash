@@ -1,8 +1,13 @@
 import { StageEditor } from '@/components/StageEditor'
 
+export const generateViewport = () => {
+  return {
+    viewportFit: 'cover',
+  }
+}
 const CreateStagePage = () => {
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div className='h-screen w-screen fixed'>
       <StageEditor />
     </div>
   )
