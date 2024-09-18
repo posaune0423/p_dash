@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod tests {
+    use core::pedersen::pedersen;
     use dojo::utils::test::{spawn_test_world, deploy_contract};
     use dojo::utils::{selector_from_names};
 
@@ -20,7 +21,6 @@ mod tests {
         get_core_actions, encode_color, decode_color, Direction, Position, DefaultParameters
     };
     use starknet::{contract_address_const, testing::set_account_contract_address};
-    use core::pedersen::pedersen;
 
     // Helper function: deploys world and actions
     fn deploy_world() -> (IWorldDispatcher, IPDashActionsDispatcher) {
