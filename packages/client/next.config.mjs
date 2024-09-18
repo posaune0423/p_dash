@@ -20,11 +20,6 @@ export default withSerwist({
     scrollRestoration: true,
   },
   webpack: (config) => {
-    config.module.rules.push({
-      test: /\.(fs|vs)$/,
-      use: 'raw-loader',
-    })
-
     // Since Webpack 5 doesn't enable WebAssembly by default, we should do it manually
     config.experiments = { ...config.experiments, asyncWebAssembly: true, topLevelAwait: true }
 
