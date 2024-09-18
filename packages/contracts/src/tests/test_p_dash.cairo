@@ -20,10 +20,10 @@ mod tests {
         get_core_actions, encode_color, decode_color, Direction, Position, DefaultParameters
     };
     use starknet::{contract_address_const, testing::set_account_contract_address};
-
+    use core::pedersen::pedersen;
 
     // Helper function: deploys world and actions
-    fn deploy_world() -> (IWorldDispatcher, IActionsDispatcher, IPDashActionsDispatcher) {
+    fn deploy_world() -> (IWorldDispatcher, IPDashActionsDispatcher) {
         // Deploy World and models
         let mut models = array![
             pixel::TEST_CLASS_HASH,
@@ -58,19 +58,16 @@ mod tests {
         world.grant_writer(selector_from_tag!("pixelaw-Stage"), actions_address);
         world.grant_writer(selector_from_tag!("pixelaw-Block"), actions_address);
 
-        (world, core_actions, actions)
-    }
-
-    #[test]
-    fn test_actions() {
-        // Deploy everything
-        let (world, core_actions, actions) = deploy_world();
-
-        println!("Passed deploy_world");
         core_actions.init();
         actions.init();
 
-        println!("Passed init");
+        (world, actions)
+    }
+
+    #[test]
+    fn test_should_initialize_stage() {
+        // Deploy everything
+        let (world, actions) = deploy_world();
 
         let player1 = contract_address_const::<0x1337>();
         set_account_contract_address(player1);
@@ -79,9 +76,12 @@ mod tests {
 
         let color = encode_color(255, 255, 255, 255); // White color
 
+        // Generate a unique stage_id using pedersen hash
+        let stage_id = pedersen(1, 1);
         // Test initialize_stage
-        let stage_id = actions
+        actions
             .initialize_stage(
+                stage_id,
                 1, // start_x
                 1, // start_y
                 2, // width
@@ -98,7 +98,6 @@ mod tests {
         let stage = get!(world, stage_id, (Stage));
         assert(stage.x == 1 && stage.y == 1, 'Stage position incorrect');
         assert(stage.w == 2 && stage.h == 2, 'Stage size incorrect'); // Assuming default size
-        println!("Passed initialize_stage");
 
         // // Check if pixels are initialized
         // let pixel_1_1 = get!(world, (1, 1), (Pixel));
@@ -109,7 +108,7 @@ mod tests {
         // Check if blocks are initializedÏ
         let block_1_1 = get!(world, (stage_id, 1, 1), (Block));
         assert(block_1_1.blocktype == BlockType::InitBlock, 'Initial block type incorrect');
-        println!("Passed initialize_stage");
+        println!("Successfully initialized stage");
 
         // Test put_block
         actions
@@ -126,13 +125,56 @@ mod tests {
 
         let block_2_2 = get!(world, (stage_id, 2, 2), (Block));
         assert(block_2_2.blocktype == BlockType::Block, 'Block type is incorrect');
-        println!("Passed put_block");
 
         // Check if the pixel is updated
         let pixel_2_2 = get!(world, (2, 2), (Pixel));
         assert(pixel_2_2.color == encode_color(255, 0, 0, 255), 'Pixel color is incorrect');
-        println!("Passed put_block");
+        println!("Successfully put block");
+    }
 
-        println!("All tests passed");
+    #[test]
+    #[should_panic(expected: ('StageId already taken', 'ENTRYPOINT_FAILED'))]
+    fn test_initialize_stage_fails_with_duplicated_stage_id() {
+        // Deploy everything
+        let (_, actions) = deploy_world();
+
+        let player1 = contract_address_const::<0x1337>();
+        set_account_contract_address(player1);
+
+        let color = encode_color(255, 255, 255, 255); // White color
+
+        // Generate a unique stage_id using pedersen hash
+        let stage_id = pedersen(1, 1);
+
+        // Test initialize_stage with invalid size (0 width and height)
+        actions
+            .initialize_stage(
+                stage_id,
+                1, // start_x
+                1, // start_y
+                2, // width
+                2, // height
+                DefaultParameters {
+                    for_player: player1,
+                    for_system: contract_address_const::<0>(),
+                    position: Position { x: 1, y: 1 },
+                    color: color
+                },
+            );
+        // 2nd call should fail
+        actions
+            .initialize_stage(
+                stage_id,
+                10, // start_x
+                10, // start_y
+                2, // width
+                2, // height
+                DefaultParameters {
+                    for_player: player1,
+                    for_system: contract_address_const::<0>(),
+                    position: Position { x: 10, y: 10 },
+                    color: color
+                },
+            );
     }
 }

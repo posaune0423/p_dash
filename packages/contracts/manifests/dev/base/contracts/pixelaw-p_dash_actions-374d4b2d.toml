@@ -1,6 +1,6 @@
 kind = "DojoContract"
-class_hash = "0x21af2cce9f3f68d21f45d5536e50a293af1f59fc106830cf4d1f608ffcf6345"
-original_class_hash = "0x21af2cce9f3f68d21f45d5536e50a293af1f59fc106830cf4d1f608ffcf6345"
+class_hash = "0x15b533e09fdcfa7d71c52cee899e1d6a042284a12a7c6b8afe508f86e500a64"
+original_class_hash = "0x15b533e09fdcfa7d71c52cee899e1d6a042284a12a7c6b8afe508f86e500a64"
 base_class_hash = "0x0"
 abi = "manifests/dev/base/abis/contracts/pixelaw-p_dash_actions-374d4b2d.json"
 reads = []
@@ -11,6 +11,7 @@ systems = [
     "on_pre_update",
     "on_post_update",
     "init",
+    "initialize_stage",
     "put_block",
 ]
 manifest_name = "pixelaw-p_dash_actions-374d4b2d"

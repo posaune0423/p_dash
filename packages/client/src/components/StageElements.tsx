@@ -36,11 +36,12 @@ export const StageElements = ({
     if (!activeAccount) return
     setIsLoading(true)
     if (stageId) {
-      // TODO: update stage
+      // update stage
       await batchPutBlocks(activeAccount, stageId, currentBlocks)
       setIsLoading(false)
       router.push(`/my/`)
     } else {
+      // create stage
       const result = await initializeStage(activeAccount, 2, 2, 2, 2)
       console.log('result', result)
       await batchPutBlocks(activeAccount, 2, currentBlocks)

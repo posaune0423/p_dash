@@ -70,4 +70,4 @@ Ecosystem
 - Utilize Katana for local Starknet development environment.
 - Implement off-chain components using languages like Rust or TypeScript for optimal performance.
 
-Refer to the Cairo Book, Starknet documentation, and Dojo documentation for in-depth information on best practices and advanced features.Ï
+Refer to the Cairo Book, Starknet documentation, and Dojo documentation for in-depth information on best practices and advanced features.

@@ -12,15 +12,16 @@ pub trait IPDashActions<TContractState> {
     fn init(ref world: IWorldDispatcher);
     fn initialize_stage(
         ref world: IWorldDispatcher,
+        stage_id: felt252,
         start_x: u32,
         start_y: u32,
         width: u32,
         height: u32,
         default_params: DefaultParameters,
-    ) -> usize; // optimally input the width in the future.
+    ); // optimally input the width in the future.
     fn put_block(
         ref world: IWorldDispatcher,
-        stage_id: usize,
+        stage_id: felt252,
         blocktype: BlockType,
         default_params: DefaultParameters
     );
@@ -107,27 +108,28 @@ pub mod p_dash_actions {
         /// * `default_params` - Default parameters for the stage.
         fn initialize_stage(
             ref world: IWorldDispatcher,
+            stage_id: felt252,
             start_x: u32,
             start_y: u32,
             width: u32,
             height: u32,
             default_params: DefaultParameters,
-        ) -> usize {
-            // println!("Initialize the stage for p/dash");
-
+        ) {
             // Load important variables
             let core_actions = get_core_actions(world);
             let player = core_actions.get_player_address(default_params.for_player);
             // let position = default_params.position;
             let system = core_actions.get_system_address(default_params.for_system);
 
-            // check if the stage is created
-            let stage_id = world.uuid().into();
             let w = width;
             let h = height;
             // TODO: now not sure how to pass Option to calldata for sozo cli
             // let w = width.unwrap_or(STAGE_DEFAULT_WIDTH);
             // let h = height.unwrap_or(STAGE_DEFAULT_HEIGHT);
+
+            // should check the stageId is not already taken
+            let existing_stage = get!(world, (stage_id), (Stage));
+            assert(existing_stage.creator == contract_address_const::<0>(), 'StageId already taken');
 
             // set the Stage configs.
             set!(world, (Stage { id: stage_id, x: start_x, y: start_y, w, h, creator: player }));
@@ -150,58 +152,54 @@ pub mod p_dash_actions {
                         action: Option::None
                     }
                 );
-
             // let mut x = start_x;
-            // loop {
-            //     if x == start_x + w {
-            //         break;
-            //     }
-            //     let mut y = start_y;
-            //     loop {
-            //         if y == start_y + h {
-            //             break;
-            //         }
-            //         set!(world, (Block { stage_id, x, y, blocktype: BlockType::InitBlock }));
+        // loop {
+        //     if x == start_x + w {
+        //         break;
+        //     }
+        //     let mut y = start_y;
+        //     loop {
+        //         if y == start_y + h {
+        //             break;
+        //         }
+        //         set!(world, (Block { stage_id, x, y, blocktype: BlockType::InitBlock }));
 
             //         core_actions
-            //             .update_pixel(
-            //                 player,
-            //                 system,
-            //                 PixelUpdate {
-            //                     x,
-            //                     y,
-            //                     color: Option::Some(default_params.color), // initial
-            //                     color(white)
-            //                     app: Option::Some(system),
-            //                     owner: Option::Some(player),
-            //                     text: Option::None,
-            //                     timestamp: Option::None,
-            //                     action: Option::None
-            //                 }
-            //             );
-            //         y += 1;
-            //     };
-            //     x += 1;
-            // };
-
-            // println!("p/dash set up done");
-
-            return stage_id;
+        //             .update_pixel(
+        //                 player,
+        //                 system,
+        //                 PixelUpdate {
+        //                     x,
+        //                     y,
+        //                     color: Option::Some(default_params.color), // initialcolor(white)
+        //                     app: Option::Some(system),
+        //                     owner: Option::Some(player),
+        //                     text: Option::None,
+        //                     timestamp: Option::None,
+        //                     action: Option::None
+        //                 }
+        //             );
+        //         y += 1;
+        //     };
+        //     x += 1;
+        // };
         }
 
         fn put_block(
             ref world: IWorldDispatcher,
-            stage_id: usize,
+            stage_id: felt252,
             blocktype: BlockType,
             default_params: DefaultParameters
         ) {
-            // println!("Put block");
-
             // Load important variables
             let core_actions = get_core_actions(world);
             let position = default_params.position;
             let player = core_actions.get_player_address(default_params.for_player);
             let system = core_actions.get_system_address(default_params.for_system);
+
+            let stage = get!(world, (stage_id), (Stage));
+
+            assert(stage.creator == player, 'Only the creator can put blocks');
 
             // Load the Pixel
             // let mut pixel = get!(world, (position.x, position.y), (Pixel));
@@ -227,7 +225,6 @@ pub mod p_dash_actions {
 
             // set the block types for init block.
             set!(world, (Block { stage_id, x: position.x, y: position.y, blocktype }));
-            // println!("Block set");
         }
     }
 }

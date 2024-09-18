@@ -46,8 +46,8 @@ manifest_name = "pixelaw-actions-16928a49"
 [[contracts]]
 kind = "DojoContract"
 address = "0x1d7b4801ae82c121359b28cac257e0c5b436532f91d04ac8890c3a25bc6e44e"
-class_hash = "0x21af2cce9f3f68d21f45d5536e50a293af1f59fc106830cf4d1f608ffcf6345"
-original_class_hash = "0x21af2cce9f3f68d21f45d5536e50a293af1f59fc106830cf4d1f608ffcf6345"
+class_hash = "0x1cf3546e24728fc712914e312fb70541a5722304e174e4e816c71c4164f431"
+original_class_hash = "0x1cf3546e24728fc712914e312fb70541a5722304e174e4e816c71c4164f431"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/pixelaw-p_dash_actions-374d4b2d.json"
 reads = []

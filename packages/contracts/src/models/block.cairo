@@ -16,7 +16,7 @@ pub enum BlockType {
 #[dojo::model(namespace: "pixelaw", nomapping: true)]
 pub struct Block {
     #[key]
-    pub stage_id: usize,
+    pub stage_id: felt252,
     #[key]
     pub x: u32,
     #[key]
