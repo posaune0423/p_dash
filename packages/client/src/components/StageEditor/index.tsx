@@ -4,7 +4,7 @@ import React from 'react'
 import { StageElements } from '../StageElements'
 import { useStageEditor } from './useStageEditor'
 
-export const StageEditor = ({ stageId }: { stageId: string }) => {
+export const StageEditor = ({ stageId }: { stageId?: string }) => {
   const {
     canvasRef,
     selectedElement,

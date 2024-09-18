@@ -18,7 +18,7 @@ const blockTypeToImage = {
   [BlockType.Tile]: 'tiles.png',
 }
 
-export const useStageEditor = (stageId: string) => {
+export const useStageEditor = (stageId?: string) => {
   // Refs
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null)

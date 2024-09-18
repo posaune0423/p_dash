@@ -2,7 +2,7 @@ import { Input, Scene } from 'phaser'
 import { EventBus } from '../EventBus'
 import { GROUND_HEIGHT, BASIC_PIXEL, GRAVITY } from '@/constants'
 import { env } from '@/env'
-import { type Obstacle } from '@/types'
+import { BlockType, type Obstacle } from '@/types'
 
 export class Game extends Scene {
   background!: Phaser.GameObjects.TileSprite
@@ -129,7 +129,7 @@ export class Game extends Scene {
       // 助走期間
       const x = ele.x + this.preparationWidth
 
-      if (ele.type === 'null') {
+      if (ele.type === BlockType.Empty) {
         this.tiles.forEach((tile) => {
           if (tile.x === x) {
             tile.destroy()
@@ -138,11 +138,11 @@ export class Game extends Scene {
         return
       }
       const asset = this.generateAsset(x, this.scale.height - ele.y - bufferHeight, ele.type)
-      if (ele.type === 'spike') {
+      if (ele.type === BlockType.Spike) {
         asset.setBodySize(asset.width * 0.8, asset.height * 0.8)
 
         this.physics.add.collider(this.player, asset, () => this.gameOver())
-      } else if (ele.type === 'block') {
+      } else if (ele.type === BlockType.Block) {
         this.physics.add.collider(this.player, asset, () => {
           if (this.player.body?.touching.right && asset.body.touching.left) {
             this.gameOver()
