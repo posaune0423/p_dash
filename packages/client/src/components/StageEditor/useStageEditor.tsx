@@ -266,23 +266,39 @@ export const useStageEditor = (stageId: string) => {
         } as Block
 
         startTransition(async () => {
-          const shouldRemoveIndex = currentBlocks.findIndex(
+          const existingBlockIndex = currentBlocks.findIndex(
             (b) => b.x === block.x && b.y === block.y && b.type === block.type,
           )
 
-          if (shouldRemoveIndex !== -1) {
-            setCurrentBlocks((prev) => prev.filter((_, index) => index !== shouldRemoveIndex))
+          if (existingBlockIndex !== -1) {
+            const existingBlock = currentBlocks[existingBlockIndex]
+            const isInitialBlock = initialBlocks.some(
+              (b) =>
+                b.x === existingBlock.x && b.y === existingBlock.y && b.type === existingBlock.type,
+            )
+
+            if (isInitialBlock) {
+              setCurrentBlocks((prev) =>
+                prev.map((b, index) =>
+                  index === existingBlockIndex ? { ...b, type: BlockType.Empty, image: '' } : b,
+                ),
+              )
+            } else {
+              setCurrentBlocks((prev) => prev.filter((_, index) => index !== existingBlockIndex))
+            }
           } else {
             setCurrentBlocks((prev) => [...prev, block])
           }
 
-          await loadImage(block.image)
+          if (block.type !== BlockType.Empty) {
+            await loadImage(block.image)
+          }
         })
       }
 
       isDraggingRef.current = false
     },
-    [gridState, selectedElement, currentBlocks, loadImage, setCurrentBlocks],
+    [gridState, selectedElement, currentBlocks, initialBlocks, loadImage, setCurrentBlocks],
   )
 
   // Effects
@@ -317,7 +333,9 @@ export const useStageEditor = (stageId: string) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawGrid()
     for (let i = 0; i < currentBlocks.length; i++) {
-      await drawBlock(currentBlocks[i])
+      if (currentBlocks[i].type !== BlockType.Empty) {
+        await drawBlock(currentBlocks[i])
+      }
     }
   }, [drawGrid, drawBlock, currentBlocks])
 
