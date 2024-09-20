@@ -15,7 +15,7 @@ import { GRID_HEIGHT, GRID_WIDTH } from '@/utils/stageHelper'
 const blockTypeToImage = {
   [BlockType.Block]: 'block.png',
   [BlockType.Spike]: 'spike.png',
-  [BlockType.Tile]: 'tiles.png',
+  [BlockType.Tile]: 'tile.png',
 }
 
 export const useStageEditor = (stageId?: string) => {

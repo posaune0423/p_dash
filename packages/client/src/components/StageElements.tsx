@@ -148,10 +148,10 @@ export const StageElements = ({
             onClick={() => handleSelectElement(BlockType.Tile)}
           >
             <Image
-              src='/assets/stage/sci-fi/tiles.png'
+              src='/assets/stage/sci-fi/tile.png'
               width={36}
               height={36}
-              alt='tiles'
+              alt='tile'
               className={cn(
                 selectedElement === BlockType.Tile && 'border-2 border-white/80 rounded-md',
               )}
