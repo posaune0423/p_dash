@@ -15,7 +15,7 @@ export const generateViewport = () => {
 }
 
 const GamePage = async ({ params }: Props) => {
-  return <Game stage={params.id} />
+  return <Game stageId={params.id} />
 }
 
 export default GamePage

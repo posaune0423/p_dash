@@ -1,6 +1,6 @@
 import { Input, Scene } from 'phaser'
 import { EventBus } from '../EventBus'
-import { GROUND_HEIGHT, BASIC_PIXEL, GRAVITY } from '@/constants'
+import { BASIC_PIXEL, GOAL_BUFFER, GRAVITY } from '@/constants'
 import { env } from '@/env'
 import { BlockType, type Obstacle } from '@/types'
 
@@ -21,7 +21,6 @@ export class Game extends Scene {
 
   goalX!: number
   STAGE_WIDTH!: number
-  preparationWidth = 1200
 
   constructor() {
     super('Game')
@@ -44,9 +43,9 @@ export class Game extends Scene {
     const { obstacles } = this.cache.json.get('obstacles')
     this.stage = obstacles
 
-    this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + this.preparationWidth * 2
+    this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + GOAL_BUFFER
 
-    this.goalX = this.STAGE_WIDTH - 200
+    this.goalX = this.STAGE_WIDTH - 50
     this.camera.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
     this.physics.world.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
   }
@@ -57,7 +56,6 @@ export class Game extends Scene {
     this.generatePlayer()
     this.camera.startFollow(this.player, true)
 
-    this.fillTiles()
     this.setupStage()
 
     this.input.addPointer(2)
@@ -101,18 +99,10 @@ export class Game extends Scene {
     const originalImage = this.textures.get('player').getSourceImage()
 
     this.player = this.physics.add
-      .sprite(initialPosX, this.camera.height - GROUND_HEIGHT - 60, 'player')
+      .sprite(initialPosX, this.camera.height - 100, 'player')
       .setScale(BASIC_PIXEL / originalImage.width)
       .setCollideWorldBounds(true)
       .setGravityY(GRAVITY)
-  }
-
-  fillTiles() {
-    for (let x = 0; x < this.STAGE_WIDTH; x += BASIC_PIXEL) {
-      const tile = this.generateAsset(x, this.camera.height - BASIC_PIXEL / 2, 'tiles')
-      this.tiles.push(tile)
-      this.physics.add.collider(this.player, tile)
-    }
   }
 
   generateAsset(x: number, y: number, type: string) {
@@ -124,10 +114,10 @@ export class Game extends Scene {
   }
 
   setupStage() {
-    const bufferHeight = 70
+    const bufferHeight = 20
     this.stage.forEach((ele) => {
       // 助走期間
-      const x = ele.x + this.preparationWidth
+      const x = ele.x
 
       if (ele.type === BlockType.Empty) {
         this.tiles.forEach((tile) => {
@@ -231,6 +221,8 @@ export class Game extends Scene {
         })
       }
     }
+
+    console.log(this.player.x)
 
     if (this.player.x > this.goalX) {
       this.scene.pause()

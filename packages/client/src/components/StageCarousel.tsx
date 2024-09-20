@@ -1,35 +1,43 @@
 'use client'
 
+import { useEntityQuery } from '@dojoengine/react'
+import { getComponentValue, Has } from '@dojoengine/recs'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSound } from 'use-sound'
+import { Button } from './ui/button'
 import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-import { cn } from '@/utils'
+import { useDojo } from '@/hooks/useDojo'
+import { cn, truncateAddress } from '@/utils'
 
-const stageList = [
+const defaultStages = [
   {
     id: 'sci-fi',
     name: 'Sci-Fi',
     thumbnail: '/assets/stage/sci-fi/bg.png',
+    creator: '0x1234567890123456789012345678901234567890',
     enabled: true,
   },
   {
     id: 'desert',
     name: 'Desert',
     thumbnail: '/assets/stage/desert/bg.png',
+    creator: '0x1234567890123456789012345678901234567890',
     enabled: true,
   },
   {
     id: 'jungle',
     name: 'Jungle',
     thumbnail: '/assets/stage/jungle/bg.png',
+    creator: '0x1234567890123456789012345678901234567890',
     enabled: true,
   },
   {
     id: 'ocean',
     name: 'Ocean',
     thumbnail: '/assets/stage/ocean/bg.png',
+    creator: '0x1234567890123456789012345678901234567890',
     enabled: false,
   },
 ]
@@ -80,6 +88,32 @@ const StageCarousel = () => {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [play] = useSound('/assets/sounds/effects/swipe.mp3', { volume: 0.5 })
+  const [isIndies, setIsIndies] = useState(false)
+
+  const {
+    setup: {
+      clientComponents: { Stage },
+    },
+  } = useDojo()
+  const stageEntities = useEntityQuery([Has(Stage)])
+  const indiesStages = useMemo(
+    () => stageEntities.map((entity) => getComponentValue(Stage, entity)),
+    [stageEntities, Stage],
+  )
+
+  const stages = useMemo(() => {
+    if (isIndies) {
+      return indiesStages.map((stage) => ({
+        id: String(stage?.id),
+        name: 'Sci-Fi',
+        thumbnail: '/assets/stage/sci-fi/bg.png',
+        enabled: true,
+        creator: truncateAddress('0x' + stage!.creator.toString(16)),
+      }))
+    }
+    return defaultStages
+  }, [isIndies, indiesStages])
+  console.log(stages)
 
   const updateCurrent = useCallback((index: number) => {
     const TRANSITION_DURATION = 400
@@ -100,34 +134,49 @@ const StageCarousel = () => {
   }, [api, updateCurrent, play])
 
   return (
-    <Carousel
-      setApi={setApi}
-      opts={{
-        align: 'center',
-        loop: true,
-      }}
-      className='mx-auto h-[200px] w-full max-w-[80%]'
-    >
-      <CarouselContent className='items-center'>
-        {stageList.map((stage, index) => (
-          <CarouselItem
-            key={index}
-            className={cn(
-              'min-w-fit ml-8 basis-1/3 rounded-lg pl-0',
-              current === index ? 'border-2 border-white' : '',
-            )}
-          >
-            <StageCard
-              enabled={stage.enabled}
-              name={stage.name}
-              thumbnail={stage.thumbnail}
-              id={stage.id}
-              active={current === index}
-            />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-    </Carousel>
+    <>
+      <Carousel
+        setApi={setApi}
+        opts={{
+          align: 'center',
+          loop: false,
+        }}
+        className='mx-auto h-[200px] w-full max-w-[80%]'
+      >
+        <CarouselContent className='items-center'>
+          {stages.map((stage, index) => (
+            <CarouselItem
+              key={index}
+              className={cn(
+                'min-w-fit ml-8 basis-1/3 rounded-lg pl-0 relative',
+                current === index ? 'border-2 border-white' : '',
+              )}
+            >
+              <StageCard
+                enabled={stage.enabled}
+                name={stage.name}
+                thumbnail={stage.thumbnail}
+                id={stage.id}
+                active={current === index}
+              />
+              <p
+                className={cn(
+                  stage.enabled ? 'absolute' : 'hidden',
+                  'bottom-1 right-1 text-xs text-white',
+                )}
+              >
+                Created by {truncateAddress(stage.creator ?? '')}
+              </p>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+      <div className='flex w-full justify-end px-8'>
+        <Button onClick={() => setIsIndies((prev) => !prev)}>
+          → {isIndies ? 'Default' : 'Indies'}
+        </Button>
+      </div>
+    </>
   )
 }
 

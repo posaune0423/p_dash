@@ -363,7 +363,7 @@ export const useStageEditor = (stageId?: string) => {
     return () => {
       resizeObserver.disconnect()
     }
-  }, [animate])
+  }, [animate, setGridState])
 
   return {
     canvasRef,

@@ -1,17 +1,17 @@
 import { Scene } from 'phaser'
-import { type Obstacle } from '@/types'
+import { BlockType, type Obstacle } from '@/types'
 
 export class Preloader extends Scene {
   stageData!: Obstacle[]
-  stage!: string
+  stageId!: string
 
   constructor() {
     super('Preloader')
   }
 
-  init({ stageData, stage }: { stageData: Obstacle[]; stage: string }) {
+  init({ stageData, stageId }: { stageData: Obstacle[]; stageId: string }) {
     this.stageData = stageData
-    this.stage = stage
+    this.stageId = stageId
 
     //  A simple progress bar. This is the outline of the bar.
     this.add
@@ -35,17 +35,21 @@ export class Preloader extends Scene {
   }
 
   preload() {
-    this.load.setPath(`/assets/stage/${this.stage}`)
+    console.log(BlockType.Tile)
+    this.load.setPath(`/assets/stage/${this.stageId}`)
 
-    this.load.image('block', 'block.png')
-    this.load.image('spike', 'spike.png')
+    this.load.image('Block', 'block.png')
+    this.load.image('Spike', 'spike.png')
+    this.load.image('Tile', 'tile.png')
+
     this.load.image('background', 'bg.png')
     this.load.image('player', 'player.png')
-    this.load.image('tiles', 'tiles.png')
 
     this.load.audio('main-bgm', '/sounds/musics/main.mp3')
     this.load.audio('dead', '/sounds/effects/dead.mp3')
     this.load.audio('clear', '/sounds/effects/clear.mp3')
+
+    console.log(this.stageData)
 
     this.load.json('obstacles', { obstacles: this.stageData })
   }

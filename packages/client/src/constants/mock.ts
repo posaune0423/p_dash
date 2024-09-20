@@ -1,41 +1,56 @@
+import { BASIC_PIXEL, GOAL_BUFFER } from '@/constants'
 import { BlockType, type Obstacle } from '@/types'
 
+function generateTiles(maxX: number): Obstacle[] {
+  const tiles: Obstacle[] = []
+  for (let x = 0; x <= maxX + GOAL_BUFFER; x += BASIC_PIXEL) {
+    tiles.push({ x, y: 0, type: BlockType.Tile })
+  }
+  return tiles
+}
+
+function addTilesToStage(stage: Obstacle[]): Obstacle[] {
+  const maxX = Math.max(...stage.map((obstacle) => obstacle.x))
+  const tiles = generateTiles(maxX)
+  return [...tiles, ...stage]
+}
+
 export const mockStageData: { [key: string]: Obstacle[] } = {
-  'sci-fi': [
-    { x: 600, y: 0, type: BlockType.Block },
-    { x: 920, y: 0, type: BlockType.Spike },
-    { x: 980, y: 0, type: BlockType.Block },
-    { x: 1460, y: 0, type: BlockType.Spike },
-    { x: 1790, y: 0, type: BlockType.Spike },
-    { x: 1840, y: 0, type: BlockType.Block },
-    { x: 2140, y: 30, type: BlockType.Block },
-    { x: 2190, y: 0, type: BlockType.Spike },
-    { x: 2580, y: 0, type: BlockType.Block },
-    { x: 2910, y: 50, type: BlockType.Block },
-    { x: 2960, y: 0, type: BlockType.Spike },
-    { x: 3100, y: 0, type: BlockType.Spike },
-    { x: 3100, y: 100, type: BlockType.Block },
-    { x: 3480, y: 0, type: BlockType.Block },
-    { x: 3620, y: 0, type: BlockType.Spike },
-    { x: 3670, y: 0, type: BlockType.Spike },
-    { x: 4140, y: 0, type: BlockType.Block },
-    { x: 4260, y: 0, type: BlockType.Spike },
-    { x: 4660, y: 0, type: BlockType.Block },
-    { x: 4780, y: 0, type: BlockType.Spike },
-    { x: 4920, y: 0, type: BlockType.Block },
-    { x: 5040, y: 0, type: BlockType.Spike },
-  ],
+  'sci-fi': addTilesToStage([
+    { x: 600, y: 50, type: BlockType.Block },
+    { x: 920, y: 50, type: BlockType.Spike },
+    { x: 980, y: 50, type: BlockType.Block },
+    { x: 1460, y: 50, type: BlockType.Spike },
+    { x: 1790, y: 50, type: BlockType.Spike },
+    { x: 1840, y: 50, type: BlockType.Block },
+    { x: 2140, y: 80, type: BlockType.Block },
+    { x: 2190, y: 50, type: BlockType.Spike },
+    { x: 2580, y: 50, type: BlockType.Block },
+    { x: 2910, y: 100, type: BlockType.Block },
+    { x: 2960, y: 50, type: BlockType.Spike },
+    { x: 3100, y: 50, type: BlockType.Spike },
+    { x: 3100, y: 150, type: BlockType.Block },
+    { x: 3480, y: 50, type: BlockType.Block },
+    { x: 3620, y: 50, type: BlockType.Spike },
+    { x: 3670, y: 50, type: BlockType.Spike },
+    { x: 4140, y: 50, type: BlockType.Block },
+    { x: 4260, y: 50, type: BlockType.Spike },
+    { x: 4660, y: 50, type: BlockType.Block },
+    { x: 4780, y: 50, type: BlockType.Spike },
+    { x: 4920, y: 50, type: BlockType.Block },
+    { x: 5040, y: 50, type: BlockType.Spike },
+  ]),
 
-  desert: [
-    { x: 200, y: 0, type: BlockType.Spike },
-    { x: 300, y: 50, type: BlockType.Block },
-    { x: 400, y: 150, type: BlockType.Block },
-    { x: 450, y: 0, type: BlockType.Block },
-    { x: 500, y: 0, type: BlockType.Block },
-    { x: 550, y: 0, type: BlockType.Block },
-  ],
+  desert: addTilesToStage([
+    { x: 200, y: 50, type: BlockType.Spike },
+    { x: 300, y: 100, type: BlockType.Block },
+    { x: 400, y: 200, type: BlockType.Block },
+    { x: 450, y: 50, type: BlockType.Block },
+    { x: 500, y: 50, type: BlockType.Block },
+    { x: 550, y: 50, type: BlockType.Block },
+  ]),
 
-  jungle: [
+  jungle: addTilesToStage([
     { x: 100, y: 300, type: BlockType.Block },
     { x: 200, y: 300, type: BlockType.Block },
     { x: 280, y: 300, type: BlockType.Block },
@@ -92,5 +107,5 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
     { x: 4600, y: 300, type: BlockType.Block },
     { x: 4840, y: 170, type: BlockType.Block },
     { x: 4920, y: 240, type: BlockType.Block },
-  ],
+  ]),
 }
