@@ -49,8 +49,6 @@ export class Preloader extends Scene {
     this.load.audio('dead', '/sounds/effects/dead.mp3')
     this.load.audio('clear', '/sounds/effects/clear.mp3')
 
-    console.log(this.stageData)
-
     this.load.json('obstacles', { obstacles: this.stageData })
   }
 

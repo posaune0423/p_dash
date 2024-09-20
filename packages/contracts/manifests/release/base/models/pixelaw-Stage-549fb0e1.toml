@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
-original_class_hash = "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae"
+class_hash = "0x71d9038ddb4783931eaf144706b7ab5b318e166a5efa25ac32f4fc90137db9b"
+original_class_hash = "0x71d9038ddb4783931eaf144706b7ab5b318e166a5efa25ac32f4fc90137db9b"
 abi = "manifests/release/base/abis/models/pixelaw-Stage-549fb0e1.json"
 tag = "pixelaw-Stage"
 qualified_path = "p_dash::models::stage::stage"
@@ -8,7 +8,7 @@ manifest_name = "pixelaw-Stage-549fb0e1"
 
 [[members]]
 name = "id"
-type = "usize"
+type = "felt252"
 key = true
 
 [[members]]
@@ -29,4 +29,9 @@ key = false
 [[members]]
 name = "h"
 type = "u32"
+key = false
+
+[[members]]
+name = "creator"
+type = "ContractAddress"
 key = false

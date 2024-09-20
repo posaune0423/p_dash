@@ -43,22 +43,31 @@ const Game = ({ stageId }: { stageId: string }) => {
 
     if (!stage) return []
 
-    return blocks
-      .map((block) => {
-        if (!block) return
-        return {
+    return blocks.reduce<Obstacle[]>((acc, block) => {
+      if (
+        block &&
+        (block.blocktype as unknown as BlockType) !== BlockType.Empty &&
+        (block.blocktype as unknown as BlockType) !== BlockType.InitBlock
+      ) {
+        const obstacle: Obstacle = {
           x: (Number(block.x) - Number(stage.x)) * BASIC_PIXEL,
           y: (GRID_HEIGHT - (Number(block.y) - Number(stage.y)) - 1) * BASIC_PIXEL,
           type: block.blocktype as unknown as BlockType,
-        } as Obstacle
-      })
-      .filter(
-        (block) =>
-          block !== undefined &&
-          block.type !== BlockType.Empty &&
-          block.type !== BlockType.InitBlock,
-      ) as Obstacle[]
+        }
+
+        // Insert the obstacle in the correct position to maintain sorting
+        const insertIndex = acc.findIndex((item) => item.x > obstacle.x)
+        if (insertIndex === -1) {
+          acc.push(obstacle)
+        } else {
+          acc.splice(insertIndex, 0, obstacle)
+        }
+      }
+      return acc
+    }, [])
   }, [blocks, stage, stageId])
+
+  console.log(stageData)
 
   if (!isLandscape) {
     return <RotateInstruction />

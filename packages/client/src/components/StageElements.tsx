@@ -2,6 +2,7 @@
 
 import { useEntityQuery, useQuerySync } from '@dojoengine/react'
 import { getComponentValue, Has } from '@dojoengine/recs'
+import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -70,16 +71,13 @@ export const StageElements = ({
     if (!activeAccount) return
     setIsLoading(true)
     if (stageId) {
-      console.log('update stage')
       // update stage
       const stage = stagesList.find((stage) => stage?.id === BigInt(stageId ?? 0))
-      console.log('stage', stage)
       const transformedBlocks = currentBlocks.map((block) => ({
         ...block,
         x: block.x + Number(stage?.x),
         y: block.y + Number(stage?.y),
       }))
-      console.log('transformedBlocks', transformedBlocks)
       await batchPutBlocks(activeAccount, stageId, transformedBlocks)
       setIsLoading(false)
       router.push(`/my/`)
@@ -97,7 +95,6 @@ export const StageElements = ({
         x: block.x + newStagePosition.x,
         y: block.y + newStagePosition.y,
       }))
-      console.log('transformedBlocks', transformedBlocks)
       await batchPutBlocks(activeAccount, stageId, transformedBlocks)
       router.push('/my/')
     }
@@ -176,7 +173,14 @@ export const StageElements = ({
           </div>
         </div>
         <CustomButton onClick={handleClickSave} disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'Save'}
+          {isLoading ? (
+            <p className='flex items-center gap-2'>
+              Loading...
+              <Loader2 className='animate-spin' />
+            </p>
+          ) : (
+            'Save'
+          )}
         </CustomButton>
       </div>
     </div>

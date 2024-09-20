@@ -222,8 +222,6 @@ export class Game extends Scene {
       }
     }
 
-    console.log(this.player.x)
-
     if (this.player.x > this.goalX) {
       this.scene.pause()
       this.sound.stopByKey('main-bgm')

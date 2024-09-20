@@ -1235,12 +1235,12 @@
       }
     ],
     "address": "0x263ae44e5414519a5c5a135cccaf3d9d7ee196d37e8de47a178da91f3de9b34",
-    "transaction_hash": null,
-    "block_number": null,
+    "transaction_hash": "0x257c13ceeada48d1ed5a25d54943bf10dc5bc296038e4d6003d4a371c76cfb1",
+    "block_number": 3,
     "seed": "pixelaw",
     "metadata": {
       "profile_name": "release",
-      "rpc_url": "https://api.cartridge.gg/x/pixelaw-dev/katana/"
+      "rpc_url": "https://api.cartridge.gg/x/p-dash/katana/"
     },
     "manifest_name": "dojo-world"
   },
@@ -2052,8 +2052,8 @@
     {
       "kind": "DojoContract",
       "address": "0x1d7b4801ae82c121359b28cac257e0c5b436532f91d04ac8890c3a25bc6e44e",
-      "class_hash": "0x2aec1707b289ec5f94bba0082f77ac1d54ee862d064f38d0fd29cf2007569ef",
-      "original_class_hash": "0x2aec1707b289ec5f94bba0082f77ac1d54ee862d064f38d0fd29cf2007569ef",
+      "class_hash": "0x3a7ad348c53d1a67988ec1006ae24637c39975e30d443f87aa4b94e86501fcc",
+      "original_class_hash": "0x3a7ad348c53d1a67988ec1006ae24637c39975e30d443f87aa4b94e86501fcc",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2437,6 +2437,10 @@
               "name": "initialize_stage",
               "inputs": [
                 {
+                  "name": "stage_id",
+                  "type": "core::felt252"
+                },
+                {
                   "name": "start_x",
                   "type": "core::integer::u32"
                 },
@@ -2457,11 +2461,7 @@
                   "type": "pixelaw::core::utils::DefaultParameters"
                 }
               ],
-              "outputs": [
-                {
-                  "type": "core::integer::u32"
-                }
-              ],
+              "outputs": [],
               "state_mutability": "external"
             },
             {
@@ -2470,7 +2470,7 @@
               "inputs": [
                 {
                   "name": "stage_id",
-                  "type": "core::integer::u32"
+                  "type": "core::felt252"
                 },
                 {
                   "name": "blocktype",
@@ -2572,6 +2572,7 @@
         "on_pre_update",
         "on_post_update",
         "init",
+        "initialize_stage",
         "put_block"
       ],
       "manifest_name": "pixelaw-p_dash_actions-374d4b2d"
@@ -3891,7 +3892,7 @@
       "members": [
         {
           "name": "stage_id",
-          "type": "usize",
+          "type": "felt252",
           "key": true
         },
         {
@@ -3910,8 +3911,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x23ef82c8a79694e0a86f1bf829c499ca883ccc047bbdc05dd983bd153cdc79f",
-      "original_class_hash": "0x23ef82c8a79694e0a86f1bf829c499ca883ccc047bbdc05dd983bd153cdc79f",
+      "class_hash": "0x18179178f041bcb269bad4eaecc14e07451c457eb6fb4151eb18e7104310d94",
+      "original_class_hash": "0x18179178f041bcb269bad4eaecc14e07451c457eb6fb4151eb18e7104310d94",
       "abi": [
         {
           "type": "impl",
@@ -4316,7 +4317,7 @@
           "members": [
             {
               "name": "stage_id",
-              "type": "core::integer::u32"
+              "type": "core::felt252"
             },
             {
               "name": "x",
@@ -7651,7 +7652,7 @@
       "members": [
         {
           "name": "id",
-          "type": "usize",
+          "type": "felt252",
           "key": true
         },
         {
@@ -7673,10 +7674,15 @@
           "name": "h",
           "type": "u32",
           "key": false
+        },
+        {
+          "name": "creator",
+          "type": "ContractAddress",
+          "key": false
         }
       ],
-      "class_hash": "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae",
-      "original_class_hash": "0x36c0f3579aa8b3c6364cc6ff2a20eff679e73c7eccc56d562252d26af9fcbae",
+      "class_hash": "0x71d9038ddb4783931eaf144706b7ab5b318e166a5efa25ac32f4fc90137db9b",
+      "original_class_hash": "0x71d9038ddb4783931eaf144706b7ab5b318e166a5efa25ac32f4fc90137db9b",
       "abi": [
         {
           "type": "impl",
@@ -8051,7 +8057,7 @@
           "members": [
             {
               "name": "id",
-              "type": "core::integer::u32"
+              "type": "core::felt252"
             },
             {
               "name": "x",
@@ -8068,6 +8074,10 @@
             {
               "name": "h",
               "type": "core::integer::u32"
+            },
+            {
+              "name": "creator",
+              "type": "core::starknet::contract_address::ContractAddress"
             }
           ]
         },

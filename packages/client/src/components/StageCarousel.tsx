@@ -113,7 +113,6 @@ const StageCarousel = () => {
     }
     return defaultStages
   }, [isIndies, indiesStages])
-  console.log(stages)
 
   const updateCurrent = useCallback((index: number) => {
     const TRANSITION_DURATION = 400
