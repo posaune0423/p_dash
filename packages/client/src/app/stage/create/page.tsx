@@ -7,7 +7,7 @@ export const generateViewport = () => {
 }
 const CreateStagePage = () => {
   return (
-    <div className='h-screen w-screen fixed'>
+    <div className='fixed h-screen w-screen'>
       <StageEditor />
     </div>
   )

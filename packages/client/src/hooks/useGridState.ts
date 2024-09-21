@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { type GridState } from '@/types'
 
 export const useGridState = () => {
-  // LocalStorage
   const [gridState, setGridState] = useState<GridState>({
     offsetX: 0,
     offsetY: 0,

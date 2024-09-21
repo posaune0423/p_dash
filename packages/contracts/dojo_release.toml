@@ -8,6 +8,8 @@ default = "pixelaw"
 mappings = {}
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/pixelaw-dev/katana/"
-account_address = "0x5233cfca86bfa18af0bdef2fd09ac4c1d7c8da71303eb7fc9997fc6d0914d0d"
-private_key = "0xf0e37335d0c020789dd02c0460d99637ac23bd2df3d1d25002fd15621542d"
+rpc_url = "https://api.cartridge.gg/x/p-dash/katana/"
+# rpc_url = "https://api.cartridge.gg/x/pixelaw-dev/katana/"
+account_address = "0x79b11b7dbbef550a4cbbefe3f9c685b6792bacf003e5744ef8988794066a17f"
+private_key = "0x5572667755d6d49afda6dfadf1a708c2a57d7855a6db1cd4611f557a2f026e"
+world_address = "0x263ae44e5414519a5c5a135cccaf3d9d7ee196d37e8de47a178da91f3de9b34"

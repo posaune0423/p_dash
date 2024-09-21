@@ -18,7 +18,9 @@ export const getInitBlockPosition = (stageIndex: number): { x: number; y: number
   return { x: stageX, y: stageY }
 }
 
-export const getStageArea = (stageIndex: number): { x: number; y: number; width: number; height: number } => {
+export const getStageArea = (
+  stageIndex: number,
+): { x: number; y: number; width: number; height: number } => {
   const { x: stageX, y: stageY } = calculateStagePosition(stageIndex)
 
   // 実際に使用できるステージ領域（Init Blockの右下から）
@@ -26,14 +28,14 @@ export const getStageArea = (stageIndex: number): { x: number; y: number; width:
     x: stageX + 1,
     y: stageY + 1,
     width: GRID_WIDTH - 1,
-    height: GRID_HEIGHT - 1
+    height: GRID_HEIGHT - 1,
   }
 }
 
 export const getBlockWorldPosition = (
   stageIndex: number,
   localX: number,
-  localY: number
+  localY: number,
 ): { x: number; y: number } => {
   const { x: stageX, y: stageY } = calculateStagePosition(stageIndex)
   return {

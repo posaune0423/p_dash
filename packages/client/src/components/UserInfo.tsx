@@ -41,7 +41,7 @@ const UserInfo = () => {
             <CopyButton value={activeAccount.address} />
           </div>
           {/* <h2>Balance: {balance?.formatted ?? 0}</h2> */}
-          <p>Network: {chain?.name}</p>
+          <p>Network: {chain.name}</p>
         </div>
       )}
 

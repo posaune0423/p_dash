@@ -16,7 +16,7 @@ export const StageEditor = ({ stageId }: { stageId?: string }) => {
   } = useStageEditor(stageId)
 
   return (
-    <section className='relative size-full'>
+    <section className='fixed size-full'>
       <canvas
         ref={canvasRef}
         className='fixed inset-0 h-[calc(100%-50px)] w-full bg-black/90'

@@ -23,11 +23,11 @@ const StartGame = (
     stageData,
     width,
     height,
-    stage,
-  }: { stageData: Obstacle[]; width: number; height: number; stage: string },
+    stageId,
+  }: { stageData: Obstacle[]; width: number; height: number; stageId: string },
 ) => {
   const game = new Game({ ...config, parent, width, height })
-  game.scene.add('Preloader', Preloader, true, { stageData, stage })
+  game.scene.add('Preloader', Preloader, true, { stageData, stageId })
   game.scene.add('MainGame', MainGame, false)
   return game
 }
