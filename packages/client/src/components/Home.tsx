@@ -5,7 +5,7 @@ import { APP_NAME } from '@/constants'
 
 const Home = () => {
   return (
-    <main className='relative flex min-h-[calc(100dvh)] flex-col items-center justify-center space-y-4'>
+    <main className='fixed flex min-h-[calc(100dvh)] w-full flex-col items-center justify-center space-y-4'>
       <Image
         src='/hero.png'
         alt='logo'
@@ -19,7 +19,7 @@ const Home = () => {
       </h1>
 
       <GuestButton />
-      <LoginButton />
+      <LoginButton className='w-56' />
 
       <footer className='absolute bottom-4 text-white'>
         © {new Date().getFullYear()} {APP_NAME}

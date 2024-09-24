@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { FixedLengthQueueStorage } from '@/lib/queueStorage'
+import { FixedLengthQueueStorage } from '@/libs/queueStorage'
+import { type GameResult } from '@/types'
 import { formatDate } from '@/utils'
 
 const History = () => {

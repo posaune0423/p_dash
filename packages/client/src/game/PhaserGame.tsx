@@ -9,7 +9,8 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { EventBus } from '@/game/EventBus'
 import { StartGame } from '@/game/main'
 import { useDimension } from '@/hooks/useDimension'
-import { FixedLengthQueueStorage } from '@/lib/queueStorage'
+import { FixedLengthQueueStorage } from '@/libs/queueStorage'
+import { type GameResult, type PlayerInteraction, type Obstacle } from '@/types'
 
 export interface IRefPhaserGame {
   game: Phaser.Game | null
@@ -18,11 +19,11 @@ export interface IRefPhaserGame {
 
 interface PhaserGameProps {
   stageData: Obstacle[]
-  stage: string
+  stageId: string
 }
 
 export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function PhaserGame(
-  { stageData, stage },
+  { stageData, stageId },
   ref,
 ) {
   const game = useRef<Phaser.Game | null>(null)
@@ -42,7 +43,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
 
   useLayoutEffect(() => {
     if (game.current === null) {
-      game.current = StartGame('game-container', { stageData, width, height, stage })
+      game.current = StartGame('game-container', { stageData, width, height, stageId })
 
       if (typeof ref === 'function') {
         ref({ game: game.current, scene: null })
@@ -59,7 +60,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
         }
       }
     }
-  }, [ref, stageData, stage, width, height])
+  }, [ref, stageData, stageId, width, height])
 
   useEffect(() => {
     EventBus.on('current-scene-ready', (scene_instance: Phaser.Scene) => {
@@ -115,7 +116,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
   }, [ref])
 
   return (
-    <main>
+    <main className='fixed'>
       {isGameClear && <ConfettiEffect />}
       <div className='bg-slate-800' id='game-container' />
       <Dialog open={isDialogOpen}>

@@ -364,14 +364,14 @@
   {
     "type": "impl",
     "name": "blockImpl",
-    "interface_name": "p_dash::models::blocktype::Iblock"
+    "interface_name": "p_dash::models::block::Iblock"
   },
   {
     "type": "enum",
-    "name": "p_dash::models::blocktype::BlockType",
+    "name": "p_dash::models::block::BlockType",
     "variants": [
       {
-        "name": "Unknown",
+        "name": "Empty",
         "type": "()"
       },
       {
@@ -380,6 +380,10 @@
       },
       {
         "name": "Block",
+        "type": "()"
+      },
+      {
+        "name": "Tile",
         "type": "()"
       },
       {
@@ -394,8 +398,12 @@
   },
   {
     "type": "struct",
-    "name": "p_dash::models::blocktype::Block",
+    "name": "p_dash::models::block::Block",
     "members": [
+      {
+        "name": "stage_id",
+        "type": "core::felt252"
+      },
       {
         "name": "x",
         "type": "core::integer::u32"
@@ -405,14 +413,14 @@
         "type": "core::integer::u32"
       },
       {
-        "name": "block",
-        "type": "p_dash::models::blocktype::BlockType"
+        "name": "blocktype",
+        "type": "p_dash::models::block::BlockType"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "p_dash::models::blocktype::Iblock",
+    "name": "p_dash::models::block::Iblock",
     "items": [
       {
         "type": "function",
@@ -420,7 +428,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "p_dash::models::blocktype::Block"
+            "type": "p_dash::models::block::Block"
           }
         ],
         "outputs": [],
@@ -430,7 +438,7 @@
   },
   {
     "type": "event",
-    "name": "p_dash::models::blocktype::block::Event",
+    "name": "p_dash::models::block::block::Event",
     "kind": "enum",
     "variants": []
   }

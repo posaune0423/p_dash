@@ -9,6 +9,7 @@ export const APP_URL =
 export const APP_DEFAULT_TITLE = 'P/Dash'
 export const APP_TITLE_TEMPLATE = 'P/Dash | %s'
 
+export const GOAL_BUFFER = 500
 export const GROUND_HEIGHT = 78
 export const BASIC_PIXEL = 50
 export const GRAVITY = 2000
@@ -62,3 +63,6 @@ export const viewportConfig: Viewport = {
   maximumScale: 1,
   userScalable: false,
 }
+
+export const ZERO_ADDRESS = '0x0'
+export const NAMESPACE = 'pixelaw'

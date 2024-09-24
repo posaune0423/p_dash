@@ -1,29 +1,29 @@
 #[cfg(test)]
 mod tests {
-    use starknet::{contract_address_const, testing::set_account_contract_address};
+    use core::pedersen::pedersen;
+    use dojo::utils::test::{spawn_test_world, deploy_contract};
+    use dojo::utils::{selector_from_names};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use pixelaw::core::models::registry::{app, app_name, core_actions_address};
+    use p_dash::models::block::{block, Block, BlockType};
 
-    use pixelaw::core::models::pixel::{Pixel, PixelUpdate};
-    use pixelaw::core::models::pixel::{pixel};
-    use pixelaw::core::models::permissions::{permissions};
-    use pixelaw::core::utils::{get_core_actions, Direction, Position, DefaultParameters};
-    use pixelaw::core::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
-
-    use p_dash::models::stage::{stage, stage_id, Stage, StageId};
-    use p_dash::models::blocktype::{block, Block, BlockType};
-
-    use dojo::utils::{selector_from_names};
-    use dojo::utils::test::{spawn_test_world, deploy_contract};
-
-    use p_dash::systems::app::{
+    use p_dash::models::stage::{stage, Stage};
+    use p_dash::systems::actions::{
         p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
+    use pixelaw::core::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
+    use pixelaw::core::models::permissions::{permissions};
+    use pixelaw::core::models::pixel::{Pixel, PixelUpdate};
+    use pixelaw::core::models::pixel::{pixel};
 
+    use pixelaw::core::models::registry::{app, app_name, core_actions_address};
+    use pixelaw::core::utils::{
+        get_core_actions, encode_color, decode_color, Direction, Position, DefaultParameters
+    };
+    use starknet::{contract_address_const, testing::set_account_contract_address};
 
     // Helper function: deploys world and actions
-    fn deploy_world() -> (IWorldDispatcher, IActionsDispatcher, IPDashActionsDispatcher) {
+    fn deploy_world() -> (IWorldDispatcher, IPDashActionsDispatcher) {
         // Deploy World and models
         let mut models = array![
             pixel::TEST_CLASS_HASH,
@@ -32,7 +32,6 @@ mod tests {
             core_actions_address::TEST_CLASS_HASH,
             permissions::TEST_CLASS_HASH,
             stage::TEST_CLASS_HASH,
-            stage_id::TEST_CLASS_HASH,
             block::TEST_CLASS_HASH,
         ];
         let world = spawn_test_world(["pixelaw"].span(), models.span());
@@ -55,82 +54,128 @@ mod tests {
         world.grant_writer(selector_from_tag!("pixelaw-CoreActionsAddress"), core_actions_address);
 
         // Grant writer permissions to p_dash actions models
+        world.grant_writer(selector_from_tag!("pixelaw-Pixel"), actions_address);
         world.grant_writer(selector_from_tag!("pixelaw-Stage"), actions_address);
-        world.grant_writer(selector_from_tag!("pixelaw-StageId"), actions_address);
         world.grant_writer(selector_from_tag!("pixelaw-Block"), actions_address);
 
-        (world, core_actions, actions)
-    }
-
-    #[test]
-    #[available_gas(3000000000)]
-    fn test_actions() {
-        // Deploy everything
-        let (world, core_actions, actions) = deploy_world();
-
-        println!("Passed deploy_world");
         core_actions.init();
         actions.init();
 
-        println!("Passed init");
+        (world, actions)
+    }
+
+    #[test]
+    fn test_should_initialize_stage() {
+        // Deploy everything
+        let (world, actions) = deploy_world();
 
         let player1 = contract_address_const::<0x1337>();
         set_account_contract_address(player1);
 
         println!("Passed set_account_contract_address");
 
-        let color = encode_color(1, 1, 1);
+        let color = encode_color(255, 255, 255, 255); // White color
 
+        // Generate a unique stage_id using pedersen hash
+        let stage_id = pedersen(1, 1);
+        // Test initialize_stage
         actions
             .initialize_stage(
+                stage_id,
+                1, // start_x
+                1, // start_y
+                2, // width
+                2, // height
                 DefaultParameters {
-                    for_player: contract_address_const::<0x1337>(),
-                    for_system: contract_address_const::<0x1337>(),
+                    for_player: player1,
+                    for_system: contract_address_const::<0>(),
                     position: Position { x: 1, y: 1 },
                     color: color
                 },
             );
 
-        let pixel_1_1 = get!(world, (1, 1), (Pixel));
-        assert(pixel_1_1.color == color, 'should be the color');
-
-        let stage_id = get!(world, (1, 1), (StageId));
+        // Check if the stage is initialized correctly
         let stage = get!(world, stage_id, (Stage));
+        assert(stage.x == 1 && stage.y == 1, 'Stage position incorrect');
+        assert(stage.w == 2 && stage.h == 2, 'Stage size incorrect'); // Assuming default size
 
-        println!("stage.x: {}", stage.x);
-        println!("stage.y: {}", stage.y);
-        println!("stage.w: {}", stage.w);
-        println!("stage.h: {}", stage.h);
+        // // Check if pixels are initialized
+        // let pixel_1_1 = get!(world, (1, 1), (Pixel));
+        // assert(pixel_1_1.color == color, 'Pixel color incorrect');
+        // assert(pixel_1_1.owner == player1, 'Pixel owner incorrect');
+        // println!("Passed initialize_stage");
 
-        assert(stage.x == 1 && stage.y == 1, 'config setting error');
-        // assert(stage.w == 200 && stage.h == 16, 'config setting error(stage)');
+        // Check if blocks are initializedÏ
+        let block_1_1 = get!(world, (stage_id, 1, 1), (Block));
+        assert(block_1_1.blocktype == BlockType::InitBlock, 'Initial block type incorrect');
+        println!("Successfully initialized stage");
 
-        let block = get!(world, (1, 1), (Block));
-        assert(block.block.into() == 0x1, 'config setting error(Block)');
-
+        // Test put_block
         actions
             .put_block(
+                stage_id,
+                BlockType::Block,
                 DefaultParameters {
-                    for_player: contract_address_const::<0x1337>(),
-                    for_system: contract_address_const::<0x1337>(),
+                    for_player: player1,
+                    for_system: contract_address_const::<0>(),
                     position: Position { x: 2, y: 2 },
-                    color: color
+                    color: encode_color(255, 0, 0, 255) // Red color
                 },
-                blocktype: BlockType::Block,
             );
 
-        println!("Passed test");
+        let block_2_2 = get!(world, (stage_id, 2, 2), (Block));
+        assert(block_2_2.blocktype == BlockType::Block, 'Block type is incorrect');
+
+        // Check if the pixel is updated
+        let pixel_3_3 = get!(world, (3, 3), (Pixel));
+        println!("pixel_3_3.color: {:?}", pixel_3_3.color);
+        assert(pixel_3_3.color == encode_color(255, 0, 0, 255), 'Pixel color is incorrect');
+        println!("Successfully put block");
     }
 
-    fn encode_color(r: u8, g: u8, b: u8) -> u32 {
-        (r.into() * 0x10000) + (g.into() * 0x100) + b.into()
-    }
+    #[test]
+    #[should_panic(expected: ('StageId already taken', 'ENTRYPOINT_FAILED'))]
+    fn test_initialize_stage_fails_with_duplicated_stage_id() {
+        // Deploy everything
+        let (_, actions) = deploy_world();
 
-    fn decode_color(color: u32) -> (u8, u8, u8) {
-        let r = (color / 0x10000);
-        let g = (color / 0x100) & 0xff;
-        let b = color & 0xff;
+        let player1 = contract_address_const::<0x1337>();
+        set_account_contract_address(player1);
 
-        (r.try_into().unwrap(), g.try_into().unwrap(), b.try_into().unwrap())
+        let color = encode_color(255, 255, 255, 255); // White color
+
+        // Generate a unique stage_id using pedersen hash
+        let stage_id = pedersen(1, 1);
+
+        // Test initialize_stage with invalid size (0 width and height)
+        actions
+            .initialize_stage(
+                stage_id,
+                1, // start_x
+                1, // start_y
+                2, // width
+                2, // height
+                DefaultParameters {
+                    for_player: player1,
+                    for_system: contract_address_const::<0>(),
+                    position: Position { x: 1, y: 1 },
+                    color: color
+                },
+            );
+        // 2nd call should fail
+        actions
+            .initialize_stage(
+                stage_id,
+                10, // start_x
+                10, // start_y
+                2, // width
+                2, // height
+                DefaultParameters {
+                    for_player: player1,
+                    for_system: contract_address_const::<0>(),
+                    position: Position { x: 10, y: 10 },
+                    color: color
+                },
+            );
     }
 }

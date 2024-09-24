@@ -4,11 +4,12 @@ name = "pixelaw"
 seed = "pixelaw"
 
 [namespace]
-default = "p_dash"
-mappings = {  }
+default = "pixelaw"
+mappings = {}
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/p-dash/katana"
-account_address = "0x3f3f94d700f51cbb063b48658375e74090a3c278e63d5a46e78347b298dd29d"
-private_key = "0x3b86e072a44d5557b41fb4c64d8200fbde4dbf3a669285a0974e8eb326044c4"
-world_address = "0x319abdaf6875275701fc89fa3508a91448168dee90815bccf82ed4e72ca67b3"
+rpc_url = "https://api.cartridge.gg/x/p-dash/katana/"
+# rpc_url = "https://api.cartridge.gg/x/pixelaw-dev/katana/"
+account_address = "0x79b11b7dbbef550a4cbbefe3f9c685b6792bacf003e5744ef8988794066a17f"
+private_key = "0x5572667755d6d49afda6dfadf1a708c2a57d7855a6db1cd4611f557a2f026e"
+world_address = "0x263ae44e5414519a5c5a135cccaf3d9d7ee196d37e8de47a178da91f3de9b34"

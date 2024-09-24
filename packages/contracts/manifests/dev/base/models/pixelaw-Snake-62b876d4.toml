@@ -3,6 +3,7 @@ class_hash = "0x5a3afeed7a51a51cab27a99c9d99064fc467ecdb9a8cc606c4d4899dffb7f6c"
 original_class_hash = "0x5a3afeed7a51a51cab27a99c9d99064fc467ecdb9a8cc606c4d4899dffb7f6c"
 abi = "manifests/dev/base/abis/models/pixelaw-Snake-62b876d4.json"
 tag = "pixelaw-Snake"
+qualified_path = "pixelaw::apps::snake::app::snake"
 manifest_name = "pixelaw-Snake-62b876d4"
 
 [[members]]
