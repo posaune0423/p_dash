@@ -3,15 +3,7 @@
 import { useComponentValue, useEntityQuery, useQuerySync } from '@dojoengine/react'
 import { getComponentValue, HasValue } from '@dojoengine/recs'
 import { getEntityIdFromKeys } from '@dojoengine/utils'
-import {
-  startTransition,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { BASE_CELL_SIZE, MAX_SCALE, MIN_SCALE, SWIPE_THRESHOLD } from '@/constants/canvas'
 import { useDojo } from '@/hooks/useDojo'
 import { useGridState } from '@/hooks/useGridState'
@@ -357,7 +349,7 @@ export const useStageEditor = (stageId?: string) => {
     }
   }, [])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -366,29 +358,41 @@ export const useStageEditor = (stageId?: string) => {
     ctxRef.current = ctx
 
     const resizeCanvas = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const width = window.innerWidth;
-      const height = canvas.clientHeight;
-      console.log('Canvas size:', width, height);
-      console.log('Viewport size:', window.innerWidth, window.innerHeight);
+      const dpr = window.devicePixelRatio || 1
+      const width = window.innerWidth
+      const height = window.innerHeight
 
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+      // Canvasのサイズ設定
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
 
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.scale(dpr, dpr);
-      animate();
-    };
+      // コンテキストのスケーリング設定
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.scale(dpr, dpr)
+      animate()
+    }
 
+    // デバイスの向きが横向き（ランドスケープ）か縦向きかを確認してリサイズ
+    const handleOrientationChange = () => {
+      if (window.orientation === 90 || window.orientation === -90) {
+        // 横向きの場合
+        resizeCanvas()
+      } else {
+        // 縦向きの場合も再描画
+        resizeCanvas()
+      }
+    }
 
-    resizeCanvas()
+    // 初期ロード時にオリエンテーションを確認してリサイズ
+    handleOrientationChange()
 
-    window.addEventListener('resize', resizeCanvas)
-    window.addEventListener('orientationchange', resizeCanvas)
+    // オリエンテーション変更をリッスン
+    window.addEventListener('orientationchange', handleOrientationChange)
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas)
-      window.removeEventListener('orientationchange', resizeCanvas)
+      window.removeEventListener('orientationchange', handleOrientationChange)
     }
   }, [animate])
 
