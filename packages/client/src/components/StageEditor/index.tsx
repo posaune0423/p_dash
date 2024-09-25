@@ -19,10 +19,10 @@ export const StageEditor = ({ stageId }: { stageId?: string }) => {
   } = useStageEditor(stageId)
 
   return (
-    <main className='fixed inset-0' style={{ width, height, overflow: 'hidden' }}>
+    <main className='relative inset-0' style={{ width, height, overflow: 'hidden' }}>
       <canvas
         ref={canvasRef}
-        className='fixed inset-0 h-[calc(100%-50px)] w-full touch-none bg-black/90'
+        className='absolute inset-0 h-[calc(100%-50px)] w-full touch-none bg-black/90'
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
