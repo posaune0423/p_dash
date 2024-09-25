@@ -16,7 +16,7 @@ export const StageEditor = ({ stageId }: { stageId?: string }) => {
   } = useStageEditor(stageId)
 
   return (
-    <main className='fixed' style={{ overflow: 'hidden' }}>
+    <main className='fixed inset-0' style={{ overflow: 'hidden' }}>
       <canvas
         ref={canvasRef}
         className='fixed inset-0 h-[calc(100%-50px)] w-full touch-none bg-black/90'
