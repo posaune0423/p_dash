@@ -67,8 +67,6 @@ const Game = ({ stageId }: { stageId: string }) => {
     }, [])
   }, [blocks, stage, stageId])
 
-  console.log(stageData)
-
   if (!isLandscape) {
     return <RotateInstruction />
   }
