@@ -5,6 +5,7 @@ export const generateViewport = () => {
     viewportFit: 'cover',
   }
 }
+
 const CreateStagePage = () => {
   return <StageEditor />
 }
