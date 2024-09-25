@@ -67,6 +67,13 @@ const Game = ({ stageId }: { stageId: string }) => {
     }, [])
   }, [blocks, stage, stageId])
 
+  if (stageData.length === 0)
+    return (
+      <div className='flex h-screen items-center justify-center bg-gray-800 text-xl text-white'>
+        Loading...
+      </div>
+    )
+
   if (!isLandscape) {
     return <RotateInstruction />
   }
