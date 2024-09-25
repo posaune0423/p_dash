@@ -366,24 +366,20 @@ export const useStageEditor = (stageId?: string) => {
     ctxRef.current = ctx
 
     const resizeCanvas = () => {
-      const dpr = window.devicePixelRatio || 1
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      console.log('Canvas size:', width, height);
+      console.log('Viewport size:', window.innerWidth, window.innerHeight);
 
-      const width = window.visualViewport ? window.visualViewport.width : window.innerWidth
-      const height = window.visualViewport ? window.visualViewport.height : window.innerHeight
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
 
-      console.log('Canvas size:', width, height)
-      console.log('Viewport size:', window.innerWidth, window.innerHeight)
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+      animate();
+    };
 
-      canvas.width = width * dpr
-      canvas.height = height * dpr
-
-      // canvas.style.width = `${width}px`
-      // canvas.style.height = `${height}px`
-
-      ctx.setTransform(1, 0, 0, 1, 0, 0)
-      ctx.scale(dpr, dpr)
-      animate()
-    }
 
     resizeCanvas()
 
