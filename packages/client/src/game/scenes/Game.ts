@@ -2,7 +2,8 @@ import { Input, Scene } from 'phaser'
 import { EventBus } from '../EventBus'
 import { BASIC_PIXEL, GRAVITY } from '@/constants'
 import { env } from '@/env'
-import { BlockType, type Obstacle } from '@/types'
+import { BlockType } from '@/libs/dojo/typescript/models.gen'
+import { type Obstacle } from '@/types'
 
 export class Game extends Scene {
   background!: Phaser.GameObjects.TileSprite

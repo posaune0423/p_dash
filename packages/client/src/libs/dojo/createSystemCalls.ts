@@ -1,20 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- for now */
-import { type Account, type AccountInterface } from 'starknet'
+import { defineSystem, Has, type World } from '@dojoengine/recs'
+import { type Account } from 'starknet'
 import { hash } from 'starknet'
 import { type ClientComponents } from './createClientComponents'
-import { type ContractComponents } from './generated/components'
-import type { IWorld } from './generated/systems'
+import { type IWorld } from './typescript/contracts.gen'
+import { BlockType } from './typescript/models.gen'
 import { type Block } from '@/types'
+import { getBlockColor, hexRGBAtoNumber } from '@/utils'
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>
 
 export function createSystemCalls(
   { client }: { client: IWorld },
-  _contractComponents: ContractComponents,
-  _clientComponents: ClientComponents,
+  clientComponents: ClientComponents,
+  world: World,
 ) {
   const initializeStage = async (
-    account: Account | AccountInterface,
+    account: Account,
     x: number,
     y: number,
     width: number,
@@ -22,7 +24,23 @@ export function createSystemCalls(
   ) => {
     const stageId = hash.computePedersenHashOnElements([account.address, x, y, width, height])
     try {
-      await client.actions.initializeStage(account, stageId, x, y, width, height)
+      await client.p_dash_actions.initialize_stage({
+        account,
+        stage_id: stageId,
+        start_x: x,
+        start_y: y,
+        width,
+        height,
+        default_params: {
+          for_player: BigInt(account.address),
+          for_system: 0n,
+          position: {
+            x,
+            y,
+          },
+          color: hexRGBAtoNumber(getBlockColor(BlockType.InitBlock)),
+        },
+      })
       return stageId
     } catch (e) {
       console.error(e)
@@ -30,13 +48,15 @@ export function createSystemCalls(
     }
   }
 
-  const batchPutBlocks = async (
-    account: Account | AccountInterface,
-    stageId: string,
-    blocks: Block[],
-  ) => {
+  const batchPutBlocks = async (account: Account, stageId: string, blocks: Block[]) => {
     try {
-      await client.actions.batchPutBlocks(account, stageId, blocks)
+      const convertedBlocks = blocks.map((block) => ({
+        stage_id: stageId,
+        x: block.x,
+        y: block.y,
+        blocktype: block.type,
+      }))
+      await client.p_dash_actions.batch_put_blocks(account, stageId, convertedBlocks)
     } catch (e) {
       console.error(e)
     }

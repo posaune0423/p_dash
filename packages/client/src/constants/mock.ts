@@ -1,5 +1,6 @@
 import { BASIC_PIXEL, GOAL_BUFFER } from '@/constants'
-import { BlockType, type Obstacle } from '@/types'
+import { BlockType } from '@/libs/dojo/typescript/models.gen'
+import { type Obstacle } from '@/types'
 
 function generateTiles(maxX: number): Obstacle[] {
   const tiles: Obstacle[] = []

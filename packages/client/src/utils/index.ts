@@ -1,7 +1,8 @@
 import { type ClassValue, clsx } from 'clsx'
 import { shortString } from 'starknet'
 import { twMerge } from 'tailwind-merge'
-import { BlockType, type Color } from '@/types'
+import { BlockType } from '@/libs/dojo/typescript/models.gen'
+import { type Color } from '@/types'
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
@@ -79,11 +80,15 @@ export const hexToRgba = (hex: number): Color => {
   return { r, g, b, a }
 }
 
+export const hexRGBAtoNumber = (color: string) => {
+  return parseInt(`0x${color}`, 16)
+}
+
 export const getBlockColor = (blockType: BlockType): string => {
   switch (blockType) {
-    case BlockType.Block:
+    case 'Block':
       return '0x808080FF'
-    case BlockType.Spike:
+    case 'Spike':
       return '0xFF0000FF'
     case BlockType.Empty:
       return '0x00000000'

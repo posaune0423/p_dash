@@ -4,9 +4,9 @@ import { BurnerManager } from '@dojoengine/create-burner'
 import { getSyncEvents, getSyncEntities } from '@dojoengine/state'
 import { Account, type ArraySignatureType } from 'starknet'
 import { createSystemCalls } from './createSystemCalls'
+import { setupWorld } from './typescript/contracts.gen'
+import { defineContractComponents } from './typescript/models.gen'
 import { createClientComponents } from '@/libs/dojo/createClientComponents'
-import { defineContractComponents } from '@/libs/dojo/generated/components'
-import { setupWorld } from '@/libs/dojo/generated/systems'
 import { world } from '@/libs/dojo/world'
 import init, { createClient } from '@/libs/torii-client/pkg'
 
@@ -30,13 +30,10 @@ export async function setup({ ...config }: DojoConfig) {
   const clientComponents = createClientComponents({ contractComponents })
 
   // Sync all events
-  const eventSync = getSyncEvents(toriiClient, contractComponents as any, undefined, [])
+  const eventSync = await getSyncEvents(toriiClient, contractComponents as any, undefined, [])
 
   // Sync all entities
-  console.log('sync start')
-  const sync = await getSyncEntities(toriiClient, contractComponents as any, [])
-
-  console.log('sync end')
+  const sync = getSyncEntities(toriiClient, contractComponents as any, [])
 
   // create dojo provider
   const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl)
@@ -71,7 +68,7 @@ export async function setup({ ...config }: DojoConfig) {
     client,
     clientComponents,
     contractComponents,
-    systemCalls: createSystemCalls({ client }, contractComponents, clientComponents),
+    systemCalls: createSystemCalls({ client }, clientComponents, world),
     publish: (typedData: string, signature: ArraySignatureType) => {
       toriiClient.publishMessage(typedData, signature)
     },

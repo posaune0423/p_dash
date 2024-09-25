@@ -1,3 +1,5 @@
+import { type BlockType } from '@/libs/dojo/typescript/models.gen'
+
 export type GameResult = {
   id: string
   stage: 'easy' | 'normal' | 'hard'
@@ -10,15 +12,6 @@ export type GameResult = {
 export type PlayerInteraction = {
   action: 'jump' | 'touch'
   timestamp: number
-}
-
-export enum BlockType {
-  Empty = 'Empty',
-  InitBlock = 'InitBlock',
-  Block = 'Block',
-  Tile = 'Tile',
-  Spike = 'Spike',
-  Hole = 'Hole',
 }
 
 export type Block = {

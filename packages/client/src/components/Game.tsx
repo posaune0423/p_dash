@@ -10,7 +10,8 @@ import { mockStageData } from '@/constants/mock'
 import { type IRefPhaserGame, PhaserGame } from '@/game/PhaserGame'
 import { useDojo } from '@/hooks/useDojo'
 import { useOrientation } from '@/hooks/useOrientation'
-import { BlockType, type Obstacle } from '@/types'
+import { type BlockType } from '@/libs/dojo/typescript/models.gen'
+import { type Obstacle } from '@/types'
 import { GRID_HEIGHT } from '@/utils/stageHelper'
 
 const isDefaultStage = (stageId: string) => {
@@ -44,11 +45,7 @@ const Game = ({ stageId }: { stageId: string }) => {
     if (!stage) return []
 
     return blocks.reduce<Obstacle[]>((acc, block) => {
-      if (
-        block &&
-        (block.blocktype as unknown as BlockType) !== BlockType.Empty &&
-        (block.blocktype as unknown as BlockType) !== BlockType.InitBlock
-      ) {
+      if (block && block.blocktype !== 'Empty' && block.blocktype !== 'InitBlock') {
         const obstacle: Obstacle = {
           x: (Number(block.x) - Number(stage.x)) * BASIC_PIXEL,
           y: (GRID_HEIGHT - (Number(block.y) - Number(stage.y)) - 1) * BASIC_PIXEL,

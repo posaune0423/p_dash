@@ -1,5 +1,6 @@
 import { Scene } from 'phaser'
-import { BlockType, type Obstacle } from '@/types'
+import { BlockType } from '@/libs/dojo/typescript/models.gen'
+import { type Obstacle } from '@/types'
 
 export class Preloader extends Scene {
   stageData!: Obstacle[]
