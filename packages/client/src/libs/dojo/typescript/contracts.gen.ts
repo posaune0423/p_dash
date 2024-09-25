@@ -384,11 +384,7 @@ export async function setupWorld(provider: DojoProvider) {
           {
             contractName: contract_name,
             entrypoint: 'put_block',
-            calldata: [
-              props.stage_id,
-              blockTypeToIndex(props.blocktype),
-              props.default_params,
-            ],
+            calldata: [props.stage_id, blockTypeToIndex(props.blocktype), props.default_params],
           },
           'pixelaw',
         )
@@ -417,7 +413,8 @@ export async function setupWorld(provider: DojoProvider) {
 
       try {
         // multi call
-        return await provider.execute(account, calls, 'pixelaw')
+        const { transaction_hash } = await provider.execute(account, calls, 'pixelaw')
+        console.log('transaction_hash', transaction_hash)
       } catch (error) {
         console.error('Error executing batchPutBlocks:', error)
         throw error

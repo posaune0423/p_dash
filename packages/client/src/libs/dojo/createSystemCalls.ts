@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- for now */
-import { defineSystem, type Entity, Has, type World } from '@dojoengine/recs'
+import { defineSystem, type Entity, Has, HasValue, type World } from '@dojoengine/recs'
 import { getEntityIdFromKeys } from '@dojoengine/utils'
 import { type Account } from 'starknet'
 import { hash } from 'starknet'
@@ -74,10 +74,14 @@ export function createSystemCalls(
 
       // Wait for the indexer to update the entity
       // By doing this we keep the optimistic UI in sync with the actual state
-      await new Promise<void>((resolve) => {
-        defineSystem(world, [Has(clientComponents.Block)], () => {
-          resolve()
-        })
+      return await new Promise<void>((resolve) => {
+        defineSystem(
+          world,
+          [HasValue(clientComponents.Block, { stage_id: BigInt(stageId) })],
+          () => {
+            resolve()
+          },
+        )
       })
     } catch (e) {
       console.error(e)
