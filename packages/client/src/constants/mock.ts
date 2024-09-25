@@ -42,12 +42,12 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
   ]).sort((a, b) => a.x - b.x),
 
   desert: addTilesToStage([
-    { x: 200, y: 50, type: BlockType.Spike },
-    { x: 300, y: 100, type: BlockType.Block },
-    { x: 400, y: 200, type: BlockType.Block },
-    { x: 450, y: 50, type: BlockType.Block },
-    { x: 500, y: 50, type: BlockType.Block },
-    { x: 550, y: 50, type: BlockType.Block },
+    { x: 500, y: 50, type: BlockType.Spike },
+    { x: 800, y: 100, type: BlockType.Block },
+    { x: 1000, y: 200, type: BlockType.Block },
+    { x: 1200, y: 50, type: BlockType.Block },
+    { x: 1500, y: 50, type: BlockType.Block },
+    { x: 1800, y: 50, type: BlockType.Block },
   ]).sort((a, b) => a.x - b.x),
 
   jungle: addTilesToStage([

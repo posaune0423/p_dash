@@ -1,6 +1,6 @@
 import { Input, Scene } from 'phaser'
 import { EventBus } from '../EventBus'
-import { BASIC_PIXEL, GOAL_BUFFER, GRAVITY } from '@/constants'
+import { BASIC_PIXEL, GRAVITY } from '@/constants'
 import { env } from '@/env'
 import { BlockType, type Obstacle } from '@/types'
 
@@ -42,10 +42,11 @@ export class Game extends Scene {
     // Load stage data
     const { obstacles } = this.cache.json.get('obstacles')
     this.stage = obstacles
+    console.log(this.stage)
 
-    this.STAGE_WIDTH = this.stage[this.stage.length - 1].x + GOAL_BUFFER
+    this.STAGE_WIDTH = this.stage[this.stage.length - 1].x
 
-    this.goalX = this.STAGE_WIDTH - 50
+    this.goalX = this.STAGE_WIDTH - BASIC_PIXEL
     this.camera.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
     this.physics.world.setBounds(0, 0, this.STAGE_WIDTH, this.scale.height)
   }
@@ -119,14 +120,6 @@ export class Game extends Scene {
       // 助走期間
       const x = ele.x
 
-      if (ele.type === BlockType.Empty) {
-        this.tiles.forEach((tile) => {
-          if (tile.x === x) {
-            tile.destroy()
-          }
-        })
-        return
-      }
       const asset = this.generateAsset(x, this.scale.height - ele.y - bufferHeight, ele.type)
       if (ele.type === BlockType.Spike) {
         asset.setBodySize(asset.width * 0.8, asset.height * 0.8)
@@ -221,6 +214,9 @@ export class Game extends Scene {
         })
       }
     }
+
+    const distanceInMeters = Math.floor(this.player.x / 100) // Assuming 100 pixels = 1 meter
+    this.distanceText.setText(`${distanceInMeters}M`)
 
     if (this.player.x > this.goalX) {
       this.scene.pause()

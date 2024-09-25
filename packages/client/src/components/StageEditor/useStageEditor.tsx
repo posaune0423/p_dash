@@ -122,13 +122,15 @@ export const useStageEditor = (stageId?: string) => {
     (updater: (prev: GridState) => GridState) => {
       setGridState((prev) => {
         const newState = updater(prev)
+        const canvas = canvasRef.current
+
         const maxOffsetX = Math.max(
           0,
-          GRID_WIDTH * BASE_CELL_SIZE - (canvasRef.current?.width || 0) / newState.scale,
+          GRID_WIDTH * BASE_CELL_SIZE - (canvas?.clientWidth || 0) / newState.scale,
         )
         const maxOffsetY = Math.max(
           0,
-          GRID_HEIGHT * BASE_CELL_SIZE - (canvasRef.current?.height || 0) / newState.scale,
+          GRID_HEIGHT * BASE_CELL_SIZE - (canvas?.clientHeight || 0) / newState.scale,
         )
         return {
           ...newState,
@@ -301,14 +303,6 @@ export const useStageEditor = (stageId?: string) => {
     [gridState, selectedElement, currentBlocks, initialBlocks, loadImage, setCurrentBlocks],
   )
 
-  // Effects
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (canvas) {
-      ctxRef.current = canvas.getContext('2d')
-    }
-  }, [])
-
   const drawBlock = useCallback(
     async (block: Block) => {
       const ctx = ctxRef.current
@@ -347,23 +341,43 @@ export const useStageEditor = (stageId?: string) => {
     }
   }, [animate, gridState])
 
-  // resize observer
+  // Effects
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (canvas) {
+      ctxRef.current = canvas.getContext('2d')
+    }
+  }, [])
+
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const resizeObserver = new ResizeObserver(() => {
-      canvas.width = canvas.clientWidth
-      canvas.height = canvas.clientHeight
-      animate()
-    })
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    ctxRef.current = ctx
 
-    resizeObserver.observe(canvas)
+    const resizeCanvas = () => {
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = canvas.clientWidth * dpr
+      canvas.height = canvas.clientHeight * dpr
+
+      // コンテキストの変換行列をリセット
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.scale(dpr, dpr)
+      animate()
+    }
+
+    resizeCanvas()
+
+    window.addEventListener('resize', resizeCanvas)
+    window.addEventListener('orientationchange', resizeCanvas)
 
     return () => {
-      resizeObserver.disconnect()
+      window.removeEventListener('resize', resizeCanvas)
+      window.removeEventListener('orientationchange', resizeCanvas)
     }
-  }, [animate, setGridState])
+  }, [animate])
 
   return {
     canvasRef,

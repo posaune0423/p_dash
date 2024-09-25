@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { ConfettiEffect } from '@/components/ConfettiEffect'
 import CustomButton from '@/components/CustomButton'
@@ -41,7 +41,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
     game.current?.scene.start('Game')
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (game.current === null) {
       game.current = StartGame('game-container', { stageData, width, height, stageId })
 
@@ -60,7 +60,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
         }
       }
     }
-  }, [ref, stageData, stageId, width, height])
+  }, [width, height, stageData, stageId])
 
   useEffect(() => {
     EventBus.on('current-scene-ready', (scene_instance: Phaser.Scene) => {
@@ -113,7 +113,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, PhaserGameProps>(function P
       EventBus.removeListener('game-clear')
       EventBus.removeListener('game-over')
     }
-  }, [ref])
+  }, [])
 
   return (
     <main className='fixed'>
