@@ -368,13 +368,11 @@ export const useStageEditor = (stageId?: string) => {
     const resizeCanvas = () => {
       const dpr = window.devicePixelRatio || 1
       const width = window.innerWidth
-      const height = window.innerHeight
+      const height = canvas.clientHeight
 
       // Canvasのサイズ設定
       canvas.width = width * dpr
       canvas.height = height * dpr
-      canvas.style.width = `${width}px`
-      canvas.style.height = `${height}px`
 
       // コンテキストのスケーリング設定
       ctx.setTransform(1, 0, 0, 1, 0, 0)
