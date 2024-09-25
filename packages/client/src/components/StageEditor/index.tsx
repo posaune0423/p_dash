@@ -3,11 +3,8 @@
 import React from 'react'
 import { StageElements } from '../StageElements'
 import { useStageEditor } from './useStageEditor'
-import { useDimension } from '@/hooks/useDimension'
 
 export const StageEditor = ({ stageId }: { stageId?: string }) => {
-  const { width, height } = useDimension()
-
   const {
     canvasRef,
     selectedElement,
@@ -19,7 +16,7 @@ export const StageEditor = ({ stageId }: { stageId?: string }) => {
   } = useStageEditor(stageId)
 
   return (
-    <main className='relative inset-0' style={{ width, height, overflow: 'hidden' }}>
+    <main className='relative inset-0' style={{ overflow: 'hidden' }}>
       <canvas
         ref={canvasRef}
         className='absolute inset-0 h-[calc(100%-50px)] w-full touch-none bg-black/90'
