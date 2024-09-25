@@ -383,9 +383,11 @@ export const useStageEditor = (stageId?: string) => {
     // デバイスの向きが横向き（ランドスケープ）か縦向きかを確認してリサイズ
     const handleOrientationChange = () => {
       if (window.orientation === 90 || window.orientation === -90) {
+        console.log('landscape')
         // 横向きの場合
         resizeCanvas()
       } else {
+        console.log('portrait')
         // 縦向きの場合も再描画
         resizeCanvas()
       }
