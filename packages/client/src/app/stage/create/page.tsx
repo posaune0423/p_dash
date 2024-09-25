@@ -6,11 +6,7 @@ export const generateViewport = () => {
   }
 }
 const CreateStagePage = () => {
-  return (
-    <main className='fixed size-full'>
-      <StageEditor />
-    </main>
-  )
+  return <StageEditor />
 }
 
 export default CreateStagePage
