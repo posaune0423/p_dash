@@ -367,7 +367,7 @@ export const useStageEditor = (stageId?: string) => {
 
     const resizeCanvas = () => {
       const dpr = window.devicePixelRatio || 1;
-      const width = canvas.clientWidth;
+      const width = window.innerWidth;
       const height = canvas.clientHeight;
       console.log('Canvas size:', width, height);
       console.log('Viewport size:', window.innerWidth, window.innerHeight);
