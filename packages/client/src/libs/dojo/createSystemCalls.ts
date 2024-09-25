@@ -68,6 +68,14 @@ export function createSystemCalls(
         blocktype: block.type,
       }))
       await client.p_dash_actions.batch_put_blocks(account, stageId, convertedBlocks)
+
+      // Wait for the indexer to update the entity
+      // By doing this we keep the optimistic UI in sync with the actual state
+      await new Promise<void>((resolve) => {
+        defineSystem(world, [Has(clientComponents.Block)], () => {
+          resolve()
+        })
+      })
     } catch (e) {
       console.error(e)
     }
