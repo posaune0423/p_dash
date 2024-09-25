@@ -22,7 +22,7 @@ const useDimension = (): Dimension => {
           height: window.innerHeight,
           isDesktop: window.innerWidth > 768,
         })
-      }, 30)
+      }, 100)
     }
 
     window.addEventListener('resize', handleResize)
