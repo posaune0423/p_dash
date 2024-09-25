@@ -37,5 +37,6 @@ build-external-contracts = [
 sort-module-level-items = true
 
 [scripts]
+init = "./scripts/init.sh"
 init_auth = "./scripts/init_auth.sh"
 stage_test = "./scripts/stage_test.sh"

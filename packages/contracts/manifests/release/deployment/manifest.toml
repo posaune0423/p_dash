@@ -4,14 +4,14 @@ class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
 original_class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
 abi = "manifests/release/deployment/abis/dojo-world.json"
 address = "0x263ae44e5414519a5c5a135cccaf3d9d7ee196d37e8de47a178da91f3de9b34"
-transaction_hash = "0x257c13ceeada48d1ed5a25d54943bf10dc5bc296038e4d6003d4a371c76cfb1"
+transaction_hash = "0x29c4bfaabb42816900c1a5159feca75cb4fb0e567a8766d69108f1f62f9e3c1"
 block_number = 3
 seed = "pixelaw"
 manifest_name = "dojo-world"
 
 [world.metadata]
 profile_name = "release"
-rpc_url = "https://api.cartridge.gg/x/p-dash/katana/"
+rpc_url = "https://api.cartridge.gg/x/p-dash-3/katana/"
 
 [base]
 kind = "Class"
@@ -24,12 +24,21 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x6c2ffdd97cb5a1bca13de416adb23a1d0e24ae3c805114b2100f6af95a7f60e"
-class_hash = "0x8fc78d962baf4651c69c567cdd14f4e0d071fcd0a874fe72abd2394b221ffc"
-original_class_hash = "0x8fc78d962baf4651c69c567cdd14f4e0d071fcd0a874fe72abd2394b221ffc"
+class_hash = "0x17d390af6c3b449b52da5a0969a00006a3b7935ffc08192dc8cefdeb563488f"
+original_class_hash = "0x17d390af6c3b449b52da5a0969a00006a3b7935ffc08192dc8cefdeb563488f"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/release/deployment/abis/contracts/pixelaw-actions-16928a49.json"
 reads = []
-writes = []
+writes = [
+    "pixelaw-App",
+    "pixelaw-AppName",
+    "pixelaw-CoreActionsAddress",
+    "pixelaw-Pixel",
+    "pixelaw-Permissions",
+    "pixelaw-QueueItem",
+    "pixelaw-Snake",
+    "pixelaw-Instruction",
+]
 init_calldata = []
 tag = "pixelaw-actions"
 systems = [
@@ -51,7 +60,10 @@ original_class_hash = "0x3a7ad348c53d1a67988ec1006ae24637c39975e30d443f87aa4b94e
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/release/deployment/abis/contracts/pixelaw-p_dash_actions-374d4b2d.json"
 reads = []
-writes = []
+writes = [
+    "pixelaw-Block",
+    "pixelaw-Stage",
+]
 init_calldata = []
 tag = "pixelaw-p_dash_actions"
 systems = [
@@ -307,104 +319,6 @@ key = true
 [[models.members]]
 name = "valid"
 type = "bool"
-key = false
-
-[[models]]
-kind = "DojoModel"
-class_hash = "0x5a3afeed7a51a51cab27a99c9d99064fc467ecdb9a8cc606c4d4899dffb7f6c"
-original_class_hash = "0x5a3afeed7a51a51cab27a99c9d99064fc467ecdb9a8cc606c4d4899dffb7f6c"
-abi = "manifests/release/deployment/abis/models/pixelaw-Snake-62b876d4.json"
-tag = "pixelaw-Snake"
-qualified_path = "pixelaw::apps::snake::app::snake"
-manifest_name = "pixelaw-Snake-62b876d4"
-
-[[models.members]]
-name = "owner"
-type = "ContractAddress"
-key = true
-
-[[models.members]]
-name = "length"
-type = "u8"
-key = false
-
-[[models.members]]
-name = "first_segment_id"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "last_segment_id"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "direction"
-type = "Direction"
-key = false
-
-[[models.members]]
-name = "color"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "text"
-type = "felt252"
-key = false
-
-[[models.members]]
-name = "is_dying"
-type = "bool"
-key = false
-
-[[models]]
-kind = "DojoModel"
-class_hash = "0x19a1ae61a4fb0ac303e15a4ca4befa5ae3962625eb37f379b941815e321191f"
-original_class_hash = "0x19a1ae61a4fb0ac303e15a4ca4befa5ae3962625eb37f379b941815e321191f"
-abi = "manifests/release/deployment/abis/models/pixelaw-SnakeSegment-302de0d8.json"
-tag = "pixelaw-SnakeSegment"
-qualified_path = "pixelaw::apps::snake::app::snake_segment"
-manifest_name = "pixelaw-SnakeSegment-302de0d8"
-
-[[models.members]]
-name = "id"
-type = "u32"
-key = true
-
-[[models.members]]
-name = "previous_id"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "next_id"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "x"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "y"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "pixel_original_color"
-type = "u32"
-key = false
-
-[[models.members]]
-name = "pixel_original_text"
-type = "felt252"
-key = false
-
-[[models.members]]
-name = "pixel_original_app"
-type = "ContractAddress"
 key = false
 
 [[models]]

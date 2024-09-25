@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- for now */
-import { defineSystem, Has, type World } from '@dojoengine/recs'
+import { defineSystem, type Entity, Has, type World } from '@dojoengine/recs'
+import { getEntityIdFromKeys } from '@dojoengine/utils'
 import { type Account } from 'starknet'
 import { hash } from 'starknet'
 import { type ClientComponents } from './createClientComponents'
@@ -23,6 +24,7 @@ export function createSystemCalls(
     height: number,
   ) => {
     const stageId = hash.computePedersenHashOnElements([account.address, x, y, width, height])
+
     try {
       await client.p_dash_actions.initialize_stage({
         account,
@@ -41,6 +43,15 @@ export function createSystemCalls(
           color: hexRGBAtoNumber(getBlockColor(BlockType.InitBlock)),
         },
       })
+
+      // Wait for the indexer to update the entity
+      // By doing this we keep the optimistic UI in sync with the actual state
+      await new Promise<void>((resolve) => {
+        defineSystem(world, [Has(clientComponents.Stage)], () => {
+          resolve()
+        })
+      })
+
       return stageId
     } catch (e) {
       console.error(e)
