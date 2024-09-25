@@ -17,7 +17,7 @@ const StageMenuHeader = () => {
   const activeAccount = useMemo(() => connectedAccount || account, [connectedAccount, account])
 
   return (
-    <header className='absolute inset-x-0 top-0 flex items-center justify-between p-4'>
+    <header className='absolute inset-x-0 top-0 flex items-center justify-between p-4 px-safe'>
       <SoundLink href='/history'>
         <History color='white' size={36} />
       </SoundLink>
