@@ -36,7 +36,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
+      <div className='flex h-screen items-center justify-center bg-gray-800 text-xl text-white'>
         Loading...
       </div>
     )
@@ -44,7 +44,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 
   if (error) {
     return (
-      <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
+      <div className='flex h-screen items-center justify-center bg-gray-800 text-xl text-white'>
         Error: {error.message}
       </div>
     )
@@ -52,7 +52,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 
   if (!setupResult) {
     return (
-      <div className='bg-primary flex h-screen items-center justify-center text-xl text-white'>
+      <div className='flex h-screen items-center justify-center bg-gray-800 text-xl text-white'>
         Dojo setup failed
       </div>
     )

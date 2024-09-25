@@ -4,7 +4,7 @@ import { SoundLink } from '@/components/SoundLink'
 
 const HistoryPage = () => {
   return (
-    <main className='fixed w-full bg-gray-800 p-4'>
+    <main className='fixed w-full bg-gray-800 p-4 px-safe'>
       <SoundLink href='/game'>
         <ArrowLeft className='absolute left-4 top-4' color='white' size={36} />
       </SoundLink>
