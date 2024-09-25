@@ -17,7 +17,7 @@ export const StageEditor = ({ stageId }: { stageId?: string }) => {
 
   return (
     <section
-      className='fixed inset-0'
+      className='relative inset-0'
       style={{ width: '100%', height: '100%', overflow: 'hidden' }}
     >
       <canvas

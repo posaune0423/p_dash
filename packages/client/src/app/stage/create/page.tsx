@@ -7,7 +7,7 @@ export const generateViewport = () => {
 }
 const CreateStagePage = () => {
   return (
-    <main className='size-full'>
+    <main className='relative size-full'>
       <StageEditor />
     </main>
   )
