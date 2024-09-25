@@ -16,13 +16,12 @@ const useDimension = (): Dimension => {
   useEffect(() => {
     const handleResize = () => {
       // add delay for iOS Safari
-      setTimeout(() => {
-        setDimension({
-          width: window.innerWidth,
-          height: window.innerHeight,
-          isDesktop: window.innerWidth > 768,
-        })
-      }, 100)
+
+      setDimension({
+        width: window.visualViewport?.width || window.innerWidth,
+        height: window.innerHeight,
+        isDesktop: window.innerWidth > 768,
+      })
     }
 
     window.addEventListener('resize', handleResize)
