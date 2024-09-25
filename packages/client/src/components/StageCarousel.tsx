@@ -4,10 +4,9 @@ import { useEntityQuery } from '@dojoengine/react'
 import { getComponentValue, Has } from '@dojoengine/recs'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSound } from 'use-sound'
+import { useMemo, useState } from 'react'
 import { Button } from './ui/button'
-import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { useDojo } from '@/hooks/useDojo'
 import { cn, truncateAddress } from '@/utils'
 
@@ -85,9 +84,6 @@ const StageCard = ({
 }
 
 const StageCarousel = () => {
-  const [api, setApi] = useState<CarouselApi>()
-  const [current, setCurrent] = useState(0)
-  const [play] = useSound('/assets/sounds/effects/swipe.mp3', { volume: 0.5 })
   const [isIndies, setIsIndies] = useState(false)
 
   const {
@@ -114,28 +110,9 @@ const StageCarousel = () => {
     return defaultStages
   }, [isIndies, indiesStages])
 
-  const updateCurrent = useCallback((index: number) => {
-    const TRANSITION_DURATION = 400
-    setTimeout(() => {
-      setCurrent(index)
-    }, TRANSITION_DURATION)
-  }, [])
-
-  useEffect(() => {
-    if (!api) {
-      return
-    }
-
-    api.on('select', () => {
-      updateCurrent(api.selectedScrollSnap())
-      play()
-    })
-  }, [api, updateCurrent, play])
-
   return (
     <>
       <Carousel
-        setApi={setApi}
         opts={{
           align: 'center',
           loop: false,
@@ -146,17 +123,14 @@ const StageCarousel = () => {
           {stages.map((stage, index) => (
             <CarouselItem
               key={index}
-              className={cn(
-                'min-w-fit ml-8 basis-1/3 rounded-lg pl-0 relative',
-                current === index ? 'border-2 border-white' : '',
-              )}
+              className={cn('min-w-fit ml-8 basis-1/3 rounded-lg pl-0 relative')}
             >
               <StageCard
                 enabled={stage.enabled}
                 name={stage.name}
                 thumbnail={stage.thumbnail}
                 id={stage.id}
-                active={current === index}
+                active={true}
               />
               <p
                 className={cn(
