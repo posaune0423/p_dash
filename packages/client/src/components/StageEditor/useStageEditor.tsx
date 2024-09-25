@@ -3,7 +3,15 @@
 import { useComponentValue, useEntityQuery, useQuerySync } from '@dojoengine/react'
 import { getComponentValue, HasValue } from '@dojoengine/recs'
 import { getEntityIdFromKeys } from '@dojoengine/utils'
-import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { BASE_CELL_SIZE, MAX_SCALE, MIN_SCALE, SWIPE_THRESHOLD } from '@/constants/canvas'
 import { useDojo } from '@/hooks/useDojo'
 import { useGridState } from '@/hooks/useGridState'
@@ -349,7 +357,7 @@ export const useStageEditor = (stageId?: string) => {
     }
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -359,23 +367,40 @@ export const useStageEditor = (stageId?: string) => {
 
     const resizeCanvas = () => {
       const dpr = window.devicePixelRatio || 1
-      canvas.width = canvas.clientWidth * dpr
-      canvas.height = canvas.clientHeight * dpr
+      const width = window.visualViewport?.width || window.innerWidth
+      const height = canvas.clientHeight
 
-      // コンテキストの変換行列をリセット
+      // Canvasのサイズ設定
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+
+      // コンテキストのスケーリング設定
       ctx.setTransform(1, 0, 0, 1, 0, 0)
       ctx.scale(dpr, dpr)
       animate()
     }
 
-    resizeCanvas()
+    // デバイスの向きが横向き（ランドスケープ）か縦向きかを確認してリサイズ
+    const handleOrientationChange = () => {
+      if (window.orientation === 90 || window.orientation === -90) {
+        console.log('landscape')
+        // 横向きの場合
+        resizeCanvas()
+      } else {
+        console.log('portrait')
+        // 縦向きの場合も再描画
+        resizeCanvas()
+      }
+    }
 
-    window.addEventListener('resize', resizeCanvas)
-    window.addEventListener('orientationchange', resizeCanvas)
+    // 初期ロード時にオリエンテーションを確認してリサイズ
+    handleOrientationChange()
+
+    // オリエンテーション変更をリッスン
+    window.addEventListener('orientationchange', handleOrientationChange)
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas)
-      window.removeEventListener('orientationchange', resizeCanvas)
+      window.removeEventListener('orientationchange', handleOrientationChange)
     }
   }, [animate])
 

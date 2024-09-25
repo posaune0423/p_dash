@@ -6,6 +6,8 @@ import LoginButton from '@/app/home/_components/LoginButton'
 import Avatar from '@/components/Avatar'
 import { SoundLink } from '@/components/SoundLink'
 import { useDojo } from '@/hooks/useDojo'
+import { useOrientation } from '@/hooks/useOrientation'
+import { cn } from '@/utils'
 
 const StageMenuHeader = () => {
   const {
@@ -15,9 +17,14 @@ const StageMenuHeader = () => {
     },
   } = useDojo()
   const activeAccount = useMemo(() => connectedAccount || account, [connectedAccount, account])
+  const { isLandscape } = useOrientation()
 
   return (
-    <header className='absolute inset-x-0 top-0 flex items-center justify-between p-4'>
+    <header
+      className={cn('absolute inset-x-0 top-0 flex items-center justify-between p-4', {
+        'px-safe': isLandscape,
+      })}
+    >
       <SoundLink href='/history'>
         <History color='white' size={36} />
       </SoundLink>

@@ -69,6 +69,11 @@
 }
 
 @layer base {
+  html,
+  body,
+  #root {
+    height: -webkit-fill-available;
+  }
   * {
     @apply border-border;
   }
