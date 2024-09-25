@@ -26,7 +26,7 @@ export function createSystemCalls(
     const stageId = hash.computePedersenHashOnElements([account.address, x, y, width, height])
 
     try {
-      await client.p_dash_actions.initialize_stage({
+      const { transaction_hash } = await client.p_dash_actions.initialize_stage({
         account,
         stage_id: stageId,
         start_x: x,
@@ -43,6 +43,9 @@ export function createSystemCalls(
           color: hexRGBAtoNumber(getBlockColor(BlockType.InitBlock)),
         },
       })
+      console.log('transaction_hash', transaction_hash)
+      const receipt = await account.waitForTransaction(transaction_hash)
+      console.log('receipt', receipt)
 
       // Wait for the indexer to update the entity
       // By doing this we keep the optimistic UI in sync with the actual state
