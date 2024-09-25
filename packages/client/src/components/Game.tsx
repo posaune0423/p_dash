@@ -71,6 +71,13 @@ const Game = ({ stageId }: { stageId: string }) => {
     return <RotateInstruction />
   }
 
+  if (stageData.length === 0)
+    return (
+      <div className='flex h-screen items-center justify-center bg-gray-800 text-xl text-white'>
+        Loading...
+      </div>
+    )
+
   return (
     <PhaserGame
       ref={phaserRef}
