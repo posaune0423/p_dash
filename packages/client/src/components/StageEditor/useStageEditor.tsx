@@ -367,10 +367,14 @@ export const useStageEditor = (stageId?: string) => {
 
     const resizeCanvas = () => {
       const dpr = window.devicePixelRatio || 1
-      canvas.width = canvas.clientWidth * dpr
-      canvas.height = canvas.clientHeight * dpr
+      const width = canvas.clientWidth
+      const height = canvas.clientHeight
+      console.log('Canvas size:', width, height)
+      console.log('Viewport size:', window.innerWidth, window.innerHeight)
 
-      // コンテキストの変換行列をリセット
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+
       ctx.setTransform(1, 0, 0, 1, 0, 0)
       ctx.scale(dpr, dpr)
       animate()
