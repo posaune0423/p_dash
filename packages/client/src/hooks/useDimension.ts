@@ -8,7 +8,7 @@ interface Dimension {
 
 const useDimension = (): Dimension => {
   const [dimension, setDimension] = useState<Dimension>({
-    width: window.visualViewport?.width || window.innerWidth,
+    width: window.innerWidth,
     height: window.innerHeight,
     isDesktop: window.innerWidth > 768,
   })
@@ -16,9 +16,8 @@ const useDimension = (): Dimension => {
   useLayoutEffect(() => {
     const handleResize = () => {
       // add delay for iOS Safari
-
       setDimension({
-        width: window.visualViewport?.width || window.innerWidth,
+        width: window.innerWidth,
         height: window.innerHeight,
         isDesktop: window.innerWidth > 768,
       })
