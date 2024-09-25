@@ -91,8 +91,12 @@ export const StageElements = ({
         GRID_WIDTH,
         GRID_HEIGHT,
       )
-
-      await batchPutBlocks(activeAccount, stageId, currentBlocks)
+      const transformedBlocks = currentBlocks.map((block) => ({
+        ...block,
+        x: block.x + newStagePosition.x,
+        y: block.y + newStagePosition.y,
+      }))
+      await batchPutBlocks(activeAccount, stageId, transformedBlocks)
       router.push('/my/')
     }
     setIsLoading(false)
