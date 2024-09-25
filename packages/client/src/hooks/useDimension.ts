@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useLayoutEffect } from 'react'
 
 interface Dimension {
   width: number
@@ -13,7 +13,7 @@ const useDimension = (): Dimension => {
     isDesktop: window.innerWidth > 768,
   })
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleResize = () => {
       setDimension({
         width: window.visualViewport?.width || window.innerWidth,
