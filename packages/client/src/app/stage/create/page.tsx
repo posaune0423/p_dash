@@ -7,9 +7,9 @@ export const generateViewport = () => {
 }
 const CreateStagePage = () => {
   return (
-    <div className='fixed h-screen w-screen'>
+    <main className='size-full'>
       <StageEditor />
-    </div>
+    </main>
   )
 }
 

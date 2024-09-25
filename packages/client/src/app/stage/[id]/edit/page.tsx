@@ -8,9 +8,9 @@ export const generateViewport = () => {
 
 const EditStagePage = ({ params }: { params: { id: string } }) => {
   return (
-    <div className='fixed h-screen w-screen'>
+    <main className='size-full'>
       <StageEditor stageId={params.id} />
-    </div>
+    </main>
   )
 }
 
