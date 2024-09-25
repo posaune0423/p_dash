@@ -3,7 +3,15 @@
 import { useComponentValue, useEntityQuery, useQuerySync } from '@dojoengine/react'
 import { getComponentValue, HasValue } from '@dojoengine/recs'
 import { getEntityIdFromKeys } from '@dojoengine/utils'
-import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { BASE_CELL_SIZE, MAX_SCALE, MIN_SCALE, SWIPE_THRESHOLD } from '@/constants/canvas'
 import { useDojo } from '@/hooks/useDojo'
 import { useGridState } from '@/hooks/useGridState'
@@ -349,7 +357,7 @@ export const useStageEditor = (stageId?: string) => {
     }
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
