@@ -15,11 +15,14 @@ const useDimension = (): Dimension => {
 
   useEffect(() => {
     const handleResize = () => {
-      setDimension({
-        width: window.innerWidth,
-        height: window.innerHeight,
-        isDesktop: window.innerWidth > 768,
-      })
+      // add delay for iOS Safari
+      setTimeout(() => {
+        setDimension({
+          width: window.innerWidth,
+          height: window.innerHeight,
+          isDesktop: window.innerWidth > 768,
+        })
+      }, 10)
     }
 
     window.addEventListener('resize', handleResize)
