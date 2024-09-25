@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 interface Dimension {
   width: number
@@ -13,13 +13,16 @@ const useDimension = (): Dimension => {
     isDesktop: window.innerWidth > 768,
   })
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
-      setDimension({
-        width: window.visualViewport?.width || window.innerWidth,
-        height: window.innerHeight,
-        isDesktop: window.innerWidth > 768,
-      })
+      // add delay for iOS Safari
+      setTimeout(() => {
+        setDimension({
+          width: window.visualViewport?.width || window.innerWidth,
+          height: window.innerHeight,
+          isDesktop: window.innerWidth > 768,
+        })
+      }, 10)
     }
 
     window.addEventListener('resize', handleResize)
