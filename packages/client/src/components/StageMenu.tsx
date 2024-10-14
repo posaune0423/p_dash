@@ -1,5 +1,5 @@
 import StageCarousel from './StageCarousel'
-import StageMenuHeader from '@/app/game/_components/StageMenuHeader'
+import StageMenuHeader from '@/app/(game)/game/_components/StageMenuHeader'
 
 const StageMenu = () => {
   return (
