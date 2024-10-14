@@ -7,7 +7,7 @@ import {
 import { useMemo } from 'react'
 import Avatar from './Avatar'
 import CopyButton from './CopyButton'
-import { MyStages } from './MyStages'
+// import { MyStages } from './MyStages'
 import { useDojo } from '@/hooks/useDojo'
 import { truncateAddress } from '@/utils'
 
@@ -45,7 +45,7 @@ const UserInfo = () => {
         </div>
       )}
 
-      <MyStages address={activeAccount?.address} />
+      {/* <MyStages address={activeAccount?.address} /> */}
     </section>
   )
 }

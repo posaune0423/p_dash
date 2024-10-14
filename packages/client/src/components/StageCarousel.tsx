@@ -5,7 +5,7 @@ import { getComponentValue, Has } from '@dojoengine/recs'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
-import { Button } from './ui/button'
+// import { Button } from './ui/button'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { useDojo } from '@/hooks/useDojo'
 import { cn, truncateAddress } from '@/utils'
@@ -84,6 +84,7 @@ const StageCard = ({
 }
 
 const StageCarousel = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isIndies, setIsIndies] = useState(false)
 
   const {
@@ -144,11 +145,11 @@ const StageCarousel = () => {
           ))}
         </CarouselContent>
       </Carousel>
-      <div className='flex w-full justify-end px-8'>
+      {/* <div className='flex w-full justify-end px-8'>
         <Button onClick={() => setIsIndies((prev) => !prev)}>
           → {isIndies ? 'Default' : 'Indies'}
         </Button>
-      </div>
+      </div> */}
     </>
   )
 }
