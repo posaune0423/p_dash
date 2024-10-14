@@ -64,7 +64,8 @@ export class Game extends Scene {
 
     this.distanceText = this.add
       .text(28, 28, '0M', {
-        font: '18px Silkscreen',
+        fontFamily: 'Silkscreen, Arial, sans-serif',
+        fontSize: '18px',
         color: '#ffffff',
       })
       .setScrollFactor(0)
