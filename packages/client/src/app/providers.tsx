@@ -1,13 +1,15 @@
 'use client'
 
 import { mainnet, sepolia } from '@starknet-react/chains'
-import { StarknetConfig, publicProvider, argent, braavos, voyager } from '@starknet-react/core'
+import { StarknetConfig, argent, voyager } from '@starknet-react/core'
 import { useEffect, useState } from 'react'
+import { RpcProvider } from 'starknet'
 import { ArgentMobileConnector } from 'starknetkit/argentMobile'
-import { WebWalletConnector } from 'starknetkit/webwallet'
 import { dojoConfig } from '@/../dojoConfig'
 import { Toaster } from '@/components/ui/sonner'
 import { APP_DESCRIPTION, APP_NAME } from '@/constants'
+import { env } from '@/env'
+import cartridgeConnector from '@/libs/cartridgeController'
 import { DojoProvider } from '@/libs/dojo/DojoContext'
 import { setup, type SetupResult } from '@/libs/dojo/setup'
 import { detectMobile } from '@/utils/devices'
@@ -65,17 +67,17 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           dappName: APP_NAME,
           description: APP_DESCRIPTION,
         }),
-        new WebWalletConnector({ url: 'https://web.argent.xyz' }),
+        cartridgeConnector,
       ]
-    : [argent(), braavos()]
+    : [argent(), cartridgeConnector]
 
   return (
     <StarknetConfig
       chains={chains}
-      provider={publicProvider()}
+      provider={() => new RpcProvider({ nodeUrl: env.NEXT_PUBLIC_RPC_URL })}
       connectors={connectors}
       explorer={voyager}
-      autoConnect={true}
+      autoConnect
     >
       <DojoProvider value={setupResult}>
         <Toaster richColors position='top-center' />
