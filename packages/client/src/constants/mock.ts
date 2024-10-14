@@ -1,7 +1,7 @@
 import { BASIC_PIXEL, GOAL_BUFFER } from '@/constants'
 import { BlockType } from '@/libs/dojo/typescript/models.gen'
 import { type Obstacle } from '@/types'
-import { blockTypeToIndex } from '@/utils'
+// import { blockTypeToIndex } from '@/utils'
 
 function generateTiles(maxX: number): Obstacle[] {
   const tiles: Obstacle[] = []
@@ -141,7 +141,7 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
     { x: 3400, y: 50, type: BlockType.Spike },
     { x: 3450, y: 50, type: BlockType.Spike },
     { x: 3500, y: 50, type: BlockType.Spike },
-    { x: 3500, y: 250, type: BlockType.Block},
+    { x: 3500, y: 250, type: BlockType.Block },
     { x: 3550, y: 50, type: BlockType.Spike },
     { x: 3600, y: 50, type: BlockType.Spike },
     { x: 3650, y: 50, type: BlockType.Spike },
