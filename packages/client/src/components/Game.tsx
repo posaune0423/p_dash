@@ -7,10 +7,10 @@ import { useMemo, useRef } from 'react'
 import RotateInstruction from './RotateInstruction'
 import { BASIC_PIXEL } from '@/constants'
 import { mockStageData } from '@/constants/mock'
-import { type IRefPhaserGame, PhaserGame } from '@/game/PhaserGame'
 import { useDojo } from '@/hooks/useDojo'
 import { useOrientation } from '@/hooks/useOrientation'
 import { type BlockType } from '@/libs/dojo/typescript/models.gen'
+import { type IRefPhaserGameRender, PhaserGameRender } from '@/phaser/PhaserGameRender'
 import { type Obstacle } from '@/types'
 import { GRID_HEIGHT } from '@/utils/stageHelper'
 
@@ -21,7 +21,7 @@ const isDefaultStage = (stageId: string) => {
 // NOTE: JUST Wrapper component of PhaserGame cuz somehow dynamic import does not work with Ref
 const Game = ({ stageId }: { stageId: string }) => {
   const { isLandscape } = useOrientation()
-  const phaserRef = useRef<IRefPhaserGame | null>(null)
+  const phaserRef = useRef<IRefPhaserGameRender | null>(null)
   const {
     setup: {
       clientComponents: { Block, Stage },
@@ -76,7 +76,7 @@ const Game = ({ stageId }: { stageId: string }) => {
   }
 
   return (
-    <PhaserGame
+    <PhaserGameRender
       ref={phaserRef}
       stageData={stageData}
       stageId={isDefaultStage(stageId) ? stageId : 'sci-fi'}

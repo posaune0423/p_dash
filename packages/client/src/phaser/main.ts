@@ -1,6 +1,6 @@
 import { WEBGL, Game } from 'phaser'
-import { Game as MainGame } from '@/game/scenes/Game'
-import { Preloader } from '@/game/scenes/Preloader'
+import { Main } from '@/phaser/scenes/Main'
+import { Preloader } from '@/phaser/scenes/Preloader'
 import { type Obstacle } from '@/types'
 
 //  Find out more information about the Game Config at:
@@ -28,7 +28,7 @@ const StartGame = (
 ) => {
   const game = new Game({ ...config, parent, width, height })
   game.scene.add('Preloader', Preloader, true, { stageData, stageId })
-  game.scene.add('MainGame', MainGame, false)
+  game.scene.add('Main', Main, false)
   return game
 }
 

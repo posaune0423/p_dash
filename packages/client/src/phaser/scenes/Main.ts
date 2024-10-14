@@ -5,7 +5,7 @@ import { env } from '@/env'
 import { BlockType } from '@/libs/dojo/typescript/models.gen'
 import { type Obstacle } from '@/types'
 
-export class Game extends Scene {
+export class Main extends Scene {
   background!: Phaser.GameObjects.TileSprite
   camera!: Phaser.Cameras.Scene2D.Camera
   player!: Phaser.Physics.Arcade.Image
@@ -24,7 +24,7 @@ export class Game extends Scene {
   STAGE_WIDTH!: number
 
   constructor() {
-    super('Game')
+    super('Main')
     this.tiles = []
     this.playerInteractions = []
   }
