@@ -1,5 +1,6 @@
 'use client'
 
+import { sendGAEvent } from '@next/third-parties/google'
 import { useRouter } from 'next/navigation'
 import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -70,7 +71,7 @@ export const PhaserGameRender = forwardRef<IRefPhaserGameRender, PhaserGameProps
       })
       EventBus.on(
         'game-clear',
-        (playResult: { distance: number; interactions: PlayerInteraction[] }) => {
+        (playResult: { distance: number; interactions: PlayerInteraction[]; stageId: string }) => {
           const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
           gameResultQueue.enqueue({
             id: uuidv4(),
@@ -80,14 +81,17 @@ export const PhaserGameRender = forwardRef<IRefPhaserGameRender, PhaserGameProps
             distance: playResult.distance,
             interactions: playResult.interactions,
           })
-          console.log(playResult)
           setIsGameClear(true)
           setIsDialogOpen(true)
+          sendGAEvent({
+            event: 'game_clear',
+            value: { distance: playResult.distance, stage: playResult.stageId },
+          })
         },
       )
       EventBus.on(
         'game-over',
-        (playResult: { distance: number; interactions: PlayerInteraction[] }) => {
+        (playResult: { distance: number; interactions: PlayerInteraction[]; stageId: string }) => {
           const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
           const previousDistance = gameResultQueue.getLatest()?.distance ?? 0
           gameResultQueue.enqueue({
@@ -103,6 +107,10 @@ export const PhaserGameRender = forwardRef<IRefPhaserGameRender, PhaserGameProps
           setIsNewRecord(previousDistance < playResult.distance)
           setDistance(playResult.distance)
           setIsDialogOpen(true)
+          sendGAEvent({
+            event: 'game_over',
+            value: { distance: playResult.distance, stage: playResult.stageId },
+          })
         },
       )
 

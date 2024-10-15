@@ -1,20 +1,29 @@
 'use client'
 
+import { sendGAEvent } from '@next/third-parties/google'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import CustomButton from './CustomButton'
 import InstructionDrawer from './InstructionDrawer'
 import { APP_DESCRIPTION, APP_NAME } from '@/constants'
 import { useA2HS } from '@/hooks/useA2HS'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { detectiOS } from '@/utils/devices'
 import { isPWA } from '@/utils/pwa'
 
 const A2HButton = () => {
   const router = useRouter()
+  const [pwaInstalled, setPwaInstalled] = useLocalStorage('pwaInstalled', false)
 
   useEffect(() => {
-    if (isPWA()) router.push('/home')
-  }, [router])
+    if (isPWA()) {
+      if (!pwaInstalled) {
+        sendGAEvent({ event: 'pwa_installed', value: true })
+        setPwaInstalled(true)
+      }
+      router.push('/home')
+    }
+  }, [router, setPwaInstalled, pwaInstalled])
 
   const { promptToInstall } = useA2HS()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)

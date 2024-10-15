@@ -22,14 +22,16 @@ export class Main extends Scene {
 
   goalX!: number
   STAGE_WIDTH!: number
-
+  stageId!: string
   constructor() {
     super('Main')
     this.tiles = []
     this.playerInteractions = []
   }
 
-  init(): void {
+  init({ stageId }: { stageId: string }): void {
+    this.stageId = stageId
+
     env.NEXT_PUBLIC_DEBUG && this.physics.world.createDebugGraphic()
     this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height)
     this.camera = this.cameras.main
@@ -43,7 +45,6 @@ export class Main extends Scene {
     // Load stage data
     const { obstacles } = this.cache.json.get('obstacles')
     this.stage = obstacles
-    console.log(this.stage)
 
     this.STAGE_WIDTH = this.stage[this.stage.length - 1].x
 
@@ -227,6 +228,7 @@ export class Main extends Scene {
       const playResult = {
         distance: Math.floor(this.player.x / 100),
         interactions: this.playerInteractions,
+        stageId: this.stageId,
       }
       setTimeout(() => {
         EventBus.emit('game-clear', playResult)
@@ -245,6 +247,7 @@ export class Main extends Scene {
     const playResult = {
       distance: Math.floor(this.player.x / 100),
       interactions: this.playerInteractions,
+      stageId: this.stageId,
     }
 
     setTimeout(() => {

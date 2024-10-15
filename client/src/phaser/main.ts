@@ -28,7 +28,7 @@ const StartGame = (
 ) => {
   const game = new Game({ ...config, parent, width, height })
   game.scene.add('Preloader', Preloader, true, { stageData, stageId })
-  game.scene.add('Main', Main, false)
+  game.scene.add('Main', Main, false, { stageId })
   return game
 }
 

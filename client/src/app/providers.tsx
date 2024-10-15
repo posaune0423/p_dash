@@ -2,11 +2,10 @@
 
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { mainnet, sepolia } from '@starknet-react/chains'
-import { StarknetConfig, argent, voyager } from '@starknet-react/core'
+import { type Connector, StarknetConfig, argent, voyager } from '@starknet-react/core'
 import { RpcProvider } from 'starknet'
 import { ArgentMobileConnector } from 'starknetkit/argentMobile'
 import { Toaster } from '@/components/ui/sonner'
-import { APP_DESCRIPTION, APP_NAME } from '@/constants'
 import { env } from '@/env'
 import cartridgeConnector from '@/libs/cartridgeController'
 import { detectMobile } from '@/utils/devices'
@@ -14,14 +13,8 @@ import { detectMobile } from '@/utils/devices'
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const chains = [mainnet, sepolia]
   const connectors = detectMobile()
-    ? [
-        new ArgentMobileConnector({
-          dappName: APP_NAME,
-          description: APP_DESCRIPTION,
-        }),
-        cartridgeConnector,
-      ]
-    : [argent(), cartridgeConnector]
+    ? [new ArgentMobileConnector() as Connector, cartridgeConnector]
+    : [argent()]
 
   return (
     <StarknetConfig
