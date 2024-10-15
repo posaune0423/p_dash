@@ -75,7 +75,7 @@ export const PhaserGameRender = forwardRef<IRefPhaserGameRender, PhaserGameProps
           const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
           gameResultQueue.enqueue({
             id: uuidv4(),
-            stage: 'easy',
+            stage: playResult.stageId,
             date: new Date(),
             result: 'clear',
             distance: playResult.distance,
@@ -96,7 +96,7 @@ export const PhaserGameRender = forwardRef<IRefPhaserGameRender, PhaserGameProps
           const previousDistance = gameResultQueue.getLatest()?.distance ?? 0
           gameResultQueue.enqueue({
             id: uuidv4(),
-            stage: 'easy',
+            stage: playResult.stageId,
             date: new Date(),
             result: 'death',
             distance: playResult.distance,

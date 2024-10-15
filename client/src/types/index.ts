@@ -2,7 +2,7 @@ import { type BlockType } from '@/libs/dojo/typescript/models.gen'
 
 export type GameResult = {
   id: string
-  stage: 'easy' | 'normal' | 'hard'
+  stage: string
   date: Date
   result: 'clear' | 'death'
   distance: number
