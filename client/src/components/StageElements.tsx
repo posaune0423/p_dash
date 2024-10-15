@@ -127,7 +127,7 @@ export const StageElements = ({
             onClick={() => handleSelectElement(BlockType.Block)}
           >
             <Image
-              src='/assets/stage/sci-fi/block.png'
+              src='/assets/stage/easy/block.png'
               width={36}
               height={36}
               alt='block'
@@ -146,7 +146,7 @@ export const StageElements = ({
             onClick={() => handleSelectElement(BlockType.Tile)}
           >
             <Image
-              src='/assets/stage/sci-fi/tile.png'
+              src='/assets/stage/easy/tile.png'
               width={36}
               height={36}
               alt='tile'
@@ -165,7 +165,7 @@ export const StageElements = ({
             onClick={() => handleSelectElement(BlockType.Spike)}
           >
             <Image
-              src='/assets/stage/sci-fi/spike.png'
+              src='/assets/stage/easy/spike.png'
               width={36}
               height={36}
               alt='spike'

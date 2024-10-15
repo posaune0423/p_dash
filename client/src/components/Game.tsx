@@ -15,7 +15,7 @@ import { type Obstacle } from '@/types'
 import { GRID_HEIGHT } from '@/utils/stageHelper'
 
 const isDefaultStage = (stageId: string) => {
-  return stageId === 'sci-fi' || stageId === 'desert' || stageId === 'jungle'
+  return stageId === 'easy' || stageId === 'medium' || stageId === 'hard'
 }
 
 // NOTE: JUST Wrapper component of PhaserGame cuz somehow dynamic import does not work with Ref
@@ -79,7 +79,7 @@ const Game = ({ stageId }: { stageId: string }) => {
     <PhaserGameRender
       ref={phaserRef}
       stageData={stageData}
-      stageId={isDefaultStage(stageId) ? stageId : 'sci-fi'}
+      stageId={isDefaultStage(stageId) ? stageId : 'easy'}
     />
   )
 }

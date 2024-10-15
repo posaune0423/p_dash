@@ -12,23 +12,23 @@ import { cn, truncateAddress } from '@/utils'
 
 const defaultStages = [
   {
-    id: 'sci-fi',
+    id: 'easy',
     name: 'Easy',
-    thumbnail: '/assets/stage/sci-fi/bg.png',
+    thumbnail: '/assets/stage/easy/bg.png',
     creator: '0x1234567890123456789012345678901234567890',
     enabled: true,
   },
   {
-    id: 'desert',
+    id: 'medium',
     name: 'Medium',
-    thumbnail: '/assets/stage/desert/bg.png',
+    thumbnail: '/assets/stage/medium/bg.png',
     creator: '0x1234567890123456789012345678901234567890',
     enabled: true,
   },
   {
-    id: 'jungle',
+    id: 'hard',
     name: 'Hard',
-    thumbnail: '/assets/stage/jungle/bg.png',
+    thumbnail: '/assets/stage/hard/bg.png',
     creator: '0x1234567890123456789012345678901234567890',
     enabled: true,
   },
@@ -103,8 +103,8 @@ const StageCarousel = () => {
     if (isIndies) {
       return indiesStages.map((stage) => ({
         id: String(stage?.id),
-        name: 'Sci-Fi',
-        thumbnail: '/assets/stage/sci-fi/bg.png',
+        name: 'easy',
+        thumbnail: '/assets/stage/easy/bg.png',
         enabled: true,
         creator: truncateAddress('0x' + stage!.creator.toString(16)),
       }))

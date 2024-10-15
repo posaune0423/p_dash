@@ -71,7 +71,7 @@ export const useStageEditor = (stageId?: string) => {
           x: Number(block?.x) - Number(stage?.x),
           y: Number(block?.y) - Number(stage?.y),
           type: block?.blocktype as unknown as BlockType,
-          image: `/assets/stage/sci-fi/${blockTypeToImage[block?.blocktype as unknown as BlockType]}`,
+          image: `/assets/stage/easy/${blockTypeToImage[block?.blocktype as unknown as BlockType]}`,
         } as Block
       })
       .filter((block) => block.type !== BlockType.Empty && block.type !== BlockType.InitBlock)
@@ -273,7 +273,7 @@ export const useStageEditor = (stageId?: string) => {
           x: cellX,
           y: cellY,
           type: selectedElement,
-          image: `/assets/stage/sci-fi/${blockTypeToImage[selectedElement]}`,
+          image: `/assets/stage/easy/${blockTypeToImage[selectedElement]}`,
         } as Block
 
         startTransition(async () => {
