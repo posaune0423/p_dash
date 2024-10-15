@@ -13,28 +13,28 @@ import { cn, truncateAddress } from '@/utils'
 const defaultStages = [
   {
     id: 'sci-fi',
-    name: 'Sci-Fi',
+    name: 'Easy',
     thumbnail: '/assets/stage/sci-fi/bg.png',
     creator: '0x1234567890123456789012345678901234567890',
     enabled: true,
   },
   {
     id: 'desert',
-    name: 'Desert',
+    name: 'Medium',
     thumbnail: '/assets/stage/desert/bg.png',
     creator: '0x1234567890123456789012345678901234567890',
     enabled: true,
   },
   {
     id: 'jungle',
-    name: 'Jungle',
+    name: 'Hard',
     thumbnail: '/assets/stage/jungle/bg.png',
     creator: '0x1234567890123456789012345678901234567890',
     enabled: true,
   },
   {
     id: 'ocean',
-    name: 'Ocean',
+    name: 'Extreme',
     thumbnail: '/assets/stage/ocean/bg.png',
     creator: '0x1234567890123456789012345678901234567890',
     enabled: false,
@@ -60,6 +60,7 @@ const StageCard = ({
     >
       <Link href={enabled ? `/game/${id}` : '#'} onClick={(e) => !enabled && e.preventDefault()}>
         <div className={cn('relative', !enabled && 'opacity-50')}>
+          <h2 className='text-lg text-white'>{name}</h2>
           <Image
             src={thumbnail}
             alt={name}
