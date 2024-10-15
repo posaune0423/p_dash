@@ -175,6 +175,7 @@ export class Main extends Scene {
       const playResult = {
         distance: Math.floor(this.player.x / 100),
         interactions: this.playerInteractions,
+        stageId: this.stageId,
       }
       setTimeout(() => {
         EventBus.emit('game-clear', playResult)
