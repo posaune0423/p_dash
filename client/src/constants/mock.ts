@@ -18,7 +18,7 @@ function addTilesToStage(stage: Obstacle[]): Obstacle[] {
 }
 
 export const mockStageData: { [key: string]: Obstacle[] } = {
-  'sci-fi': addTilesToStage([
+  'easy': addTilesToStage([
     { x: 600, y: 50, type: BlockType.Block },
     { x: 920, y: 50, type: BlockType.Spike },
     { x: 980, y: 50, type: BlockType.Block },
@@ -43,7 +43,7 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
     { x: 5040, y: 50, type: BlockType.Spike },
   ]).sort((a, b) => a.x - b.x),
 
-  desert: addTilesToStage([
+  medium: addTilesToStage([
     { x: 500, y: 50, type: BlockType.Spike },
     { x: 800, y: 100, type: BlockType.Block },
     { x: 1000, y: 200, type: BlockType.Block },
@@ -73,7 +73,7 @@ export const mockStageData: { [key: string]: Obstacle[] } = {
     { x: 5000, y: 50, type: BlockType.Block },
   ]).sort((a, b) => a.x - b.x),
 
-  jungle: addTilesToStage([
+  hard: addTilesToStage([
     { x: 500, y: 50, type: BlockType.Block },
     { x: 550, y: 50, type: BlockType.Spike },
     { x: 600, y: 50, type: BlockType.Spike },

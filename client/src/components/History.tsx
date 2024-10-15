@@ -26,7 +26,11 @@ const History = () => {
         <div key={item.id} className='flex justify-between'>
           <div>{item.stage}</div>
           <div>{formatDate(item.date)}</div>
-          <div>{item.result}</div>
+          <div
+            className={cn(item.result === 'clear' ? 'text-green-500' : 'text-red-500')}
+          >
+            {item.result}
+          </div>
         </div>
       ))}
     </div>

@@ -41,7 +41,7 @@ export const MyStages: React.FC<MyStagesProps> = ({ address }) => {
           return (
             <Link key={stage?.id} href={`/stage/${stage?.id}/edit`} className='block'>
               <Image
-                src='/assets/stage/sci-fi/bg.png'
+                src='/assets/stage/easy/bg.png'
                 alt={`Stage ${stage?.id}`}
                 width={200}
                 height={100}
