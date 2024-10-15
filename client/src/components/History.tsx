@@ -13,7 +13,8 @@ const History = () => {
   useEffect(() => {
     const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
     const gameResults = gameResultQueue.getQueue()
-    setGameResults(gameResults.sort((a, b) => b.date.getTime() - a.date.getTime()))
+    // gameResults.sort((a, b) => b.date.getTime() - a.date.getTime())
+    setGameResults(gameResults)
   }, [])
 
   return (
