@@ -1,5 +1,6 @@
 'use client'
 
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { mainnet, sepolia } from '@starknet-react/chains'
 import { StarknetConfig, argent, voyager } from '@starknet-react/core'
 import { RpcProvider } from 'starknet'
@@ -30,6 +31,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       explorer={voyager}
       autoConnect
     >
+      <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID} />
       <Toaster richColors position='top-center' />
       {children}
     </StarknetConfig>

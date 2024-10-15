@@ -12,6 +12,7 @@ export const env = createEnv({
     NEXT_PUBLIC_DEBUG: z.boolean(),
     NEXT_PUBLIC_PROFILE: z.enum(['dev', 'slot']),
     NEXT_PUBLIC_FEE_TOKEN_ADDRESS: z.custom<`0x${string}`>(),
+    NEXT_PUBLIC_GA_ID: z.custom<`G-${string}`>(),
   },
   // If you're using Next.js < 13.4.4, you'll need to specify the runtimeEnv manually
   runtimeEnv: {
@@ -22,6 +23,7 @@ export const env = createEnv({
     NEXT_PUBLIC_DEBUG: process.env.NEXT_PUBLIC_DEBUG === 'true',
     NEXT_PUBLIC_PROFILE: process.env.NEXT_PUBLIC_PROFILE,
     NEXT_PUBLIC_FEE_TOKEN_ADDRESS: process.env.NEXT_PUBLIC_FEE_TOKEN_ADDRESS,
+    NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
   },
   extends: [vercel()],
   onValidationError: (error: ZodError) => {
