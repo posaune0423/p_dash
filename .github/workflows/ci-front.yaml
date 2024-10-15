@@ -4,18 +4,18 @@ on:
   push:
     branches: [main]
     paths:
-      - 'packages/client/**'
+      - 'client/**'
   pull_request:
     branches: [main]
     paths:
-      - 'packages/client/**'
+      - 'client/**'
 
 jobs:
   lint-n-format:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/client
+        working-directory: client
     strategy:
       matrix:
         node-version: [20.x]
