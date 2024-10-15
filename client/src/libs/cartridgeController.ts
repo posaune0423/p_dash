@@ -8,20 +8,20 @@ import { env } from '@/env'
 
 const contract = getContractByName(manifest, 'pixelaw', 'p_dash_actions')
 if (!contract?.address) {
-  throw new Error('pixelaw paint_actions contract not found')
+  throw new Error('pixelaw p_dash_actions contract not found')
 }
-const paint_action_contract_address = contract?.address
+const p_dash_actions_contract_address = contract?.address
 
 const policies = [
   {
     target: env.NEXT_PUBLIC_FEE_TOKEN_ADDRESS,
     method: 'approve',
   },
-  // paint_actions
+  // p_dash_actions
   {
-    target: paint_action_contract_address,
+    target: p_dash_actions_contract_address,
     method: 'interact',
-    description: 'Interact with the paint_actions contract',
+    description: 'Interact with the p_dash_actions contract',
   },
 ]
 
