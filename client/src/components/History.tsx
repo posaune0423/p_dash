@@ -13,7 +13,7 @@ const History = () => {
   useEffect(() => {
     const gameResultQueue = new FixedLengthQueueStorage<GameResult>(10, 'gameResults')
     const gameResults = gameResultQueue.getQueue()
-    setGameResults(gameResults)
+    setGameResults(gameResults.sort((a, b) => b.date.getTime() - a.date.getTime()))
   }, [])
 
   return (
@@ -26,9 +26,7 @@ const History = () => {
         <div key={item.id} className='flex justify-between'>
           <div>{item.stage}</div>
           <div>{formatDate(item.date)}</div>
-          <div
-            className={cn(item.result === 'clear' ? 'text-green-500' : 'text-red-500')}
-          >
+          <div className={cn(item.result === 'clear' ? 'text-green-500' : 'text-red-500')}>
             {item.result}
           </div>
         </div>
