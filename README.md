@@ -1,4 +1,4 @@
-# <img src="/packages/client/public/logo.png" alt="p/dash">
+# <img src="/client/public/logo.png" alt="p/dash">
 
 [![ci-front](https://github.com/posaune0423/p_dash/actions/workflows/ci-front.yaml/badge.svg)](https://github.com/posaune0423/p_dash/actions/workflows/ci-front.yaml)
 [![ci-contracts](https://github.com/posaune0423/p_dash/actions/workflows/ci-contracts.yaml/badge.svg)](https://github.com/posaune0423/p_dash/actions/workflows/ci-contracts.yaml)
@@ -15,12 +15,16 @@ We aim to build the first game that incorporates all three of the following elem
 
 By integrating these elements, we aim to attract web2 gamers and create a situation where they must interact with blockchain technology to gain new experiences. When that time comes, the first blockchain they will encounter will be [Starknet](https://www.starknet.io/).
 
-<img src="./assets/three_features.png" width="500px">
+<img width="426" alt="Three Features" src="https://github.com/user-attachments/assets/3add6bec-b12e-4703-b291-82acc6a0778d" width="500px">
+
+
 
 ## How to play?
 We can play a game.(WIP)
 
-<img src="./assets/gameplay.png" width="500px">
+<img width="554" alt="Gameplay feat restructure" src="https://github.com/user-attachments/assets/35be362c-d6f0-48a6-ac8c-437f87bf4f26" width="500px">
+
+
 
 ## Getting Started
 
@@ -29,58 +33,56 @@ We can play a game.(WIP)
 1. Check versions of Scarb, Cairo and Dojo
 
 ```zsh
-$ sozo --version                                                                               
-sozo 0.7.0-alpha.2
-scarb: 2.6.4
-cairo: 2.6.3
-sierra: 1.5.0
+$ sozo --version
+sozo 1.0.0-alpha.13
+scarb: 2.7.0
+cairo: 2.7.0
+sierra: 1.6.0
 
-$ scarb --version       
-scarb 2.6.4 (c4c7c0bac 2024-03-19)
-cairo: 2.6.3 (https://crates.io/crates/cairo-lang-compiler/2.6.3)
-sierra: 1.5.0
+$ scarb --version         
+scarb 2.7.0 (e9a2b8716 2024-08-01)
+cairo: 2.7.0 (https://crates.io/crates/cairo-lang-compiler/2.7.0)
+sierra: 1.6.0
 ```
 
-2. Run .devcontainer
-Open this project with vscode, and run [.devcontainer](https://code.visualstudio.com/docs/devcontainers/containers).
-
-3. Set up contracts.
+2. Set up contracts.
 Please check if the container is already up.
 ```zsh
-$ cd ./packages/contracts
+$ cd contracts
 $ sozo test
-$ scarb run initialize
+$ scarb run init
 ```
 
 ### Frontend to create a stage.
 1. Change directory:
 ```zsh
-$ cd <path-to-packages>/pixelaw_client
+$ cd client
 ```
 
 2. Install
 ```zsh
-$ pnpm i
+$ bun i
 ```
 
 3. Run the frontend for pixelaw side.
 ```zsh
-$ pnpm run dev --port 9000
+$ bun dev
 ```
 
 4. Make a Stage (WIP)
 Please place objects to create  a stage.
-![image](./assets/create_a_stage.png)
+
+<img width="1440" alt="Create a Stage" src="https://github.com/user-attachments/assets/1fad3915-ac05-4034-9648-a1ac6097dea5">
 
 ### Frotend to play a game.
 1. Install dependencies.
 ```zsh
-$ pnpm i
+$ bun i
 ```
 
 2. Run the frontend to play.
 ```zsh
-$ pnpm run dev
+$ bun dev
 ```
 
 ### Trouble Shooting
