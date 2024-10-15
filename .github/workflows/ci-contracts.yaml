@@ -4,15 +4,15 @@ on:
   push:
     branches: [main]
     paths:
-      - "packages/contracts/**"
+      - "contracts/**"
   pull_request:
     branches: [main]
     paths:
-      - "packages/contracts/**"
+      - "contracts/**"
 
 defaults:
   run:
-    working-directory: packages/contracts
+    working-directory: contracts
 
 env:
   CARGO_TERM_COLOR: always
