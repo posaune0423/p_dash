@@ -12,7 +12,7 @@ mod tests {
     use p_dash::systems::actions::{
         p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
-    use dojo_cairo_test::{NamespaceDef, TestResource, ContractDefTrait, ContractDef};
+    use dojo_cairo_test::{NamespaceDef, TestResource, ContractDefTrait, ContractDef, WorldStorageTestTrait};
     use pixelaw::core::models::pixel::{Pixel};
     use pixelaw::core::utils::{DefaultParameters, Position, encode_rgba};
 
@@ -20,7 +20,7 @@ mod tests {
 
     fn namespace_def() -> NamespaceDef {
         let ndef = NamespaceDef {
-            namespace: "ns", resources: [
+            namespace: "pixelaw", resources: [
                 TestResource::Model(m_Block::TEST_CLASS_HASH),
                 TestResource::Model(m_Stage::TEST_CLASS_HASH),
                 TestResource::Contract(p_dash_actions::TEST_CLASS_HASH),
@@ -32,8 +32,8 @@ mod tests {
 
     fn contract_defs() -> Span<ContractDef> {
         [
-            ContractDefTrait::new(@"ns", @"actions")
-                .with_writer_of([dojo::utils::bytearray_hash(@"ns")].span())
+            ContractDefTrait::new(@"pixelaw", @"p_dash_actions")
+                .with_writer_of([dojo::utils::bytearray_hash(@"pixelaw")].span())
         ].span()
     }
 
