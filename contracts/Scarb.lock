@@ -3,29 +3,47 @@ version = 1
 
 [[package]]
 name = "dojo"
-version = "1.0.0-alpha.4"
-source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.12#b391948911356cbf8a91daa93314809c87411098"
+version = "1.0.6"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.6#ba8ff0564e39b26ccbb81baaa843b3baf9644f24"
 dependencies = [
  "dojo_plugin",
 ]
 
 [[package]]
+name = "dojo_cairo_test"
+version = "1.0.0-rc.0"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.6#ba8ff0564e39b26ccbb81baaa843b3baf9644f24"
+dependencies = [
+ "dojo",
+]
+
+[[package]]
 name = "dojo_plugin"
-version = "1.0.0-alpha.4"
-source = "git+https://github.com/dojoengine/dojo?rev=f15def33#f15def330c0d099e79351d11c197f63e8cc1ff36"
+version = "2.8.4"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.6#ba8ff0564e39b26ccbb81baaa843b3baf9644f24"
 
 [[package]]
 name = "p_dash"
 version = "0.0.1"
 dependencies = [
- "dojo",
+ "dojo_cairo_test",
  "pixelaw",
+ "pixelaw_test_helpers",
 ]
 
 [[package]]
 name = "pixelaw"
-version = "0.3.50"
-source = "git+https://github.com/pixelaw/core?branch=feat%2Fup-v12#8b6e7bba1ec04c7ef9e6a33ff131256d60e6b493"
+version = "0.5.20"
+source = "git+https://github.com/pixelaw/core?tag=v0.5.20#c240473152990cb3b5a0b791a4414f9176daf192"
 dependencies = [
  "dojo",
+]
+
+[[package]]
+name = "pixelaw_test_helpers"
+version = "0.5.20"
+source = "git+https://github.com/pixelaw/core?tag=v0.5.20#c240473152990cb3b5a0b791a4414f9176daf192"
+dependencies = [
+ "dojo",
+ "dojo_cairo_test",
 ]

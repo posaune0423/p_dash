@@ -1,6 +1,6 @@
 [world]
-description = "Empty PixeLAW world"
-name = "pixelaw"
+description = "P_Dash"
+name = "p_dash"
 seed = "pixelaw"
 
 [namespace]
@@ -12,3 +12,26 @@ rpc_url = "http://localhost:5050/"
 account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
 private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
 world_address = "0x263ae44e5414519a5c5a135cccaf3d9d7ee196d37e8de47a178da91f3de9b34"
+
+[writers]
+"pixelaw-App" = ["pixelaw-actions"]
+"pixelaw-AppName" = ["pixelaw-actions"]
+"pixelaw-AppUser" = ["pixelaw-actions"]
+"pixelaw-CoreActionsAddress" = ["pixelaw-actions"]
+"pixelaw-QueueScheduled" = ["pixelaw-actions"]
+"pixelaw-QueueProcessed" = ["pixelaw-actions"]
+"pixelaw-Alert" = ["pixelaw-actions"]
+"pixelaw-Pixel" = [
+  "pixelaw-actions",
+  "pixelaw-paint_actions",
+  "pixelaw-snake_actions",
+]
+"pixelaw-QueueItem" = ["pixelaw-actions"]
+"pixelaw-Snake" = ["pixelaw-actions", "pixelaw-snake_actions"]
+"pixelaw-RTree" = ["pixelaw-actions"]
+"pixelaw-Area" = ["pixelaw-actions"]
+"pixelaw-SnakeSegment" = ["pixelaw-snake_actions"]
+
+# p_dash
+"pixelaw-Block" = ["pixelaw-p_dash_actions"]
+"pixelaw-Stage" = ["pixelaw-p_dash_actions"]
