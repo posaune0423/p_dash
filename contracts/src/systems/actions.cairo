@@ -21,14 +21,17 @@ pub trait IPDashActions<T> {
 /// contracts must be named as such (APP_KEY + underscore + "actions")
 #[dojo::contract]
 pub mod p_dash_actions {
+    use starknet::{contract_address_const};
+
     use dojo::model::{ModelStorage};
-    use p_dash::constants::app::{APP_KEY, APP_ICON};
-    use p_dash::models::block::{BlockType, Block};
-    use p_dash::models::stage::{Stage};
+
     use pixelaw::core::actions::{IActionsDispatcherTrait as ICoreActionsDispatcherTrait};
     use pixelaw::core::models::pixel::{PixelUpdate};
     use pixelaw::core::utils::{get_core_actions, get_callers, DefaultParameters};
-    use starknet::{contract_address_const};
+
+    use p_dash::constants::app::{APP_KEY, APP_ICON};
+    use p_dash::models::block::{BlockType, Block};
+    use p_dash::models::stage::{Stage};
 
     use super::IPDashActions;
 
@@ -105,40 +108,9 @@ pub mod p_dash_actions {
                         owner: Option::Some(player),
                         action: Option::None, // Not using this feature for paint
                     },
-                    Option::None, // TODO area_hint
+                    default_params.area_hint, // area_hint
                     false
                 );
-            // let mut x = start_x;
-        // loop {
-        //     if x == start_x + w {
-        //         break;
-        //     }
-        //     let mut y = start_y;
-        //     loop {
-        //         if y == start_y + h {
-        //             break;
-        //         }
-        //         set!(world, (Block { stage_id, x, y, blocktype: BlockType::InitBlock }));
-
-            //         core_actions
-        //             .update_pixel(
-        //                 player,
-        //                 system,
-        //                 PixelUpdate {
-        //                     x,
-        //                     y,
-        //                     color: Option::Some(default_params.color), // initialcolor(white)
-        //                     app: Option::Some(system),
-        //                     owner: Option::Some(player),
-        //                     text: Option::None,
-        //                     timestamp: Option::None,
-        //                     action: Option::None
-        //                 }
-        //             );
-        //         y += 1;
-        //     };
-        //     x += 1;
-        // };
         }
 
         fn put_block(
@@ -177,7 +149,7 @@ pub mod p_dash_actions {
                         owner: Option::Some(player),
                         action: Option::None // Not using this feature for p_dash
                     },
-                    Option::None, // TODO area_hint
+                    default_params.area_hint, // area_hint
                     false
                 );
 

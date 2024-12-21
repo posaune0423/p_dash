@@ -1,24 +1,27 @@
 #[cfg(test)]
 mod tests {
+    use core::pedersen::pedersen;
+
     use dojo::model::{ModelStorage};
     use dojo::world::WorldStorageTrait;
     use dojo::world::storage::WorldStorage;
-    use core::pedersen::pedersen;
-    use pixelaw_test_helpers::{setup_core_initialized};
+
+    use dojo_cairo_test::{
+        NamespaceDef, TestResource, ContractDefTrait, ContractDef, WorldStorageTestTrait
+    };
+
+    use pixelaw::core::models::pixel::{Pixel};
+    use pixelaw::core::utils::{DefaultParameters, Position, encode_rgba};
+    use pixelaw_test_helpers::{update_test_world, setup_core_initialized, set_caller};
 
     use p_dash::models::block::{m_Block, Block, BlockType};
     use p_dash::models::stage::{m_Stage, Stage};
-
     use p_dash::systems::actions::{
         p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
-    use dojo_cairo_test::{NamespaceDef, TestResource, ContractDefTrait, ContractDef, WorldStorageTestTrait};
-    use pixelaw::core::models::pixel::{Pixel};
-    use pixelaw::core::utils::{DefaultParameters, Position, encode_rgba};
 
-    use starknet::{contract_address_const, testing::set_account_contract_address};
 
-    fn namespace_def() -> NamespaceDef {
+    fn deploy_app(ref world: WorldStorage) -> IPDashActionsDispatcher {
         let ndef = NamespaceDef {
             namespace: "pixelaw", resources: [
                 TestResource::Model(m_Block::TEST_CLASS_HASH),
@@ -27,41 +30,36 @@ mod tests {
             ].span()
         };
 
-        ndef
-    }
-
-    fn contract_defs() -> Span<ContractDef> {
-        [
+        let cdefs: Span<ContractDef> = [
             ContractDefTrait::new(@"pixelaw", @"p_dash_actions")
                 .with_writer_of([dojo::utils::bytearray_hash(@"pixelaw")].span())
-        ].span()
-    }
+        ].span();
 
-    fn setup_p_dash_initialized() -> (WorldStorage, IPDashActionsDispatcher) {
-        let (world, _core_actions, _player_1, _player_2) = setup_core_initialized();
-        let ndef = namespace_def();
-        world.sync_perms_and_inits(contract_defs());
+        update_test_world(ref world, [ndef].span());
 
-        let (actions_system_addr, _) = world.dns(@"p_dash_actions").unwrap();
-        let actions = IPDashActionsDispatcher { contract_address: actions_system_addr };
-        (world, actions)
+        world.sync_perms_and_inits(cdefs);
+
+        let (p_dash_actions_address, _) = world.dns(@"p_dash_actions").unwrap();
+        IPDashActionsDispatcher { contract_address: p_dash_actions_address }
     }
 
 
     #[test]
     fn test_should_initialize_stage() {
         // Deploy everything
-        let (world, actions) = setup_p_dash_initialized();
+        let (mut world, _core_actions, player_1, _player_2) = setup_core_initialized();
 
-        let player1 = contract_address_const::<0x1337>();
-        set_account_contract_address(player1);
+        let actions = deploy_app(ref world);
 
-        println!("Passed set_account_contract_address");
+        actions.init();
+
+        set_caller(player_1);
 
         let color = encode_rgba(255, 255, 255, 255); // White color
 
         // Generate a unique stage_id using pedersen hash
         let stage_id = pedersen(1, 1);
+
         // Test initialize_stage
         actions
             .initialize_stage(
@@ -71,8 +69,8 @@ mod tests {
                 2, // width
                 2, // height
                 DefaultParameters {
-                    player_override: Option::Some(player1),
-                    system_override: Option::Some(contract_address_const::<0>()),
+                    player_override: Option::None,
+                    system_override: Option::None,
                     area_hint: Option::None,
                     position: Position { x: 1, y: 1 },
                     color: color
@@ -93,7 +91,6 @@ mod tests {
         // Check if blocks are initializedÏ
         let block_1_1: Block = world.read_model((stage_id, 1, 1));
         assert(block_1_1.blocktype == BlockType::InitBlock, 'Initial block type incorrect');
-        println!("Successfully initialized stage");
 
         // Test put_block
         actions
@@ -101,8 +98,8 @@ mod tests {
                 stage_id,
                 BlockType::Block,
                 DefaultParameters {
-                    player_override: Option::Some(player1),
-                    system_override: Option::Some(contract_address_const::<0>()),
+                    player_override: Option::None,
+                    system_override: Option::None,
                     area_hint: Option::None,
                     position: Position { x: 2, y: 2 },
                     color: encode_rgba(255, 0, 0, 255) // Red color
@@ -123,10 +120,13 @@ mod tests {
     #[should_panic(expected: ('StageId already taken', 'ENTRYPOINT_FAILED'))]
     fn test_initialize_stage_fails_with_duplicated_stage_id() {
         // Deploy everything
-        let (_, actions) = setup_p_dash_initialized();
+        let (mut world, _core_actions, player_1, _player_2) = setup_core_initialized();
 
-        let player1 = contract_address_const::<0x1337>();
-        set_account_contract_address(player1);
+        let actions = deploy_app(ref world);
+
+        actions.init();
+
+        set_caller(player_1);
 
         let color = encode_rgba(255, 255, 255, 255); // White color
 
@@ -142,8 +142,8 @@ mod tests {
                 2, // width
                 2, // height
                 DefaultParameters {
-                    player_override: Option::Some(player1),
-                    system_override: Option::Some(contract_address_const::<0>()),
+                    player_override: Option::None,
+                    system_override: Option::None,
                     area_hint: Option::None,
                     position: Position { x: 1, y: 1 },
                     color: color
@@ -158,8 +158,8 @@ mod tests {
                 2, // width
                 2, // height
                 DefaultParameters {
-                    player_override: Option::Some(player1),
-                    system_override: Option::Some(contract_address_const::<0>()),
+                    player_override: Option::None,
+                    system_override: Option::None,
                     area_hint: Option::None,
                     position: Position { x: 10, y: 10 },
                     color: color
