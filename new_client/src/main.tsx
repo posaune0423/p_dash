@@ -2,9 +2,50 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import cartridgeConnector from './libs/cartridgeController'
+import { StarknetConfig, voyager } from '@starknet-react/core'
+import { RpcProvider } from 'starknet'
+import { sepolia } from '@starknet-react/chains'
+import { dojoConfig } from './libs/dojo/config.ts'
+import { init, SchemaType } from '@dojoengine/sdk'
+import { schema } from './libs/dojo/typescript/models.gen.ts'
+import { domain } from './constants/index.ts'
+import { Toaster } from 'sonner'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const rootElement = document.getElementById('root')
+if (!rootElement) throw new Error('React root not found')
+
+const root = createRoot(rootElement as HTMLElement)
+
+const main = async () => {
+  const sdk = await init<SchemaType>(
+    {
+      client: {
+        rpcUrl: dojoConfig.rpcUrl,
+        toriiUrl: dojoConfig.toriiUrl,
+        relayUrl: dojoConfig.relayUrl,
+        worldAddress: dojoConfig.manifest.world.address,
+      },
+      domain,
+    },
+    schema,
+  )
+  console.log(sdk)
+
+  return (
+    <StrictMode>
+      <StarknetConfig
+        chains={[sepolia]}
+        provider={() => new RpcProvider({ nodeUrl: import.meta.env.VITE_PUBLIC_RPC_URL })}
+        connectors={[cartridgeConnector]}
+        explorer={voyager}
+        autoConnect
+      >
+        <App />
+        <Toaster richColors position="bottom-right" closeButton />
+      </StarknetConfig>
+    </StrictMode>
+  )
+}
+
+root.render(await main())
