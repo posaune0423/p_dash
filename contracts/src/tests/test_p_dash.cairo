@@ -1,83 +1,65 @@
 #[cfg(test)]
 mod tests {
     use core::pedersen::pedersen;
-    use dojo::utils::test::{spawn_test_world, deploy_contract};
-    use dojo::utils::{selector_from_names};
 
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use p_dash::models::block::{block, Block, BlockType};
+    use dojo::model::{ModelStorage};
+    use dojo::world::WorldStorageTrait;
+    use dojo::world::storage::WorldStorage;
 
-    use p_dash::models::stage::{stage, Stage};
+    use dojo_cairo_test::{
+        NamespaceDef, TestResource, ContractDefTrait, ContractDef, WorldStorageTestTrait
+    };
+
+    use p_dash::models::block::{m_Block, Block, BlockType};
+    use p_dash::models::stage::{m_Stage, Stage};
     use p_dash::systems::actions::{
         p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
-    use pixelaw::core::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
-    use pixelaw::core::models::permissions::{permissions};
-    use pixelaw::core::models::pixel::{Pixel, PixelUpdate};
-    use pixelaw::core::models::pixel::{pixel};
 
-    use pixelaw::core::models::registry::{app, app_name, core_actions_address};
-    use pixelaw::core::utils::{
-        get_core_actions, encode_color, decode_color, Direction, Position, DefaultParameters
-    };
-    use starknet::{contract_address_const, testing::set_account_contract_address};
+    use pixelaw::core::models::pixel::{Pixel};
+    use pixelaw::core::utils::{DefaultParameters, Position, encode_rgba};
+    use pixelaw_test_helpers::{update_test_world, setup_core_initialized, set_caller};
 
-    // Helper function: deploys world and actions
-    fn deploy_world() -> (IWorldDispatcher, IPDashActionsDispatcher) {
-        // Deploy World and models
-        let mut models = array![
-            pixel::TEST_CLASS_HASH,
-            app::TEST_CLASS_HASH,
-            app_name::TEST_CLASS_HASH,
-            core_actions_address::TEST_CLASS_HASH,
-            permissions::TEST_CLASS_HASH,
-            stage::TEST_CLASS_HASH,
-            block::TEST_CLASS_HASH,
-        ];
-        let world = spawn_test_world(["pixelaw"].span(), models.span());
 
-        // Deploy Core actions
-        let core_actions_address = world
-            .deploy_contract('salt1', actions::TEST_CLASS_HASH.try_into().unwrap());
-        let core_actions = IActionsDispatcher { contract_address: core_actions_address };
+    fn deploy_app(ref world: WorldStorage) -> IPDashActionsDispatcher {
+        let ndef = NamespaceDef {
+            namespace: "pixelaw", resources: [
+                TestResource::Model(m_Block::TEST_CLASS_HASH),
+                TestResource::Model(m_Stage::TEST_CLASS_HASH),
+                TestResource::Contract(p_dash_actions::TEST_CLASS_HASH),
+            ].span()
+        };
 
-        // Deploy  actions
-        let actions_address = world
-            .deploy_contract('salt2', p_dash_actions::TEST_CLASS_HASH.try_into().unwrap());
-        let actions = IPDashActionsDispatcher { contract_address: actions_address };
+        let cdefs: Span<ContractDef> = [
+            ContractDefTrait::new(@"pixelaw", @"p_dash_actions")
+                .with_writer_of([dojo::utils::bytearray_hash(@"pixelaw")].span())
+        ].span();
 
-        // Grant writer permissions to core actions models
-        world.grant_writer(selector_from_tag!("pixelaw-Pixel"), core_actions_address);
-        world.grant_writer(selector_from_tag!("pixelaw-App"), core_actions_address);
-        world.grant_writer(selector_from_tag!("pixelaw-AppName"), core_actions_address);
-        world.grant_writer(selector_from_tag!("pixelaw-Permissions"), core_actions_address);
-        world.grant_writer(selector_from_tag!("pixelaw-CoreActionsAddress"), core_actions_address);
+        update_test_world(ref world, [ndef].span());
 
-        // Grant writer permissions to p_dash actions models
-        world.grant_writer(selector_from_tag!("pixelaw-Pixel"), actions_address);
-        world.grant_writer(selector_from_tag!("pixelaw-Stage"), actions_address);
-        world.grant_writer(selector_from_tag!("pixelaw-Block"), actions_address);
+        world.sync_perms_and_inits(cdefs);
 
-        core_actions.init();
-        actions.init();
-
-        (world, actions)
+        let (p_dash_actions_address, _) = world.dns(@"p_dash_actions").unwrap();
+        IPDashActionsDispatcher { contract_address: p_dash_actions_address }
     }
+
 
     #[test]
     fn test_should_initialize_stage() {
         // Deploy everything
-        let (world, actions) = deploy_world();
+        let (mut world, _core_actions, player_1, _player_2) = setup_core_initialized();
 
-        let player1 = contract_address_const::<0x1337>();
-        set_account_contract_address(player1);
+        let actions = deploy_app(ref world);
 
-        println!("Passed set_account_contract_address");
+        actions.init();
 
-        let color = encode_color(255, 255, 255, 255); // White color
+        set_caller(player_1);
+
+        let color = encode_rgba(255, 255, 255, 255); // White color
 
         // Generate a unique stage_id using pedersen hash
         let stage_id = pedersen(1, 1);
+
         // Test initialize_stage
         actions
             .initialize_stage(
@@ -87,15 +69,16 @@ mod tests {
                 2, // width
                 2, // height
                 DefaultParameters {
-                    for_player: player1,
-                    for_system: contract_address_const::<0>(),
+                    player_override: Option::None,
+                    system_override: Option::None,
+                    area_hint: Option::None,
                     position: Position { x: 1, y: 1 },
                     color: color
                 },
             );
 
         // Check if the stage is initialized correctly
-        let stage = get!(world, stage_id, (Stage));
+        let stage: Stage = world.read_model((stage_id));
         assert(stage.x == 1 && stage.y == 1, 'Stage position incorrect');
         assert(stage.w == 2 && stage.h == 2, 'Stage size incorrect'); // Assuming default size
 
@@ -106,9 +89,8 @@ mod tests {
         // println!("Passed initialize_stage");
 
         // Check if blocks are initializedÏ
-        let block_1_1 = get!(world, (stage_id, 1, 1), (Block));
+        let block_1_1: Block = world.read_model((stage_id, 1, 1));
         assert(block_1_1.blocktype == BlockType::InitBlock, 'Initial block type incorrect');
-        println!("Successfully initialized stage");
 
         // Test put_block
         actions
@@ -116,20 +98,21 @@ mod tests {
                 stage_id,
                 BlockType::Block,
                 DefaultParameters {
-                    for_player: player1,
-                    for_system: contract_address_const::<0>(),
+                    player_override: Option::None,
+                    system_override: Option::None,
+                    area_hint: Option::None,
                     position: Position { x: 2, y: 2 },
-                    color: encode_color(255, 0, 0, 255) // Red color
+                    color: encode_rgba(255, 0, 0, 255) // Red color
                 },
             );
 
-        let block_2_2 = get!(world, (stage_id, 2, 2), (Block));
+        let block_2_2: Block = world.read_model((stage_id, 2, 2));
         assert(block_2_2.blocktype == BlockType::Block, 'Block type is incorrect');
 
         // Check if the pixel is updated
-        let pixel_3_3 = get!(world, (3, 3), (Pixel));
+        let pixel_3_3: Pixel = world.read_model((3, 3));
         println!("pixel_3_3.color: {:?}", pixel_3_3.color);
-        assert(pixel_3_3.color == encode_color(255, 0, 0, 255), 'Pixel color is incorrect');
+        assert(pixel_3_3.color == encode_rgba(255, 0, 0, 255), 'Pixel color is incorrect');
         println!("Successfully put block");
     }
 
@@ -137,12 +120,15 @@ mod tests {
     #[should_panic(expected: ('StageId already taken', 'ENTRYPOINT_FAILED'))]
     fn test_initialize_stage_fails_with_duplicated_stage_id() {
         // Deploy everything
-        let (_, actions) = deploy_world();
+        let (mut world, _core_actions, player_1, _player_2) = setup_core_initialized();
 
-        let player1 = contract_address_const::<0x1337>();
-        set_account_contract_address(player1);
+        let actions = deploy_app(ref world);
 
-        let color = encode_color(255, 255, 255, 255); // White color
+        actions.init();
+
+        set_caller(player_1);
+
+        let color = encode_rgba(255, 255, 255, 255); // White color
 
         // Generate a unique stage_id using pedersen hash
         let stage_id = pedersen(1, 1);
@@ -156,8 +142,9 @@ mod tests {
                 2, // width
                 2, // height
                 DefaultParameters {
-                    for_player: player1,
-                    for_system: contract_address_const::<0>(),
+                    player_override: Option::None,
+                    system_override: Option::None,
+                    area_hint: Option::None,
                     position: Position { x: 1, y: 1 },
                     color: color
                 },
@@ -171,8 +158,9 @@ mod tests {
                 2, // width
                 2, // height
                 DefaultParameters {
-                    for_player: player1,
-                    for_system: contract_address_const::<0>(),
+                    player_override: Option::None,
+                    system_override: Option::None,
+                    area_hint: Option::None,
                     position: Position { x: 10, y: 10 },
                     color: color
                 },

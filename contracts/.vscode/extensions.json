@@ -1,3 +1,7 @@
 {
-  "recommendations": ["StarkWare.cairo1", "tamasfe.even-better-toml", "foxundermoon.shell-format"]
+  "recommendations": [
+    "StarkWare.cairo1",
+    "tamasfe.even-better-toml",
+    "foxundermoon.shell-format"
+  ]
 }
