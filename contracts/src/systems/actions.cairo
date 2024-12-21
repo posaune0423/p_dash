@@ -21,17 +21,16 @@ pub trait IPDashActions<T> {
 /// contracts must be named as such (APP_KEY + underscore + "actions")
 #[dojo::contract]
 pub mod p_dash_actions {
-    use starknet::{contract_address_const};
-
     use dojo::model::{ModelStorage};
-
-    use pixelaw::core::actions::{IActionsDispatcherTrait as ICoreActionsDispatcherTrait};
-    use pixelaw::core::models::pixel::{PixelUpdate};
-    use pixelaw::core::utils::{get_core_actions, get_callers, DefaultParameters};
 
     use p_dash::constants::app::{APP_KEY, APP_ICON};
     use p_dash::models::block::{BlockType, Block};
     use p_dash::models::stage::{Stage};
+
+    use pixelaw::core::actions::{IActionsDispatcherTrait as ICoreActionsDispatcherTrait};
+    use pixelaw::core::models::pixel::{PixelUpdate};
+    use pixelaw::core::utils::{get_core_actions, get_callers, DefaultParameters};
+    use starknet::{contract_address_const};
 
     use super::IPDashActions;
 

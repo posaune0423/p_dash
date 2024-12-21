@@ -10,15 +10,15 @@ mod tests {
         NamespaceDef, TestResource, ContractDefTrait, ContractDef, WorldStorageTestTrait
     };
 
-    use pixelaw::core::models::pixel::{Pixel};
-    use pixelaw::core::utils::{DefaultParameters, Position, encode_rgba};
-    use pixelaw_test_helpers::{update_test_world, setup_core_initialized, set_caller};
-
     use p_dash::models::block::{m_Block, Block, BlockType};
     use p_dash::models::stage::{m_Stage, Stage};
     use p_dash::systems::actions::{
         p_dash_actions, IPDashActionsDispatcher, IPDashActionsDispatcherTrait
     };
+
+    use pixelaw::core::models::pixel::{Pixel};
+    use pixelaw::core::utils::{DefaultParameters, Position, encode_rgba};
+    use pixelaw_test_helpers::{update_test_world, setup_core_initialized, set_caller};
 
 
     fn deploy_app(ref world: WorldStorage) -> IPDashActionsDispatcher {
