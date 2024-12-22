@@ -19,7 +19,7 @@ const InstructionDrawer = ({ open, appName, appDescription, handleCloseClick }: 
       <aside id="pwa-install-element">
         <article className={`install-dialog apple available dialog-body ${collapsed || 'how-to'}`}>
           <div className="icon">
-            <img alt="icon" className="icon-image" draggable="false" src="/favicon.png" />
+            <img alt="icon" className="icon-image" draggable="false" src="/icon.svg" />
           </div>
           <button type="button" title="close" className="close" onClick={handleCloseClick}>
             <svg viewBox="0 0 24 24">
