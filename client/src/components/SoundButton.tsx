@@ -1,5 +1,3 @@
-'use client'
-
 import { useSound } from 'use-sound'
 import { Button, type ButtonProps } from './ui/button'
 

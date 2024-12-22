@@ -10,6 +10,8 @@ const EmojiAvatar = ({
   size: number
 }) => {
   const { color: backgroundColor, emoji } = emojiAvatarForAddress(address)
+  console.log(address)
+  console.log(emoji)
 
   return ensImage ? (
     <div

@@ -20,8 +20,12 @@ sierra = true
 build-external-contracts = [
     "dojo::world::world_contract::world",
     "pixelaw::core::actions::actions",
-    "pixelaw::apps::paint::app::paint_actions",
-    "pixelaw::apps::snake::app::snake_actions",
+    # "pixelaw::apps::paint::app::paint_actions",
+    # "pixelaw::apps::snake::app::snake_actions",
+    "pixelaw::core::models::area",
+    "pixelaw::core::models::pixel",
+    "pixelaw::core::models::registry",
+    "pixelaw::core::models::queue",
 ]
 
 [tool.fmt]

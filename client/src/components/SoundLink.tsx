@@ -1,6 +1,4 @@
-'use client'
-
-import Link, { type LinkProps } from 'next/link'
+import { Link, type LinkProps } from 'react-router-dom'
 import { type PropsWithChildren } from 'react'
 import { useSound } from 'use-sound'
 

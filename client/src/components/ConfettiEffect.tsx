@@ -61,11 +61,11 @@ export const ConfettiEffect = () => {
           animation: fall var(--fall-duration) linear infinite;
         }
       `}</style>
-      <div className='pointer-events-none fixed inset-0 overflow-hidden'>
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
         {confettiPieces.map((piece, index) => (
           <div
             key={index}
-            className='confetti-piece'
+            className="confetti-piece"
             style={
               {
                 left: piece.left,
