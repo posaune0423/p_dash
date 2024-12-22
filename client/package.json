@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "format": "prettier --write src/**/*.{ts,tsx}",
     "lint": "eslint .",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/favicon.png",
     "preview": "vite preview"
   },
   "prettier": {
@@ -52,6 +53,7 @@
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",
+    "@vite-pwa/assets-generator": "^0.2.6",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
