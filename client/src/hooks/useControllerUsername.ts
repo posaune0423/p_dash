@@ -1,32 +1,32 @@
-import type CartridgeConnector from "@cartridge/connector";
-import { useAccount } from "@starknet-react/core";
-import { useState, useEffect } from "react";
+import { useAccount } from '@starknet-react/core'
+import { useState, useEffect } from 'react'
+import ControllerConnector from '@cartridge/connector/controller'
 
 export const useControllerUsername = () => {
-  const { address, connector } = useAccount();
-  const [username, setUsername] = useState<string | undefined>(undefined);
+  const { address, connector } = useAccount()
+  const [username, setUsername] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     const fetchUsername = async () => {
       if (!address || !connector) {
-        setUsername(undefined);
-        return;
+        setUsername(undefined)
+        return
       }
 
-      const cartridgeConnector = connector as CartridgeConnector;
-      if (typeof cartridgeConnector.username === "function") {
+      const cartridgeConnector = connector as never as ControllerConnector
+      if (typeof cartridgeConnector.username === 'function') {
         try {
-          const name = await cartridgeConnector.username();
-          setUsername(name);
+          const name = await cartridgeConnector.username()
+          setUsername(name)
         } catch (error) {
-          console.error("Error fetching username:", error);
-          setUsername(undefined);
+          console.error('Error fetching username:', error)
+          setUsername(undefined)
         }
       }
-    };
+    }
 
-    fetchUsername();
-  }, [address, connector]);
+    fetchUsername()
+  }, [address, connector])
 
-  return { username };
-};
+  return { username }
+}

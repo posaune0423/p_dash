@@ -1,5 +1,3 @@
-'use client'
-
 import copy from 'copy-to-clipboard'
 import { Check, Copy } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
@@ -21,7 +19,7 @@ const CopyButton = ({ value }: { value: string }) => {
   }, [])
 
   return (
-    <button disabled={copied} onClick={onClick} className='text-white'>
+    <button disabled={copied} onClick={onClick} className="text-white">
       {copied ? <Check size={16} /> : <Copy size={16} />}
     </button>
   )

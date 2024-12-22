@@ -9,12 +9,9 @@ interface AvatarProps {
   size: number
 }
 
-const Avatar = ({ address, loading, imageUrl, size }: AvatarProps) => {
+export const Avatar = ({ address, loading, imageUrl, size }: AvatarProps) => {
   return (
-    <div
-      className='relative overflow-hidden rounded-full'
-      style={{ width: `${size}px`, height: `${size}px` }}
-    >
+    <div className="relative overflow-hidden rounded-full" style={{ width: `${size}px`, height: `${size}px` }}>
       <div
         className={cn('absolute flex items-center justify-center overflow-hidden rounded-full')}
         style={{
@@ -27,15 +24,14 @@ const Avatar = ({ address, loading, imageUrl, size }: AvatarProps) => {
           height: `${size}px`,
         }}
       >
-        <EmojiAvatar address={address} ensImage={imageUrl} size={size} />
+        {loading ? (
+          <div className="absolute flex items-center justify-center overflow-hidden rounded-full">
+            <Spinner size={4} color="primary" />
+          </div>
+        ) : (
+          <EmojiAvatar address={address} ensImage={imageUrl} size={size} />
+        )}
       </div>
-      {loading && (
-        <div className='absolute flex items-center justify-center overflow-hidden rounded-full'>
-          <Spinner size={4} color='primary' />
-        </div>
-      )}
     </div>
   )
 }
-
-export default Avatar

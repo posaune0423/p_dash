@@ -18,7 +18,7 @@ function addTilesToStage(stage: Obstacle[]): Obstacle[] {
 }
 
 export const mockStageData: { [key: string]: Obstacle[] } = {
-  'easy': addTilesToStage([
+  easy: addTilesToStage([
     { x: 600, y: 50, type: BlockType.Block },
     { x: 920, y: 50, type: BlockType.Spike },
     { x: 980, y: 50, type: BlockType.Block },

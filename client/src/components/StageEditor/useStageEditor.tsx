@@ -1,4 +1,4 @@
-'use client'
+
 
 import { useComponentValue, useEntityQuery, useQuerySync } from '@dojoengine/react'
 import { getComponentValue, HasValue } from '@dojoengine/recs'
