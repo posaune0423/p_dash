@@ -1,4 +1,4 @@
-# <img src="/client/public/logo.png" alt="p/dash">
+# <img src="/client/src/assets/logo.png" alt="p/dash">
 
 [![ci-front](https://github.com/posaune0423/p_dash/actions/workflows/ci-front.yaml/badge.svg)](https://github.com/posaune0423/p_dash/actions/workflows/ci-front.yaml)
 [![ci-contracts](https://github.com/posaune0423/p_dash/actions/workflows/ci-contracts.yaml/badge.svg)](https://github.com/posaune0423/p_dash/actions/workflows/ci-contracts.yaml)
