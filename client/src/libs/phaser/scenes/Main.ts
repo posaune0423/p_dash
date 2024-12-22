@@ -33,7 +33,7 @@ export class Main extends Scene {
   init({ stageId }: { stageId: string }): void {
     this.stageId = stageId
 
-    if (import.meta.env.VITE_PUBLIC_DEBUG) {
+    if (import.meta.env.VITE_PUBLIC_DEBUG === 'true') {
       this.physics.world.createDebugGraphic()
     }
     this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height)
@@ -80,7 +80,7 @@ export class Main extends Scene {
   }
 
   update(): void {
-    if (import.meta.env.VITE_PUBLIC_DEBUG) {
+    if (import.meta.env.VITE_PUBLIC_DEBUG === 'true') {
       this.setupDebug()
     } else {
       this.setupGameLogic()

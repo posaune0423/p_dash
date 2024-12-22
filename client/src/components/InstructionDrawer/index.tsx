@@ -14,7 +14,7 @@ const InstructionDrawer = ({ open, appName, appDescription, handleCloseClick }: 
 
   return (
     <div
-      className={cn('animate-slide-in w-full h-auto z-10', open ? 'fixed bottom-0 left-0' : 'hidden animate-slide-out')}
+      className={cn('slide-in w-full h-auto z-10', open ? 'fixed bottom-0 left-0' : 'hidden slide-out')}
     >
       <aside id="pwa-install-element">
         <article className={`install-dialog apple available dialog-body ${collapsed || 'how-to'}`}>

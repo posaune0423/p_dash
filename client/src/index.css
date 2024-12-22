@@ -4,7 +4,8 @@
 
 @variant dark (&:is(.dark *));
 
-@plugin "tailwindcss-animate";
+@plugin 'tailwindcss-animate';
+@plugin 'tailwindcss-safe-area';
 
 @theme {
   --color-background: hsl(var(--background));
@@ -112,4 +113,58 @@
   body {
     font-family: 'Silkscreen', sans-serif;
   }
+}
+
+/* キーフレームとアニメーション */
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.accordion-up {
+  animation: accordion-up 0.2s ease-out;
+}
+
+.slide-in {
+  animation: slide-in 0.1s ease-in-out;
+}
+
+.slide-out {
+  animation: slide-out 0.2s ease-in-out;
 }
