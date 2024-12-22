@@ -99,6 +99,25 @@ export const getBlockColor = (blockType: BlockType): string => {
   }
 }
 
+export const getBlockType = (typeIndex: number) => {
+  return BlockType[typeIndex]
+}
+
 export const blockTypeToIndex = (blockType: BlockType): number => {
   return Object.values(BlockType).indexOf(blockType)
+}
+
+export const felt252ToUnicode = (felt252: string | number): string => {
+  const decodedString = felt252ToString(felt252)
+
+  if (typeof decodedString === 'string' && decodedString.includes('U+')) {
+    const cleanString = decodedString.replace(/\0/g, '').replace(/\s+/g, '')
+    const text = cleanString.replace('U+', '')
+    const codePoint = Number.parseInt(text, 16)
+
+    if (Number.isNaN(codePoint)) return decodedString
+    return String.fromCodePoint(codePoint)
+  }
+
+  return decodedString
 }

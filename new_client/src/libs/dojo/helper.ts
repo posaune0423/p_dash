@@ -1,9 +1,9 @@
 import type { App, GameState, Pixel } from "@/types";
 import { felt252ToString, felt252ToUnicode, hexToRgba } from "@/utils";
 import type { ParsedEntity, QueryType, SDK, StandardizedQueryResult } from "@dojoengine/sdk";
-import type { PixelawSchemaType } from "./typescript/models.gen";
+import type { SchemaType } from "./typescript/models.gen";
 
-export const getPixelComponentValue = (entity: ParsedEntity<PixelawSchemaType>): Pixel => {
+export const getPixelComponentValue = (entity: ParsedEntity<SchemaType>): Pixel => {
   return {
     x: entity.models.pixelaw.Pixel?.x as number,
     y: entity.models.pixelaw.Pixel?.y as number,
@@ -11,7 +11,7 @@ export const getPixelComponentValue = (entity: ParsedEntity<PixelawSchemaType>):
   };
 };
 
-export const getAppComponentValue = (entity: ParsedEntity<PixelawSchemaType>): App => {
+export const getAppComponentValue = (entity: ParsedEntity<SchemaType>): App => {
   return {
     system: entity.models.pixelaw.App?.system as string,
     name: felt252ToString(String(entity.models.pixelaw.App?.name)),
@@ -20,7 +20,7 @@ export const getAppComponentValue = (entity: ParsedEntity<PixelawSchemaType>): A
   };
 };
 
-export const getPixelComponentFromEntities = (entities: StandardizedQueryResult<PixelawSchemaType>): Pixel[] => {
+export const getPixelComponentFromEntities = (entities: StandardizedQueryResult<SchemaType>): Pixel[] => {
   return (
     entities.map((entity) => {
       return {
@@ -33,8 +33,8 @@ export const getPixelComponentFromEntities = (entities: StandardizedQueryResult<
 };
 
 export const getPixelEntities = async (
-  sdk: SDK<PixelawSchemaType>,
-  state: GameState<PixelawSchemaType>,
+  sdk: SDK<SchemaType>,
+  state: GameState<SchemaType>,
   {
     upperLeftX,
     upperLeftY,
@@ -44,7 +44,7 @@ export const getPixelEntities = async (
 ) => {
   const MAX_QUERY_SIZE = 10000;
 
-  const query: QueryType<PixelawSchemaType> = {
+  const query: QueryType<SchemaType> = {
     pixelaw: {
       Pixel: {
         $: {
