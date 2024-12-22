@@ -19,7 +19,7 @@ const isDefaultStage = (stageId: string) => {
 // NOTE: JUST Wrapper component of PhaserGame cuz somehow dynamic import does not work with Ref
 const GameDetailPage = () => {
   const { stageId } = useParams()
-  console.log(stageId)
+
   const { isLandscape } = useOrientation()
   const phaserRef = useRef<IRefPhaserGameRender | null>(null)
 
@@ -56,8 +56,6 @@ const GameDetailPage = () => {
     // }, [])
   }, [stageId])
 
-  console.log(stageData)
-
   if (stageData.length === 0)
     return <div className="flex h-screen items-center justify-center bg-gray-800 text-xl text-white">Loading...</div>
 
@@ -65,7 +63,9 @@ const GameDetailPage = () => {
     return <RotateInstruction />
   }
 
-  return <PhaserGameRender ref={phaserRef} stageData={stageData} stageId={isDefaultStage(stageId!) ? stageId! : 'easy'} />
+  return (
+    <PhaserGameRender ref={phaserRef} stageData={stageData} stageId={isDefaultStage(stageId!) ? stageId! : 'easy'} />
+  )
 }
 
 export default GameDetailPage
