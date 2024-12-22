@@ -33,7 +33,7 @@ export const notificationsSupported = () => {
 }
 
 export const isPWA = () => {
-  if (import.meta.env.VITE_PUBLIC_DEBUG) {
+  if (import.meta.env.VITE_PUBLIC_DEBUG === 'true') {
     return true
   }
 
