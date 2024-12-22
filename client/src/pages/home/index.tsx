@@ -4,7 +4,7 @@ import { APP_NAME } from '@/constants'
 
 const HomePage = () => {
   return (
-    <main className="fixed flex min-h-[calc(100dvh)] w-full flex-col items-center justify-center space-y-4">
+    <main className="fixed flex min-h-[calc(100dvh)] w-full flex-col items-center justify-center">
       <img src="/hero.png" alt="logo" className="absolute left-0 top-0 -z-10 size-full object-cover" />
 
       <h1>
@@ -12,8 +12,8 @@ const HomePage = () => {
         <span className="sr-only">P/Dash</span>
       </h1>
 
-      <GuestButton />
-      <LoginButton className="w-56" />
+      <GuestButton className="mb-4" />
+      <LoginButton className="mb-4 w-56" />
 
       <footer className="absolute bottom-4 text-white">
         © {new Date().getFullYear()} {APP_NAME}

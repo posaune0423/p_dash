@@ -3,7 +3,7 @@ import { APP_NAME } from '@/constants'
 
 const LandingPage = () => {
   return (
-    <main className="relative flex min-h-[calc(100dvh)] flex-col items-center justify-center">
+    <main className="fixed flex min-h-[calc(100dvh)] w-full flex-col items-center justify-center">
       <img
         src="/hero.png"
         alt="logo"
