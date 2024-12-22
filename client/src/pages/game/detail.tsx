@@ -2,7 +2,7 @@
 // import { getComponentValue, HasValue } from '@dojoengine/recs'
 // import { getEntityIdFromKeys } from '@dojoengine/utils'
 import { useMemo, useRef } from 'react'
-import RotateInstruction from '@/components/RotateInstruction'
+import { RotateInstruction } from '@/components/RotateInstruction'
 // import { BASIC_PIXEL } from '@/constants'
 import { mockStageData } from '@/constants/mock'
 import { useOrientation } from '@/hooks/useOrientation'

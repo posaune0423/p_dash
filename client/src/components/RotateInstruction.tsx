@@ -1,7 +1,9 @@
-const RotateInstruction = () => {
+import RotateImage from '@/assets/rotate.png'
+
+export const RotateInstruction = () => {
   return (
     <main className="fixed flex min-h-[calc(100dvh)] flex-col items-center justify-center bg-gray-800">
-      <img src="/rotate.png" width={300} height={300} alt="rotate" />
+      <img src={RotateImage} width={300} height={300} alt="rotate" />
       <p className="text-center text-2xl font-medium text-white">
         Please rotate your device
         <br />
@@ -10,5 +12,3 @@ const RotateInstruction = () => {
     </main>
   )
 }
-
-export default RotateInstruction
