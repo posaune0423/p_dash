@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite'
 import topLevelAwait from 'vite-plugin-top-level-await'
 import wasm from 'vite-plugin-wasm'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
@@ -13,6 +14,10 @@ export default defineConfig({
     tailwindcss(),
     topLevelAwait(),
     wasm(),
+    ViteImageOptimizer({
+      cache: true,
+      cacheLocation: 'dist/.cache',
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
